@@ -10,4 +10,4 @@ const stack = new Stack(mockApp, 'testing-stack', {
     }
 });
 
-new GitlabContainerRunner(stack, 'testing', { gitlabtoken: "GITLABTOKEN" });
+new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN' });

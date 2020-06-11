@@ -6,7 +6,7 @@ test('create the Runner', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
 
-  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: "apple" });
+  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN' });
 
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     Tags: 'Name',
