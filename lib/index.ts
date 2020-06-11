@@ -10,8 +10,15 @@ export class GitlabContainerRunner extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
 
-    const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
-      isDefault: true,
+    const vpc = new ec2.Vpc(this, 'VPC', {
+      cidr: '10.0.0.0/16',
+      maxAzs: 2,
+      subnetConfiguration: [{
+        cidrMask: 26,
+        name: 'RunnerVPC',
+        subnetType: ec2.SubnetType.PUBLIC,
+      }],
+      natGateways: 0,
     });
     var token = props.gitlabtoken ?? 'gitlab-token'
     const shell = ec2.UserData.forLinux()
