@@ -12,7 +12,7 @@ export class GitlabContainerRunner extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
     const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
-      isDefault: true
+      isDefault: true,
     });
     var token = this.gitlabtoken = props.gitlabtoken ?? 'gitlab-token'
     const shell = ec2.UserData.forLinux()
@@ -32,7 +32,7 @@ export class GitlabContainerRunner extends cdk.Construct {
       vpc,
       machineImage: new ec2.AmazonLinuxImage,
       userData: shell,
-      blockDevices: [({ deviceName: '/dev/xvda', volume: ec2.BlockDeviceVolume.ebs(60) })]
+      blockDevices: [({ deviceName: '/dev/xvda', volume: ec2.BlockDeviceVolume.ebs(60) })],
     });
     runner.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'));
 
