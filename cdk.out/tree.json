@@ -20,17 +20,244 @@
                 "id": "VPC",
                 "path": "testing-stack/testing/VPC",
                 "children": {
-                  "PublicSubnet1": {
-                    "id": "PublicSubnet1",
-                    "path": "testing-stack/testing/VPC/PublicSubnet1"
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "testing-stack/testing/VPC/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::VPC",
+                      "aws:cdk:cloudformation:props": {
+                        "cidrBlock": "10.0.0.0/16",
+                        "enableDnsHostnames": true,
+                        "enableDnsSupport": true,
+                        "instanceTenancy": "default",
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "testing-stack/testing/VPC"
+                          }
+                        ]
+                      }
+                    }
                   },
-                  "PublicSubnet2": {
-                    "id": "PublicSubnet2",
-                    "path": "testing-stack/testing/VPC/PublicSubnet2"
+                  "RunnerVPCSubnet1": {
+                    "id": "RunnerVPCSubnet1",
+                    "path": "testing-stack/testing/VPC/RunnerVPCSubnet1",
+                    "children": {
+                      "Subnet": {
+                        "id": "Subnet",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet1/Subnet",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                          "aws:cdk:cloudformation:props": {
+                            "cidrBlock": "10.0.0.0/26",
+                            "vpcId": {
+                              "Ref": "testingVPC86281437"
+                            },
+                            "availabilityZone": {
+                              "Fn::Select": [
+                                0,
+                                {
+                                  "Fn::GetAZs": ""
+                                }
+                              ]
+                            },
+                            "mapPublicIpOnLaunch": true,
+                            "tags": [
+                              {
+                                "key": "aws-cdk:subnet-name",
+                                "value": "RunnerVPC"
+                              },
+                              {
+                                "key": "aws-cdk:subnet-type",
+                                "value": "Public"
+                              },
+                              {
+                                "key": "Name",
+                                "value": "testing-stack/testing/VPC/RunnerVPCSubnet1"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "Acl": {
+                        "id": "Acl",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet1/Acl"
+                      },
+                      "RouteTable": {
+                        "id": "RouteTable",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet1/RouteTable",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                          "aws:cdk:cloudformation:props": {
+                            "vpcId": {
+                              "Ref": "testingVPC86281437"
+                            },
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "testing-stack/testing/VPC/RunnerVPCSubnet1"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "RouteTableAssociation": {
+                        "id": "RouteTableAssociation",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet1/RouteTableAssociation",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "testingVPCRunnerVPCSubnet1RouteTableD9AB0B7E"
+                            },
+                            "subnetId": {
+                              "Ref": "testingVPCRunnerVPCSubnet1Subnet0175468F"
+                            }
+                          }
+                        }
+                      },
+                      "DefaultRoute": {
+                        "id": "DefaultRoute",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet1/DefaultRoute",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "testingVPCRunnerVPCSubnet1RouteTableD9AB0B7E"
+                            },
+                            "destinationCidrBlock": "0.0.0.0/0",
+                            "gatewayId": {
+                              "Ref": "testingVPCIGW0F38A741"
+                            }
+                          }
+                        }
+                      }
+                    }
                   },
-                  "PublicSubnet3": {
-                    "id": "PublicSubnet3",
-                    "path": "testing-stack/testing/VPC/PublicSubnet3"
+                  "RunnerVPCSubnet2": {
+                    "id": "RunnerVPCSubnet2",
+                    "path": "testing-stack/testing/VPC/RunnerVPCSubnet2",
+                    "children": {
+                      "Subnet": {
+                        "id": "Subnet",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet2/Subnet",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Subnet",
+                          "aws:cdk:cloudformation:props": {
+                            "cidrBlock": "10.0.0.64/26",
+                            "vpcId": {
+                              "Ref": "testingVPC86281437"
+                            },
+                            "availabilityZone": {
+                              "Fn::Select": [
+                                1,
+                                {
+                                  "Fn::GetAZs": ""
+                                }
+                              ]
+                            },
+                            "mapPublicIpOnLaunch": true,
+                            "tags": [
+                              {
+                                "key": "aws-cdk:subnet-name",
+                                "value": "RunnerVPC"
+                              },
+                              {
+                                "key": "aws-cdk:subnet-type",
+                                "value": "Public"
+                              },
+                              {
+                                "key": "Name",
+                                "value": "testing-stack/testing/VPC/RunnerVPCSubnet2"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "Acl": {
+                        "id": "Acl",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet2/Acl"
+                      },
+                      "RouteTable": {
+                        "id": "RouteTable",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet2/RouteTable",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::RouteTable",
+                          "aws:cdk:cloudformation:props": {
+                            "vpcId": {
+                              "Ref": "testingVPC86281437"
+                            },
+                            "tags": [
+                              {
+                                "key": "Name",
+                                "value": "testing-stack/testing/VPC/RunnerVPCSubnet2"
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "RouteTableAssociation": {
+                        "id": "RouteTableAssociation",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet2/RouteTableAssociation",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::SubnetRouteTableAssociation",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "testingVPCRunnerVPCSubnet2RouteTable1B3F6E1E"
+                            },
+                            "subnetId": {
+                              "Ref": "testingVPCRunnerVPCSubnet2SubnetFA3DB085"
+                            }
+                          }
+                        }
+                      },
+                      "DefaultRoute": {
+                        "id": "DefaultRoute",
+                        "path": "testing-stack/testing/VPC/RunnerVPCSubnet2/DefaultRoute",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::EC2::Route",
+                          "aws:cdk:cloudformation:props": {
+                            "routeTableId": {
+                              "Ref": "testingVPCRunnerVPCSubnet2RouteTable1B3F6E1E"
+                            },
+                            "destinationCidrBlock": "0.0.0.0/0",
+                            "gatewayId": {
+                              "Ref": "testingVPCIGW0F38A741"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "IGW": {
+                    "id": "IGW",
+                    "path": "testing-stack/testing/VPC/IGW",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::InternetGateway",
+                      "aws:cdk:cloudformation:props": {
+                        "tags": [
+                          {
+                            "key": "Name",
+                            "value": "testing-stack/testing/VPC"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "VPCGW": {
+                    "id": "VPCGW",
+                    "path": "testing-stack/testing/VPC/VPCGW",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::EC2::VPCGatewayAttachment",
+                      "aws:cdk:cloudformation:props": {
+                        "vpcId": {
+                          "Ref": "testingVPC86281437"
+                        },
+                        "internetGatewayId": {
+                          "Ref": "testingVPCIGW0F38A741"
+                        }
+                      }
+                    }
                   }
                 }
               },
@@ -62,7 +289,9 @@
                                 "value": "Gitlab-Runner"
                               }
                             ],
-                            "vpcId": "vpc-c1a997a6"
+                            "vpcId": {
+                              "Ref": "testingVPC86281437"
+                            }
                           }
                         }
                       }
@@ -84,7 +313,17 @@
                                   "Action": "sts:AssumeRole",
                                   "Effect": "Allow",
                                   "Principal": {
-                                    "Service": "ec2.amazonaws.com"
+                                    "Service": {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          "ec2.",
+                                          {
+                                            "Ref": "AWS::URLSuffix"
+                                          }
+                                        ]
+                                      ]
+                                    }
                                   }
                                 }
                               ],
@@ -135,7 +374,14 @@
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::EC2::Instance",
                       "aws:cdk:cloudformation:props": {
-                        "availabilityZone": "ap-northeast-1a",
+                        "availabilityZone": {
+                          "Fn::Select": [
+                            0,
+                            {
+                              "Fn::GetAZs": ""
+                            }
+                          ]
+                        },
                         "blockDeviceMappings": [
                           {
                             "deviceName": "/dev/xvda",
@@ -159,7 +405,9 @@
                             ]
                           }
                         ],
-                        "subnetId": "subnet-cbdc2783",
+                        "subnetId": {
+                          "Ref": "testingVPCRunnerVPCSubnet1Subnet0175468F"
+                        },
                         "tags": [
                           {
                             "key": "Name",
@@ -167,7 +415,7 @@
                           }
                         ],
                         "userData": {
-                          "Fn::Base64": "#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com./ --registration-token GITLAB_TOKEN  --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,runner,awscdk\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user"
+                          "Fn::Base64": "#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com./ --registration-token GITLABTOKEN  --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,runner,awscdk\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user"
                         }
                       }
                     }

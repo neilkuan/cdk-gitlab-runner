@@ -3,18 +3,17 @@ import * as iam from '@aws-cdk/aws-iam';
 import * as ec2 from '@aws-cdk/aws-ec2';
 
 export interface GitlabContainerRunnerProps {
-  readonly gitlabtoken?: string;
+  readonly gitlabtoken: string;
 }
 
 export class GitlabContainerRunner extends cdk.Construct {
-  readonly gitlabtoken: string;
-
   constructor(scope: cdk.Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
+
     const vpc = ec2.Vpc.fromLookup(this, 'VPC', {
       isDefault: true,
     });
-    var token = this.gitlabtoken = props.gitlabtoken ?? 'gitlab-token'
+    var token = props.gitlabtoken ?? 'gitlab-token'
     const shell = ec2.UserData.forLinux()
     shell.addCommands('yum update -y')
     shell.addCommands('yum install docker -y')

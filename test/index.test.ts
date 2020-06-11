@@ -5,6 +5,6 @@ import '@aws-cdk/assert/jest';
 test('create the Runner', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN' });
+  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLABTOKEN' });
   expect(stack).toHaveResource('AWS::EC2::Instance');
 });

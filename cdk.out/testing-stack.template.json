@@ -1,5 +1,219 @@
 {
   "Resources": {
+    "testingVPC86281437": {
+      "Type": "AWS::EC2::VPC",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/16",
+        "EnableDnsHostnames": true,
+        "EnableDnsSupport": true,
+        "InstanceTenancy": "default",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "testing-stack/testing/VPC"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/Resource"
+      }
+    },
+    "testingVPCRunnerVPCSubnet1Subnet0175468F": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.0/26",
+        "VpcId": {
+          "Ref": "testingVPC86281437"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "RunnerVPC"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          },
+          {
+            "Key": "Name",
+            "Value": "testing-stack/testing/VPC/RunnerVPCSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/RunnerVPCSubnet1/Subnet"
+      }
+    },
+    "testingVPCRunnerVPCSubnet1RouteTableD9AB0B7E": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "testingVPC86281437"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "testing-stack/testing/VPC/RunnerVPCSubnet1"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/RunnerVPCSubnet1/RouteTable"
+      }
+    },
+    "testingVPCRunnerVPCSubnet1RouteTableAssociationF2088989": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testingVPCRunnerVPCSubnet1RouteTableD9AB0B7E"
+        },
+        "SubnetId": {
+          "Ref": "testingVPCRunnerVPCSubnet1Subnet0175468F"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/RunnerVPCSubnet1/RouteTableAssociation"
+      }
+    },
+    "testingVPCRunnerVPCSubnet1DefaultRouteBBF70DB8": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testingVPCRunnerVPCSubnet1RouteTableD9AB0B7E"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "testingVPCIGW0F38A741"
+        }
+      },
+      "DependsOn": [
+        "testingVPCVPCGW655FB08E"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/RunnerVPCSubnet1/DefaultRoute"
+      }
+    },
+    "testingVPCRunnerVPCSubnet2SubnetFA3DB085": {
+      "Type": "AWS::EC2::Subnet",
+      "Properties": {
+        "CidrBlock": "10.0.0.64/26",
+        "VpcId": {
+          "Ref": "testingVPC86281437"
+        },
+        "AvailabilityZone": {
+          "Fn::Select": [
+            1,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
+        "MapPublicIpOnLaunch": true,
+        "Tags": [
+          {
+            "Key": "aws-cdk:subnet-name",
+            "Value": "RunnerVPC"
+          },
+          {
+            "Key": "aws-cdk:subnet-type",
+            "Value": "Public"
+          },
+          {
+            "Key": "Name",
+            "Value": "testing-stack/testing/VPC/RunnerVPCSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/RunnerVPCSubnet2/Subnet"
+      }
+    },
+    "testingVPCRunnerVPCSubnet2RouteTable1B3F6E1E": {
+      "Type": "AWS::EC2::RouteTable",
+      "Properties": {
+        "VpcId": {
+          "Ref": "testingVPC86281437"
+        },
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "testing-stack/testing/VPC/RunnerVPCSubnet2"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/RunnerVPCSubnet2/RouteTable"
+      }
+    },
+    "testingVPCRunnerVPCSubnet2RouteTableAssociation24C902A9": {
+      "Type": "AWS::EC2::SubnetRouteTableAssociation",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testingVPCRunnerVPCSubnet2RouteTable1B3F6E1E"
+        },
+        "SubnetId": {
+          "Ref": "testingVPCRunnerVPCSubnet2SubnetFA3DB085"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/RunnerVPCSubnet2/RouteTableAssociation"
+      }
+    },
+    "testingVPCRunnerVPCSubnet2DefaultRoute08FEB413": {
+      "Type": "AWS::EC2::Route",
+      "Properties": {
+        "RouteTableId": {
+          "Ref": "testingVPCRunnerVPCSubnet2RouteTable1B3F6E1E"
+        },
+        "DestinationCidrBlock": "0.0.0.0/0",
+        "GatewayId": {
+          "Ref": "testingVPCIGW0F38A741"
+        }
+      },
+      "DependsOn": [
+        "testingVPCVPCGW655FB08E"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/RunnerVPCSubnet2/DefaultRoute"
+      }
+    },
+    "testingVPCIGW0F38A741": {
+      "Type": "AWS::EC2::InternetGateway",
+      "Properties": {
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "testing-stack/testing/VPC"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/IGW"
+      }
+    },
+    "testingVPCVPCGW655FB08E": {
+      "Type": "AWS::EC2::VPCGatewayAttachment",
+      "Properties": {
+        "VpcId": {
+          "Ref": "testingVPC86281437"
+        },
+        "InternetGatewayId": {
+          "Ref": "testingVPCIGW0F38A741"
+        }
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/VPC/VPCGW"
+      }
+    },
     "testingGitlabRunnerInstanceSecurityGroup411A80B0": {
       "Type": "AWS::EC2::SecurityGroup",
       "Properties": {
@@ -17,7 +231,9 @@
             "Value": "Gitlab-Runner"
           }
         ],
-        "VpcId": "vpc-c1a997a6"
+        "VpcId": {
+          "Ref": "testingVPC86281437"
+        }
       },
       "Metadata": {
         "aws:cdk:path": "testing-stack/testing/GitlabRunner/InstanceSecurityGroup/Resource"
@@ -32,7 +248,17 @@
               "Action": "sts:AssumeRole",
               "Effect": "Allow",
               "Principal": {
-                "Service": "ec2.amazonaws.com"
+                "Service": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "ec2.",
+                      {
+                        "Ref": "AWS::URLSuffix"
+                      }
+                    ]
+                  ]
+                }
               }
             }
           ],
@@ -79,7 +305,14 @@
     "testingGitlabRunner885F6B93": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
-        "AvailabilityZone": "ap-northeast-1a",
+        "AvailabilityZone": {
+          "Fn::Select": [
+            0,
+            {
+              "Fn::GetAZs": ""
+            }
+          ]
+        },
         "BlockDeviceMappings": [
           {
             "DeviceName": "/dev/xvda",
@@ -103,7 +336,9 @@
             ]
           }
         ],
-        "SubnetId": "subnet-cbdc2783",
+        "SubnetId": {
+          "Ref": "testingVPCRunnerVPCSubnet1Subnet0175468F"
+        },
         "Tags": [
           {
             "Key": "Name",
@@ -111,7 +346,7 @@
           }
         ],
         "UserData": {
-          "Fn::Base64": "#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com./ --registration-token GITLAB_TOKEN  --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,runner,awscdk\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user"
+          "Fn::Base64": "#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com./ --registration-token GITLABTOKEN  --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,runner,awscdk\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user"
         }
       },
       "DependsOn": [
