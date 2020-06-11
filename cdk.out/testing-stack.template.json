@@ -1,0 +1,138 @@
+{
+  "Resources": {
+    "testingGitlabRunnerInstanceSecurityGroup411A80B0": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "GroupDescription": "testing-stack/testing/GitlabRunner/InstanceSecurityGroup",
+        "SecurityGroupEgress": [
+          {
+            "CidrIp": "0.0.0.0/0",
+            "Description": "Allow all outbound traffic by default",
+            "IpProtocol": "-1"
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Gitlab-Runner"
+          }
+        ],
+        "VpcId": "vpc-c1a997a6"
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/GitlabRunner/InstanceSecurityGroup/Resource"
+      }
+    },
+    "testingGitlabRunnerInstanceRoleDFCF3F3C": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "ec2.amazonaws.com"
+              }
+            }
+          ],
+          "Version": "2012-10-17"
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition"
+                },
+                ":iam::aws:policy/AmazonSSMManagedInstanceCore"
+              ]
+            ]
+          }
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Gitlab-Runner"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/GitlabRunner/InstanceRole/Resource"
+      }
+    },
+    "testingGitlabRunnerInstanceProfile26901481": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "testingGitlabRunnerInstanceRoleDFCF3F3C"
+          }
+        ]
+      },
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/GitlabRunner/InstanceProfile"
+      }
+    },
+    "testingGitlabRunner885F6B93": {
+      "Type": "AWS::EC2::Instance",
+      "Properties": {
+        "AvailabilityZone": "ap-northeast-1a",
+        "BlockDeviceMappings": [
+          {
+            "DeviceName": "/dev/xvda",
+            "Ebs": {
+              "VolumeSize": 60
+            }
+          }
+        ],
+        "IamInstanceProfile": {
+          "Ref": "testingGitlabRunnerInstanceProfile26901481"
+        },
+        "ImageId": {
+          "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+        },
+        "InstanceType": "t3.large",
+        "SecurityGroupIds": [
+          {
+            "Fn::GetAtt": [
+              "testingGitlabRunnerInstanceSecurityGroup411A80B0",
+              "GroupId"
+            ]
+          }
+        ],
+        "SubnetId": "subnet-cbdc2783",
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "Gitlab-Runner"
+          }
+        ],
+        "UserData": {
+          "Fn::Base64": "#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com./ --registration-token GITLABTOKEN  --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,runner,awscdk\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user"
+        }
+      },
+      "DependsOn": [
+        "testingGitlabRunnerInstanceRoleDFCF3F3C"
+      ],
+      "Metadata": {
+        "aws:cdk:path": "testing-stack/testing/GitlabRunner/Resource"
+      }
+    }
+  },
+  "Outputs": {
+    "testingRunnerID3E113277": {
+      "Value": {
+        "Ref": "testingGitlabRunner885F6B93"
+      }
+    }
+  },
+  "Parameters": {
+    "SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": {
+      "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+      "Default": "/aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2"
+    }
+  }
+}
