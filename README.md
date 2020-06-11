@@ -1,49 +1,63 @@
-# Welcome to `awscdk-jsii-template`
+# Welcome to `cdk-gitlab-runner`
 
-This repository template helps you generate JSII construct library for AWS CDK.
-
-
-## Confiuguration
-
-1. customize your `.projenrc.js`
-1. run `npx projen` to generate the `package.json` and `.github/workflows` from `.projenrc.js`
-2. `yarn install` to install all required npm packages
+This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
 
 
-## Integration tests
+## Before start your need gitlab runner token in your  `gitlab project` or   `gitlab group`
 
-1. run `yarn watch` in a seperate terminal
-2. edit `test/integ.api.ts`
-3. `cdk diff` and `cdk deploy`
+###  In Group
+Group > Settings > CI/CD 
+![group](image/group_runner_page.png)
 
-```bash
-cdk --app 'test/integ.api.js' diff
-cdk --app 'test/integ.api.js' deploy
+###  In Group
+Project > Settings > CI/CD > Runners 
+![project](image/project_runner_page.png)
+
+## Usage Replace your gitlab runner roken in `$GITLABTOKEN`
+```typescript
+import { GitlabContainerRunner } from 'cdk-gitlab-runner';
+
+// create a new github repository pahud/new-repo and import all files from ./lib to it
+new GitlabContainerRunner(stack, 'testing', { gitlabtoken: "$GITLABTOKEN" });})
 ```
 
-4. validate the stack
+## Wait about 6 mins , If success you will see your runner in that page .
+![runner](image/group_runner2.png)
 
-## Unit tests
+#### you can use tag `gitlab` , `runner` , `awscdk`  , 
+## Example     _`gitlab-ci.yaml`_  
+[gitlab docs see more ...](https://docs.gitlab.com/ee/ci/yaml/README.html)
+```yaml
+dockerjob:
+  image: docker:18.09-dind
+  variables:
+  tags:
+    - runner
+    - awscdk
+    - gitlab
+  variables:
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - docker info
+  script:
+    - docker info;
+    - echo 'test 123';
+    - echo 'hello world 1228'
+```
 
-1. edit `test/*.test.ts`
-2. run `yarn test`
 
 
-## Usage
 
-| Command          | Description                                       |
-|------------------|---------------------------------------------------|
-|`yarn install`    |Install dependencies                               |
-|`yarn compile`    |Compile to JavaScript                              |
-|`yarn watch`      |Watch for changes and compile                      |
-|`yarn test`       |Run tests                                          |
-|`yarn run package`|Create `dist` with bundles for all languages       |
-|`yarn build`      |Compile + test + package                           |
-|`yarn bump`       |Bump a new version (based on conventional commits) |
-|`yarn compat`     |Run API compatibility check against latest         |
 
-## GitHub Workflows
+### If your want to debug your can go to aws console 
+# `In your runner region !!!`
+## AWS Systems Manager  >  Session Manager  >  Start a session
+#### click your `runner` and click `start session`
+#### in the brower console in put `bash` 
+```bash
+# become to root 
+sudo -i 
 
-- [Build](./.github/workflows/build.yml): when a PR is created/updated, runs `yarn build`
-- [Release](./.github/workflows/release.yml): `yarn build` and publish to all package managers for every commit to `master` (ignore if current version is already released).
-
+# list runner container .
+root# docker ps -a
+```
