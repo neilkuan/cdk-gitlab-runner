@@ -1,6 +1,6 @@
 [![NPM version](https://badge.fury.io/js/cdk-gitlab-runner.svg)](https://badge.fury.io/js/cdk-gitlab-runner)
 [![PyPI version](https://badge.fury.io/py/cdk-gitlab-runner.svg)](https://badge.fury.io/py/cdk-gitlab-runner)
-![Release](https://github.com/pahud/cdk-gitlab-runner/workflows/Release/badge.svg)
+![Release](https://github.com/guan840912/cdk-gitlab-runner/workflows/Release/badge.svg)
 # Welcome to `cdk-gitlab-runner`
 
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
