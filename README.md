@@ -1,10 +1,12 @@
 [![NPM version](https://badge.fury.io/js/cdk-gitlab-runner.svg)](https://badge.fury.io/js/cdk-gitlab-runner)
 [![PyPI version](https://badge.fury.io/py/cdk-gitlab-runner.svg)](https://badge.fury.io/py/cdk-gitlab-runner)
-![Release](https://github.com/pahud/cdk-github-import/workflows/Release/badge.svg)
+![Release](https://github.com/pahud/cdk-gitlab-runner/workflows/Release/badge.svg)
 # Welcome to `cdk-gitlab-runner`
 
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
 
+## note 
+## Will help create a vpc ( only public subnet ) , and one T3.large ec2 Runner (chnage type feature will update soon ...)
 
 ## Before start your need gitlab runner token in your  `gitlab project` or   `gitlab group`
 
@@ -63,4 +65,10 @@ sudo -i
 
 # list runner container .
 root# docker ps -a
+
+# modify gitlab-runner/config.toml
+
+root# cd /home/ec2-user/.gitlab-runner/ && ls 
+config.toml
+
 ```
