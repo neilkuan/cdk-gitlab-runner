@@ -26,14 +26,21 @@ import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
 new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.LARGE) });
 // OR
 // Just create a gitlab runner , by default instance type is t3.small .
+import { GitlabContainerRunner } from 'cdk-gitlab-runner';
+import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
 new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN' });})
+
+// If want change tags you want.
+import { GitlabContainerRunner } from 'cdk-gitlab-runner';
+import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
+new GitlabContainerRunner(stack, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
 ```
 
 ```python
 # Example python instance type change to t3.small . 
 GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN',
                               ec2type=InstanceType.of(
-                                  instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL))
+                                  instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL), tag1='aa',tag2='bb',tag3='cc')
 ```
 ### see more instance class and size
 [InstanceClass](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.InstanceClass.html)

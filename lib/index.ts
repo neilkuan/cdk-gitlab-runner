@@ -5,6 +5,9 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 export interface GitlabContainerRunnerProps {
   readonly gitlabtoken: string;
   readonly ec2type?: ec2.InstanceType;
+  readonly tag1?: string;
+  readonly tag2?: string;
+  readonly tag3?: string;
 }
 
 export class GitlabContainerRunner extends cdk.Construct {
@@ -22,6 +25,9 @@ export class GitlabContainerRunner extends cdk.Construct {
       natGateways: 0,
     });
     var token = props.gitlabtoken ?? 'gitlab-token'
+    var tag1 = props?.tag1 ?? 'gitlab'
+    var tag2 = props?.tag2 ?? 'awscdk'
+    var tag3 = props?.tag3 ?? 'runner'
     const shell = ec2.UserData.forLinux()
     shell.addCommands('yum update -y')
     shell.addCommands('yum install docker -y')
@@ -29,7 +35,7 @@ export class GitlabContainerRunner extends cdk.Construct {
     shell.addCommands('usermod -aG docker ec2-user')
     shell.addCommands('chmod +x /var/run/docker.sock')
     shell.addCommands('service docker restart &&  chkconfig docker on')
-    shell.addCommands('docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com./ --registration-token ' + token + '  --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,runner,awscdk\" --docker-privileged')
+    shell.addCommands('docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com./ --registration-token ' + token + '  --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"' + tag1 + ',' + tag2 + ',' + tag3 + '\" --docker-privileged')
     shell.addCommands('sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine')
     shell.addCommands('usermod -aG docker ssm-user')
 

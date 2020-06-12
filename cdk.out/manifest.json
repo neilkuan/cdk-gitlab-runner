@@ -250,7 +250,7 @@
             "trace": [
               "new SecurityGroup (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-ec2/lib/security-group.js:173:30)",
               "new Instance (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-ec2/lib/instance.js:26:34)",
-              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:31:24)",
+              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:34:24)",
               "Object.<anonymous> (/Users/neilguan/jsii/cdk-gitlab-runner/test/integ.api.js:8:1)",
               "Module._compile (internal/modules/cjs/loader.js:1200:30)",
               "Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)",
@@ -268,7 +268,7 @@
             "trace": [
               "new Role (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-iam/lib/role.js:41:22)",
               "new Instance (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-ec2/lib/instance.js:34:35)",
-              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:31:24)",
+              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:34:24)",
               "Object.<anonymous> (/Users/neilguan/jsii/cdk-gitlab-runner/test/integ.api.js:8:1)",
               "Module._compile (internal/modules/cjs/loader.js:1200:30)",
               "Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)",
@@ -285,7 +285,7 @@
             "data": "testingGitlabRunnerInstanceProfile26901481",
             "trace": [
               "new Instance (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-ec2/lib/instance.js:38:28)",
-              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:31:24)",
+              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:34:24)",
               "Object.<anonymous> (/Users/neilguan/jsii/cdk-gitlab-runner/test/integ.api.js:8:1)",
               "Module._compile (internal/modules/cjs/loader.js:1200:30)",
               "Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)",
@@ -302,7 +302,7 @@
             "data": "testingGitlabRunner885F6B93",
             "trace": [
               "new Instance (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-ec2/lib/instance.js:73:25)",
-              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:31:24)",
+              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:34:24)",
               "Object.<anonymous> (/Users/neilguan/jsii/cdk-gitlab-runner/test/integ.api.js:8:1)",
               "Module._compile (internal/modules/cjs/loader.js:1200:30)",
               "Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)",
@@ -318,7 +318,7 @@
             "type": "aws:cdk:logicalId",
             "data": "testingRunnerID3E113277",
             "trace": [
-              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:40:9)",
+              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:43:9)",
               "Object.<anonymous> (/Users/neilguan/jsii/cdk-gitlab-runner/test/integ.api.js:8:1)",
               "Module._compile (internal/modules/cjs/loader.js:1200:30)",
               "Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)",
@@ -338,7 +338,7 @@
               "Function.valueForTypedStringParameter (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-ssm/lib/parameter.js:197:21)",
               "AmazonLinuxImage.getImage (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-ec2/lib/machine-image.js:140:41)",
               "new Instance (/Users/neilguan/jsii/cdk-gitlab-runner/node_modules/@aws-cdk/aws-ec2/lib/instance.js:42:48)",
-              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:31:24)",
+              "new GitlabContainerRunner (/Users/neilguan/jsii/cdk-gitlab-runner/lib/index.js:34:24)",
               "Object.<anonymous> (/Users/neilguan/jsii/cdk-gitlab-runner/test/integ.api.js:8:1)",
               "Module._compile (internal/modules/cjs/loader.js:1200:30)",
               "Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)",
