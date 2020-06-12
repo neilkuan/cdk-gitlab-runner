@@ -4,6 +4,7 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 
 export interface GitlabContainerRunnerProps {
   readonly gitlabtoken: string;
+  readonly ec2type?: ec2.InstanceType;
 }
 
 export class GitlabContainerRunner extends cdk.Construct {
@@ -33,7 +34,7 @@ export class GitlabContainerRunner extends cdk.Construct {
     shell.addCommands('usermod -aG docker ssm-user')
 
     const runner = new ec2.Instance(this, 'GitlabRunner', {
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE),
+      instanceType: props.ec2type ?? ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE),
       instanceName: 'Gitlab-Runner',
       vpc,
       machineImage: new ec2.AmazonLinuxImage,

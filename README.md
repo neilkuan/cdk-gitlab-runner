@@ -21,10 +21,17 @@ Project > Settings > CI/CD > Runners
 ## Usage Replace your gitlab runner roken in `$GITLABTOKEN`
 ```typescript
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
-
-// create a new github repository pahud/new-repo and import all files from ./lib to it
-new GitlabContainerRunner(stack, 'testing', { gitlabtoken: "$GITLABTOKEN" });})
+import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
+// If want change instance type to t3.large .
+new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.LARGE) });
+// OR
+// Just create a gitlab runner , by default instance type is t3.small .
+new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN' });})
 ```
+### see more instance class and size
+[InstanceClass](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.InstanceClass.html)
+
+[InstanceSize](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.InstanceSize.html)
 
 ## Wait about 6 mins , If success you will see your runner in that page .
 ![runner](image/group_runner2.png)
