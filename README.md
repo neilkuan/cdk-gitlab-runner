@@ -6,7 +6,7 @@
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
 
 ## note 
-## Will help create a vpc ( only public subnet ) , and one T3.large ec2 Runner (chnage type feature will update soon ...)
+### Will help create a vpc ( only public subnet ) , and one T3.large ec2 Runner (change type feature will update soon ...)
 
 ## Before start your need gitlab runner token in your  `gitlab project` or   `gitlab group`
 
