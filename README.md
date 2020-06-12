@@ -28,6 +28,13 @@ new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN', ec2ty
 // Just create a gitlab runner , by default instance type is t3.small .
 new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN' });})
 ```
+
+```python
+# Example python instance type change to t3.small . 
+GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN',
+                              ec2type=InstanceType.of(
+                                  instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL))
+```
 ### see more instance class and size
 [InstanceClass](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.InstanceClass.html)
 
