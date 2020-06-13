@@ -6,7 +6,7 @@
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
 
 ## note 
-### Will help create a vpc ( only public subnet ) , and one T3.large ec2 Runner (change type feature will update soon ...)
+### Will help create a vpc ( only public subnet ) , and one T3.large ec2 Runner (or change ec2 type you want ...)
 
 ## Before start your need gitlab runner token in your  `gitlab project` or   `gitlab group`
 
@@ -18,7 +18,7 @@ Group > Settings > CI/CD
 Project > Settings > CI/CD > Runners 
 ![project](image/project_runner_page.png)
 
-## Usage Replace your gitlab runner roken in `$GITLABTOKEN`
+## Usage Replace your gitlab runner token in `$GITLABTOKEN`
 ```typescript
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
