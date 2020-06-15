@@ -24,10 +24,10 @@ export class GitlabContainerRunner extends cdk.Construct {
       }],
       natGateways: 0,
     });
-    var token = props.gitlabtoken ?? 'gitlab-token'
-    var tag1 = props?.tag1 ?? 'gitlab'
-    var tag2 = props?.tag2 ?? 'awscdk'
-    var tag3 = props?.tag3 ?? 'runner'
+    var token = props.gitlabtoken;
+    var tag1 = props.tag1 ?? 'gitlab'
+    var tag2 = props.tag2 ?? 'awscdk'
+    var tag3 = props.tag3 ?? 'runner'
     const shell = ec2.UserData.forLinux()
     shell.addCommands('yum update -y')
     shell.addCommands('yum install docker -y')
