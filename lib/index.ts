@@ -40,7 +40,6 @@ export class GitlabContainerRunner extends cdk.Construct {
     shell.addCommands('sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine')
     shell.addCommands('usermod -aG docker ssm-user')
     const ec2role = this.runnerrole = new iam.Role(this, 'runner-role', {
-      roleName: 'GitlabRunnerRole',
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
       description: 'FOr Gitlab EC2 Runner Role',
     });
