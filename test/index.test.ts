@@ -12,5 +12,7 @@ test('Create the Runner', () => {
   new GitlabContainerRunner(stack, 'testing-have-type', { gitlabtoken: 'GITLABTOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO) });
   expect(stack).toHaveResource('AWS::EC2::Instance');
   new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLABTOKEN' });
-  expect(stack).toHaveResource('AWS::EC2::Instance');
+  expect(stack).toHaveResource('AWS::IAM::Role', {
+    RoleName: 'GitlabRunnerRole',
+  });
 });

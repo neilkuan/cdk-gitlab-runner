@@ -6,7 +6,7 @@
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
 
 ## Note 
-### Will help you generate below services:
+### Default will help you generate below services:
 - VPC
   - Public Subnet (2)
 - EC2 (1 T3.large)
@@ -26,25 +26,48 @@ Replace your gitlab runner token in `$GITLABTOKEN`
 ```typescript
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
+import { ManagedPolicy } from '@aws-cdk/aws-iam';
+
 // If want change instance type to t3.large .
 new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.LARGE) });
 // OR
 // Just create a gitlab runner , by default instance type is t3.small .
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
+import { ManagedPolicy } from '@aws-cdk/aws-iam';
+
 new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN' });})
 
 // If want change tags you want.
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
+import { ManagedPolicy } from '@aws-cdk/aws-iam';
+
 new GitlabContainerRunner(stack, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
+
+// If you want add runner other IAM Policy like s3-readonly-access.
+import { GitlabContainerRunner } from 'cdk-gitlab-runner';
+import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
+import { ManagedPolicy } from '@aws-cdk/aws-iam';
+
+const runner =  new GitlabContainerRunner(stack, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
+runner.runnerrole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
+
 ```
 
 ```python
 # Example python instance type change to t3.small . 
-GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN',
+from aws_cdk import (
+  core,
+  aws_iam as iam,
+)
+from cdk_gitlab_runner import GitlabContainerRunner
+from aws_cdk.aws_ec2 import InstanceType, InstanceClass, InstanceSize
+runner = GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN',
                               ec2type=InstanceType.of(
                                   instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL), tag1='aa',tag2='bb',tag3='cc')
+
+runner.runnerrole.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess"))
 ```
 ### see more instance class and size
 [InstanceClass](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.InstanceClass.html)
@@ -82,6 +105,7 @@ dockerjob:
 ### If your want to debug you can go to aws console 
 # `In your runner region !!!`
 ## AWS Systems Manager  >  Session Manager  >  Start a session
+![system manager](image/session.png)
 #### click your `runner` and click `start session`
 #### in the brower console in put `bash` 
 ```bash

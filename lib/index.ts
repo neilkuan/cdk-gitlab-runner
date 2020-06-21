@@ -11,6 +11,7 @@ export interface GitlabContainerRunnerProps {
 }
 
 export class GitlabContainerRunner extends cdk.Construct {
+  public readonly runnerrole: iam.IRole;
   constructor(scope: cdk.Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
 
@@ -38,18 +39,24 @@ export class GitlabContainerRunner extends cdk.Construct {
     shell.addCommands('docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com./ --registration-token ' + token + '  --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"' + tag1 + ',' + tag2 + ',' + tag3 + '\" --docker-privileged')
     shell.addCommands('sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine')
     shell.addCommands('usermod -aG docker ssm-user')
-
+    const ec2role = this.runnerrole = new iam.Role(this, 'runner-role', {
+      roleName: 'GitlabRunnerRole',
+      assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
+      description: 'FOr Gitlab EC2 Runner Role',
+    });
     const runner = new ec2.Instance(this, 'GitlabRunner', {
       instanceType: props.ec2type ?? ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE),
       instanceName: 'Gitlab-Runner',
       vpc,
       machineImage: new ec2.AmazonLinuxImage,
+      role: ec2role,
       userData: shell,
       blockDevices: [({ deviceName: '/dev/xvda', volume: ec2.BlockDeviceVolume.ebs(60) })],
     });
     runner.role.addManagedPolicy(iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'));
 
-    new cdk.CfnOutput(this, 'Runner-ID', { value: runner.instanceId })
+    new cdk.CfnOutput(this, 'Runner-Instance-ID', { value: runner.instanceId })
+    new cdk.CfnOutput(this, 'Runner-Role-Arn', { value: runner.role.roleArn })
 
   }
 }
