@@ -61,4 +61,3 @@ tsconfig.json
 !/.github/workflows/release.yml
 !# synthesized by projen, but committed to git
 !/.mergify.yml
-cdk.out
