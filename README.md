@@ -76,8 +76,8 @@ runner = GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN'
                               ec2type=InstanceType.of(
                                   instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL), tag1='aa',tag2='bb',tag3='cc')
 
-runner.runnerRole.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess"))
-runner.runneEc2.connections.allow_from(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
+runner.runner_role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess"))
+runner.runne_ec2.connections.allow_from(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
 ```
 ### see more instance class and size
 [InstanceClass](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.InstanceClass.html)

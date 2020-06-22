@@ -8,6 +8,6 @@ const stack = new Stack(mockApp, 'testing-stack');
 
 const runner = new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'vKb9m8UiyxXUsss83KPo', ec2type: InstanceType.of(InstanceClass.T3, InstanceSize.SMALL) });
 runner.runnerRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
-runner.runneEc2.connections.allowFrom(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
+runner.runnerEc2.connections.allowFrom(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
 new CfnOutput(stack, 'role', { value: runner.runnerRole.roleArn })
-new CfnOutput(stack, 'InstanceID', { value: runner.runneEc2.instanceId })
+new CfnOutput(stack, 'InstanceID', { value: runner.runnerEc2.instanceId })

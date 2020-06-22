@@ -61,7 +61,7 @@ test('Runner Can Add Ingress ', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
   const runner = new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO), tag1: 'aa', tag2: 'bb', tag3: 'cc' });
-  runner.runneEc2.connections.allowFrom(Peer.ipv4('1.2.3.4/8'), Port.tcp(80));
+  runner.runnerEc2.connections.allowFrom(Peer.ipv4('1.2.3.4/8'), Port.tcp(80));
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });

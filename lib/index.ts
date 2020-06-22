@@ -12,7 +12,7 @@ export interface GitlabContainerRunnerProps {
 
 export class GitlabContainerRunner extends cdk.Construct {
   public readonly runnerRole: iam.IRole;
-  public readonly runneEc2: ec2.IInstance;
+  public readonly runnerEc2: ec2.IInstance;
   constructor(scope: cdk.Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
 
@@ -44,7 +44,7 @@ export class GitlabContainerRunner extends cdk.Construct {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
       description: 'For Gitlab EC2 Runner Role',
     });
-    const runner = this.runneEc2 = new ec2.Instance(this, 'GitlabRunner', {
+    const runner = this.runnerEc2 = new ec2.Instance(this, 'GitlabRunner', {
       instanceType: props.ec2type ?? ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE),
       instanceName: 'Gitlab-Runner',
       vpc,
