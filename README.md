@@ -51,8 +51,17 @@ import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy } from '@aws-cdk/aws-iam';
 
 const runner =  new GitlabContainerRunner(stack, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
-runner.runnerrole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
+runner.runnerRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
 
+// If you want add runner other SG Ingress .
+import { GitlabContainerRunner } from 'cdk-gitlab-runner';
+import { InstanceType, InstanceClass, InstanceSize, Port, Peer } from '@aws-cdk/aws-ec2';
+import { ManagedPolicy } from '@aws-cdk/aws-iam';
+
+const runner =  new GitlabContainerRunner(stack, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
+runner.runnerRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
+# you can add ingress in your runner SG .
+runner.runneEc2.connections.allowFrom(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
 ```
 
 ```python
@@ -62,12 +71,13 @@ from aws_cdk import (
   aws_iam as iam,
 )
 from cdk_gitlab_runner import GitlabContainerRunner
-from aws_cdk.aws_ec2 import InstanceType, InstanceClass, InstanceSize
+from aws_cdk.aws_ec2 import InstanceType, InstanceClass, InstanceSize, Peer, Port
 runner = GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN',
                               ec2type=InstanceType.of(
                                   instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL), tag1='aa',tag2='bb',tag3='cc')
 
-runner.runnerrole.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess"))
+runner.runnerRole.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess"))
+runner.runneEc2.connections.allow_from(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
 ```
 ### see more instance class and size
 [InstanceClass](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.InstanceClass.html)
