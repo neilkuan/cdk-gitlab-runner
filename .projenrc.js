@@ -42,7 +42,6 @@ const project = new JsiiProject({
 
 project.addFields({
   'keywords': [
-    'cdk',
     'aws',
     'gitlab',
     'runner'
