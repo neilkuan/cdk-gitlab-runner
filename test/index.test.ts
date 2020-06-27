@@ -1,7 +1,7 @@
 import { GitlabContainerRunner } from '../lib/index';
 import { App, Stack } from '@aws-cdk/core';
 import '@aws-cdk/assert/jest';
-import { InstanceType, InstanceClass, InstanceSize, Peer, Port } from '@aws-cdk/aws-ec2';
+import { InstanceType, InstanceClass, InstanceSize, Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
 
 
 test('Create the Runner', () => {
@@ -65,6 +65,10 @@ test('Runner Can Add Ingress ', () => {
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
+  expect(stack).toHaveResource('AWS::EC2::VPC', {
+    CidrBlock: '10.0.0.0/16',
+  },
+  );
   expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
     SecurityGroupIngress: [{
       CidrIp: '1.2.3.4/8',
@@ -74,4 +78,28 @@ test('Runner Can Add Ingress ', () => {
       ToPort: 80,
     }],
   });
+});
+
+test('Runner Can Use Self VPC ', () => {
+  const mockApp = new App();
+  const stack = new Stack(mockApp, 'testing-stack');
+  const newvpc = new Vpc(stack, 'NEWVPC', {
+    cidr: '10.1.0.0/16',
+    maxAzs: 2,
+    subnetConfiguration: [{
+      cidrMask: 26,
+      name: 'RunnerVPC',
+      subnetType: SubnetType.PUBLIC,
+    }],
+    natGateways: 0,
+  });
+  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO), selfvpc: newvpc });
+  expect(stack).toHaveResource('AWS::EC2::Instance', {
+    InstanceType: 't2.micro',
+  });
+  expect(stack).not.toHaveResource('AWS::S3::Bucket');
+  expect(stack).toHaveResource('AWS::EC2::VPC', {
+    CidrBlock: '10.1.0.0/16',
+  },
+  );
 });

@@ -1,6 +1,11 @@
 [![NPM version](https://badge.fury.io/js/cdk-gitlab-runner.svg)](https://badge.fury.io/js/cdk-gitlab-runner)
 [![PyPI version](https://badge.fury.io/py/cdk-gitlab-runner.svg)](https://badge.fury.io/py/cdk-gitlab-runner)
 ![Release](https://github.com/guan840912/cdk-gitlab-runner/workflows/Release/badge.svg)
+
+![Downloads](https://img.shields.io/badge/-DOWNLOADS:-brightgreen?color=gray)
+![npm](https://img.shields.io/npm/dt/cdk-gitlab-runner?label=npm&color=orange)
+![PyPI](https://img.shields.io/pypi/dm/cdk-gitlab-runner?label=pypi&color=blue)
+
 # Welcome to `cdk-gitlab-runner`
 
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
@@ -29,28 +34,28 @@ import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy } from '@aws-cdk/aws-iam';
 
 // If want change instance type to t3.large .
-new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.LARGE) });
+new GitlabContainerRunner(this, 'testing', { gitlabtoken: '$GITLABTOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.LARGE) });
 // OR
 // Just create a gitlab runner , by default instance type is t3.small .
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy } from '@aws-cdk/aws-iam';
 
-new GitlabContainerRunner(stack, 'testing', { gitlabtoken: '$GITLABTOKEN' });})
+new GitlabContainerRunner(this, 'testing', { gitlabtoken: '$GITLABTOKEN' });})
 
 // If want change tags you want.
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy } from '@aws-cdk/aws-iam';
 
-new GitlabContainerRunner(stack, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
+new GitlabContainerRunner(this, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
 
 // If you want add runner other IAM Policy like s3-readonly-access.
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy } from '@aws-cdk/aws-iam';
 
-const runner =  new GitlabContainerRunner(stack, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
+const runner =  new GitlabContainerRunner(this, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
 runner.runnerRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
 
 // If you want add runner other SG Ingress .
@@ -58,10 +63,33 @@ import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { InstanceType, InstanceClass, InstanceSize, Port, Peer } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy } from '@aws-cdk/aws-iam';
 
-const runner =  new GitlabContainerRunner(stack, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
+const runner =  new GitlabContainerRunner(this, 'testing-have-type-tag', { gitlabtoken: 'GITLABTOKEN', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
 runner.runnerRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
-# you can add ingress in your runner SG .
+// you can add ingress in your runner SG .
 runner.runneEc2.connections.allowFrom(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
+
+
+// 2020/06/27 , you can use your self exist VPC or new VPC , but please check your `vpc public Subnet` Auto-assign public IPv4 address == Yes ,
+// Or `vpc private Subnet` route table associated `nat gateway` .
+import { GitlabContainerRunner } from '../lib/index';
+import { App, Stack, CfnOutput } from '@aws-cdk/core';
+import { InstanceType, InstanceClass, InstanceSize, Port, Peer, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
+import { ManagedPolicy } from '@aws-cdk/aws-iam';
+
+const newvpc = new Vpc(stack, 'VPC', {
+  cidr: '10.1.0.0/16',
+  maxAzs: 2,
+  subnetConfiguration: [{
+    cidrMask: 26,
+    name: 'RunnerVPC',
+    subnetType: SubnetType.PUBLIC,
+  }],
+  natGateways: 0,
+});
+
+const runner = new GitlabContainerRunner(this, 'testing', { gitlabtoken: 'GITLABTOKEN', ec2type: InstanceType.of(InstanceClass.T3, InstanceSize.SMALL), selfvpc: newvpc });
+
+
 ```
 
 ```python
@@ -77,7 +105,30 @@ runner = GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN'
                                   instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL), tag1='aa',tag2='bb',tag3='cc')
 
 runner.runner_role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess"))
-runner.runne_ec2.connections.allow_from(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
+runner.runne_ec2.connections.allow_from(Peer.ipv4('0.0.0.0/0'), Port.tcp(80))
+
+
+# Example python use self VPC .
+from aws_cdk import (
+  core,
+  aws_iam as iam,
+)
+from cdk_gitlab_runner import GitlabContainerRunner
+from aws_cdk.aws_ec2 import InstanceType, InstanceClass, InstanceSize ,Vpc ,SubnetType, SubnetConfiguration
+newvpc = Vpc(
+            self, 'new-vpc',
+            cidr='10.1.0.0/16',
+            max_azs=2,
+            subnet_configuration=[SubnetConfiguration(
+            cidr_mask=26,
+            name="PublicRunnerVpc",
+            subnet_type=SubnetType.PUBLIC)],
+            nat_gateways=0
+        )
+runner = GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN',
+                              ec2type=InstanceType.of(
+                                  instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL),selfvpc=newvpc)
+
 ```
 ### see more instance class and size
 [InstanceClass](https://docs.aws.amazon.com/cdk/api/latest/docs/@aws-cdk_aws-ec2.InstanceClass.html)

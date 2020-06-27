@@ -5,6 +5,7 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 export interface GitlabContainerRunnerProps {
   readonly gitlabtoken: string;
   readonly ec2type?: ec2.InstanceType;
+  readonly selfvpc?: ec2.IVpc;
   readonly tag1?: string;
   readonly tag2?: string;
   readonly tag3?: string;
@@ -16,7 +17,7 @@ export class GitlabContainerRunner extends cdk.Construct {
   constructor(scope: cdk.Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
 
-    const vpc = new ec2.Vpc(this, 'VPC', {
+    const vpc = props.selfvpc ?? new ec2.Vpc(this, 'VPC', {
       cidr: '10.0.0.0/16',
       maxAzs: 2,
       subnetConfiguration: [{
