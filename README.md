@@ -6,8 +6,11 @@
 ![npm](https://img.shields.io/npm/dt/cdk-gitlab-runner?label=npm&color=orange)
 ![PyPI](https://img.shields.io/pypi/dm/cdk-gitlab-runner?label=pypi&color=blue)
 
+![](https://img.shields.io/badge/iam_role_self-enable-green=?style=plastic&logo=appveyor)
+![](https://img.shields.io/badge/vpc_self-enable-green=?style=plastic&logo=appveyor)
+![](https://img.shields.io/badge/1.47.1-stable-green=?style=plastic&logo=appveyor)
 # Welcome to `cdk-gitlab-runner`
-
+ 
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
 
 ## Note 
@@ -89,7 +92,21 @@ const newvpc = new Vpc(stack, 'VPC', {
 
 const runner = new GitlabContainerRunner(this, 'testing', { gitlabtoken: 'GITLABTOKEN', ec2type: InstanceType.of(InstanceClass.T3, InstanceSize.SMALL), selfvpc: newvpc });
 
+// 2020/06/27 , you can use your self exist role assign to runner
+// exmaple .
+import { GitlabContainerRunner } from '../lib/index';
+import { App, Stack, CfnOutput } from '@aws-cdk/core';
+import { InstanceType, InstanceClass, InstanceSize, Port, Peer } from '@aws-cdk/aws-ec2';
+import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 
+const role = new Role(this, 'runner-role', {
+  assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
+  description: 'For Gitlab EC2 Runner Test Role',
+  roleName: 'TestRole',
+});
+
+const runner = new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2iamrole: role });
+runner.runnerRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
 ```
 
 ```python
@@ -128,6 +145,22 @@ newvpc = Vpc(
 runner = GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN',
                               ec2type=InstanceType.of(
                                   instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL),selfvpc=newvpc)
+
+# 2020/06/27 , you can use your self exist role assign to runner
+# exmaple .
+from aws_cdk import (
+  core,
+  aws_iam as iam,
+)
+from cdk_gitlab_runner import GitlabContainerRunner
+from aws_cdk.aws_ec2 import InstanceType, InstanceClass, InstanceSize ,Vpc ,SubnetType, SubnetConfiguration
+role = iam.Role(self, "Runner-Role", assumed_by=iam.ServicePrincipal('ec2.amazonaws.com')
+runner = GitlabContainerRunner(self, 'gitlab-runner', gitlabtoken='$GITLABTOKEN',
+                              ec2type=InstanceType.of(
+                                  instance_class=InstanceClass.BURSTABLE3, instance_size=InstanceSize.SMALL),ec2iamrole=role)
+runner.runner_role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonS3ReadOnlyAccess"))
+
+
 
 ```
 ### see more instance class and size

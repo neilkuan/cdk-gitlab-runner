@@ -1,22 +1,16 @@
 import { GitlabContainerRunner } from '../lib/index';
 import { App, Stack, CfnOutput } from '@aws-cdk/core';
-import { InstanceType, InstanceClass, InstanceSize, Port, Peer, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
-import { ManagedPolicy } from '@aws-cdk/aws-iam';
+import { InstanceType, InstanceClass, InstanceSize, Port, Peer } from '@aws-cdk/aws-ec2';
+import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 
 const mockApp = new App();
 const stack = new Stack(mockApp, 'testing-stack');
-const newvpc = new Vpc(stack, 'VPC', {
-  cidr: '10.1.0.0/16',
-  maxAzs: 2,
-  subnetConfiguration: [{
-    cidrMask: 26,
-    name: 'RunnerVPC',
-    subnetType: SubnetType.PUBLIC,
-  }],
-  natGateways: 0,
+const role = new Role(stack, 'runner-role', {
+  assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
+  description: 'For Gitlab EC2 Runner Test Role',
+  roleName: 'TestRole',
 });
-
-const runner = new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T3, InstanceSize.SMALL), selfvpc: newvpc });
+const runner = new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T3, InstanceSize.SMALL), ec2iamrole: role });
 runner.runnerRole.addManagedPolicy(ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'));
 runner.runnerEc2.connections.allowFrom(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
 new CfnOutput(stack, 'role', { value: runner.runnerRole.roleArn })

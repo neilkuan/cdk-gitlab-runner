@@ -6,6 +6,7 @@ export interface GitlabContainerRunnerProps {
   readonly gitlabtoken: string;
   readonly ec2type?: ec2.InstanceType;
   readonly selfvpc?: ec2.IVpc;
+  readonly ec2iamrole?: iam.IRole;
   readonly tag1?: string;
   readonly tag2?: string;
   readonly tag3?: string;
@@ -41,7 +42,7 @@ export class GitlabContainerRunner extends cdk.Construct {
     shell.addCommands('docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token ' + token + ' --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"' + tag1 + ',' + tag2 + ',' + tag3 + '\" --docker-privileged')
     shell.addCommands('sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine')
     shell.addCommands('usermod -aG docker ssm-user')
-    const ec2role = this.runnerRole = new iam.Role(this, 'runner-role', {
+    const ec2role = this.runnerRole = props.ec2iamrole ?? new iam.Role(this, 'runner-role', {
       assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
       description: 'For Gitlab EC2 Runner Role',
     });

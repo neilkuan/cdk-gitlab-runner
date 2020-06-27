@@ -2,6 +2,7 @@ import { GitlabContainerRunner } from '../lib/index';
 import { App, Stack } from '@aws-cdk/core';
 import '@aws-cdk/assert/jest';
 import { InstanceType, InstanceClass, InstanceSize, Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
+import { Role, ServicePrincipal } from '@aws-cdk/aws-iam'
 
 
 test('Create the Runner', () => {
@@ -100,6 +101,25 @@ test('Runner Can Use Self VPC ', () => {
   expect(stack).not.toHaveResource('AWS::S3::Bucket');
   expect(stack).toHaveResource('AWS::EC2::VPC', {
     CidrBlock: '10.1.0.0/16',
+  },
+  );
+});
+
+
+test('Runner Can Use Self Role ', () => {
+  const mockApp = new App();
+  const stack = new Stack(mockApp, 'testing-stack');
+  const role = new Role(stack, 'runner-role', {
+    assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
+    description: 'For Gitlab EC2 Runner Test Role',
+    roleName: 'TestRole',
+  });
+  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO), ec2iamrole: role });
+  expect(stack).toHaveResource('AWS::EC2::Instance', {
+    InstanceType: 't2.micro',
+  });
+  expect(stack).toHaveResource('AWS::IAM::Role', {
+    RoleName: 'TestRole',
   },
   );
 });
