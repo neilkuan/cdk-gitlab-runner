@@ -4,7 +4,7 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 
 export interface GitlabContainerRunnerProps {
   readonly gitlabtoken: string;
-  readonly ec2type?: ec2.InstanceType;
+  readonly ec2type?: string;
   readonly selfvpc?: ec2.IVpc;
   readonly ec2iamrole?: iam.IRole;
   readonly tag1?: string;
@@ -32,6 +32,7 @@ export class GitlabContainerRunner extends cdk.Construct {
     var tag1 = props.tag1 ?? 'gitlab'
     var tag2 = props.tag2 ?? 'awscdk'
     var tag3 = props.tag3 ?? 'runner'
+    var ec2type = props.ec2type ?? 't3.micro'
     const shell = ec2.UserData.forLinux()
     shell.addCommands('yum update -y')
     shell.addCommands('yum install docker -y')
@@ -47,7 +48,7 @@ export class GitlabContainerRunner extends cdk.Construct {
       description: 'For Gitlab EC2 Runner Role',
     });
     const runner = this.runnerEc2 = new ec2.Instance(this, 'GitlabRunner', {
-      instanceType: props.ec2type ?? ec2.InstanceType.of(ec2.InstanceClass.T3, ec2.InstanceSize.LARGE),
+      instanceType: new ec2.InstanceType(ec2type),
       instanceName: 'Gitlab-Runner',
       vpc,
       machineImage: new ec2.AmazonLinuxImage,

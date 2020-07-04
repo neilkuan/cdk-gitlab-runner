@@ -1,7 +1,7 @@
 import { GitlabContainerRunner } from '../lib/index';
 import { App, Stack } from '@aws-cdk/core';
 import '@aws-cdk/assert/jest';
-import { InstanceType, InstanceClass, InstanceSize, Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
+import { Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
 import { Role, ServicePrincipal } from '@aws-cdk/aws-iam'
 
 
@@ -45,7 +45,7 @@ test('Testing runner tag change ', () => {
 test('Testing Runner Instance Type Change ', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO) });
+  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: 't2.micro' });
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
@@ -61,7 +61,7 @@ test('Testing Runner Instance Type Change ', () => {
 test('Runner Can Add Ingress ', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  const runner = new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO), tag1: 'aa', tag2: 'bb', tag3: 'cc' });
+  const runner = new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: 't2.micro', tag1: 'aa', tag2: 'bb', tag3: 'cc' });
   runner.runnerEc2.connections.allowFrom(Peer.ipv4('1.2.3.4/8'), Port.tcp(80));
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
@@ -94,7 +94,7 @@ test('Runner Can Use Self VPC ', () => {
     }],
     natGateways: 0,
   });
-  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO), selfvpc: newvpc });
+  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: 't2.micro', selfvpc: newvpc });
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
@@ -114,7 +114,7 @@ test('Runner Can Use Self Role ', () => {
     description: 'For Gitlab EC2 Runner Test Role',
     roleName: 'TestRole',
   });
-  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: InstanceType.of(InstanceClass.T2, InstanceSize.MICRO), ec2iamrole: role });
+  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: 't2.micro', ec2iamrole: role });
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
