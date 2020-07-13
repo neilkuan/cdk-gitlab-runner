@@ -8,7 +8,8 @@
 
 ![](https://img.shields.io/badge/iam_role_self-enable-green=?style=plastic&logo=appveyor)
 ![](https://img.shields.io/badge/vpc_self-enable-green=?style=plastic&logo=appveyor)
-![](https://img.shields.io/badge/1.49.1-stable-green=?style=plastic&logo=appveyor)
+![](https://img.shields.io/badge/1.51.0-stable-green=?style=plastic&logo=appveyor)
+![](https://img.shields.io/badge/gitlab_url-customize-green=?style=plastic&logo=appveyor)
 # Welcome to `cdk-gitlab-runner`
  
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
@@ -43,6 +44,14 @@ new GitlabContainerRunner(this, 'runner-instance', { gitlabtoken: '$GITLABTOKEN'
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 
 new GitlabContainerRunner(this, 'runner-instance', { gitlabtoken: '$GITLABTOKEN' });})
+```
+### Gitlab Server Customize Url .
+If you want change  what  you want tag name .
+```typescript
+// If you want change  what  your self Gitlab Server Url .
+import { GitlabContainerRunner } from 'cdk-gitlab-runner';
+
+new GitlabContainerRunner(this, 'runner-instance-change-tag', { gitlabtoken: '$GITLABTOKEN',gitlaburl: 'https://gitlab.my.com/' });
 ```
 
 ### Tags

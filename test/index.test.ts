@@ -123,3 +123,22 @@ test('Runner Can Use Self Role ', () => {
   },
   );
 });
+
+test('Can Use Coustom Gitlab Url', () => {
+  const mockApp = new App();
+  const stack = new Stack(mockApp, 'testing-stack');
+  const role = new Role(stack, 'runner-role', {
+    assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
+    description: 'For Gitlab EC2 Runner Test Role',
+    roleName: 'TestRole',
+  });
+  new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN', ec2type: 't2.micro', ec2iamrole: role ,gitlaburl: 'https://gitlab.my.com/'});
+  expect(stack).toHaveResource('AWS::EC2::Instance', {
+    InstanceType: 't2.micro',
+  });
+  expect(stack).toHaveResource('AWS::EC2::Instance', {
+    UserData: {
+      'Fn::Base64': '#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.my.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+    },
+  });
+});

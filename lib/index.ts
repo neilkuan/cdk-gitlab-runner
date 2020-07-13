@@ -10,6 +10,7 @@ export interface GitlabContainerRunnerProps {
   readonly tag1?: string;
   readonly tag2?: string;
   readonly tag3?: string;
+  readonly gitlaburl?: string;
 }
 
 export class GitlabContainerRunner extends cdk.Construct {
@@ -32,6 +33,7 @@ export class GitlabContainerRunner extends cdk.Construct {
     var tag1 = props.tag1 ?? 'gitlab'
     var tag2 = props.tag2 ?? 'awscdk'
     var tag3 = props.tag3 ?? 'runner'
+    var gitlaburl = props.gitlaburl ?? 'https://gitlab.com/'
     var ec2type = props.ec2type ?? 't3.micro'
     const shell = ec2.UserData.forLinux()
     shell.addCommands('yum update -y')
@@ -40,7 +42,7 @@ export class GitlabContainerRunner extends cdk.Construct {
     shell.addCommands('usermod -aG docker ec2-user')
     shell.addCommands('chmod +x /var/run/docker.sock')
     shell.addCommands('service docker restart &&  chkconfig docker on')
-    shell.addCommands('docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token ' + token + ' --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"' + tag1 + ',' + tag2 + ',' + tag3 + '\" --docker-privileged')
+    shell.addCommands('docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url ' + gitlaburl + ' --registration-token ' + token + ' --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"' + tag1 + ',' + tag2 + ',' + tag3 + '\" --docker-privileged')
     shell.addCommands('sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine')
     shell.addCommands('usermod -aG docker ssm-user')
     const ec2role = this.runnerRole = props.ec2iamrole ?? new iam.Role(this, 'runner-role', {
