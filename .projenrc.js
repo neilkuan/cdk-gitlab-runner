@@ -3,7 +3,7 @@ const {
   Semver
 } = require('projen');
 
-const AWS_CDK_LATEST_RELEASE = '1.51.0';
+const AWS_CDK_LATEST_RELEASE = '1.52.0';
 const PROJECT_NAME = 'cdk-gitlab-runner';
 const PROJECT_DESCRIPTION = 'A  Gitlab Runner JSII construct lib for AWS CDK';
 
@@ -12,7 +12,7 @@ const project = new JsiiProject({
   jsiiVersion: Semver.caret('1.5.0'),
   description: PROJECT_DESCRIPTION,
   repository: 'https://github.com/guan840912/cdk-gitlab-runner.git',
-  authorName: 'Neil Guan ',
+  authorName: 'Neil Guan',
   authorEmail: 'guan840912@gmail.com',
   stability: 'experimental',
   devDependencies: {

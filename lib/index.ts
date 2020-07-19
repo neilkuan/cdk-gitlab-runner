@@ -53,7 +53,7 @@ export class GitlabContainerRunner extends cdk.Construct {
       instanceType: new ec2.InstanceType(ec2type),
       instanceName: 'Gitlab-Runner',
       vpc,
-      machineImage: new ec2.AmazonLinuxImage,
+      machineImage: ec2.MachineImage.latestAmazonLinux({ generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2 }),
       role: ec2role,
       userData: shell,
       blockDevices: [({ deviceName: '/dev/xvda', volume: ec2.BlockDeviceVolume.ebs(60) })],
