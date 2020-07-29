@@ -44,7 +44,8 @@ project.addFields({
   'keywords': [
     'aws',
     'gitlab',
-    'runner'
+    'runner',
+    'cdk'
   ]
 });
 
