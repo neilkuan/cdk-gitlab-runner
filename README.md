@@ -8,7 +8,6 @@
 
 ![](https://img.shields.io/badge/iam_role_self-enable-green=?style=plastic&logo=appveyor)
 ![](https://img.shields.io/badge/vpc_self-enable-green=?style=plastic&logo=appveyor)
-![](https://img.shields.io/badge/1.51.0-stable-green=?style=plastic&logo=appveyor)
 ![](https://img.shields.io/badge/gitlab_url-customize-green=?style=plastic&logo=appveyor)
 # Welcome to `cdk-gitlab-runner`
  
