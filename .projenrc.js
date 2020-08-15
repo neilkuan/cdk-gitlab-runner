@@ -3,7 +3,7 @@ const {
   Semver
 } = require('projen');
 
-const AWS_CDK_LATEST_RELEASE = '1.57.0';
+const AWS_CDK_LATEST_RELEASE = '1.58.0';
 const PROJECT_NAME = 'cdk-gitlab-runner';
 const PROJECT_DESCRIPTION = 'A  Gitlab Runner JSII construct lib for AWS CDK';
 
