@@ -1,9 +1,6 @@
-const {
-  JsiiProject,
-  Semver
-} = require('projen');
+const { JsiiProject, Semver } = require('projen');
 
-const AWS_CDK_LATEST_RELEASE = '1.59.0';
+const AWS_CDK_LATEST_RELEASE = '1.60.0';
 const PROJECT_NAME = 'cdk-gitlab-runner';
 const PROJECT_DESCRIPTION = 'A  Gitlab Runner JSII construct lib for AWS CDK';
 
@@ -20,7 +17,7 @@ const project = new JsiiProject({
     '@types/jest': Semver.caret('25.2.3'),
     '@types/node': Semver.caret('14.0.11'),
     'ts-jest': Semver.caret('25.3.1'),
-    'jest': Semver.caret('25.5.0'),
+    jest: Semver.caret('25.5.0'),
   },
   peerDependencies: {
     constructs: Semver.caret('3.0.3'),
@@ -36,17 +33,12 @@ const project = new JsiiProject({
   },
   python: {
     distName: 'cdk-gitlab-runner',
-    module: 'cdk_gitlab_runner'
-  }
+    module: 'cdk_gitlab_runner',
+  },
 });
 
 project.addFields({
-  'keywords': [
-    'aws',
-    'gitlab',
-    'runner',
-    'cdk'
-  ]
+  keywords: ['aws', 'gitlab', 'runner', 'cdk'],
 });
 
 project.synth();
