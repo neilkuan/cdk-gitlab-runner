@@ -38,7 +38,7 @@ const project = new JsiiProject({
 });
 
 project.addFields({
-  keywords: ['aws', 'gitlab', 'runner', 'cdk'],
+  keywords: ['aws', 'gitlab', 'runner'],
 });
 
 project.synth();
