@@ -183,10 +183,10 @@ export class GitlabContainerRunner extends Construct {
         tag2 +
         ',' +
         tag3 +
-        '" --docker-privileged'
+        '" --docker-privileged',
     );
     shell.addCommands(
-      'sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine'
+      'sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine',
     );
     shell.addCommands('usermod -aG docker ssm-user');
 
@@ -212,7 +212,7 @@ export class GitlabContainerRunner extends Construct {
     });
 
     this.runnerRole.addManagedPolicy(
-      ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')
+      ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
     );
 
     new CfnOutput(this, 'Runner-Instance-ID', {

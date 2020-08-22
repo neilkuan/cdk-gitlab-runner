@@ -18,7 +18,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
   ebsSize: 100,
 });
 runner.runnerRole.addManagedPolicy(
-  ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')
+  ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
 );
 runner.runnerEc2.connections.allowFrom(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
 runner.runnerEc2.connections.allowFrom(Peer.ipv4('0.0.0.0/0'), Port.tcp(443));
