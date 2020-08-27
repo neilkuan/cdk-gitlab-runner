@@ -2,7 +2,7 @@ import {
   GitlabContainerRunner,
   InstanceInterruptionBehavior,
   BlockDuration,
-} from '../lib/index';
+} from '../src/index';
 import { App, Stack, Duration } from '@aws-cdk/core';
 import '@aws-cdk/assert/jest';
 import { Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
@@ -157,20 +157,20 @@ test('Runner Can Use Self Role ', () => {
 test('Can Use Coustom Gitlab Url', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  const role = new Role(stack, 'runner-role', {
-    assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
-    description: 'For Gitlab EC2 Runner Test Role',
-    roleName: 'TestRole',
+  const newvpc = new Vpc(stack, 'NEWVPC', {
+    cidr: '10.1.0.0/16',
+    maxAzs: 2,
+    natGateways: 1,
   });
   new GitlabContainerRunner(stack, 'testing', {
     gitlabtoken: 'GITLAB_TOKEN',
-    ec2type: 't2.micro',
-    ec2iamrole: role,
     gitlaburl: 'https://gitlab.my.com/',
+    selfvpc: newvpc,
+    vpcSubnet: {
+      subnetType: SubnetType.PRIVATE,
+    },
   });
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
-    InstanceType: 't2.micro',
-  });
+
   expect(stack).toHaveResource('AWS::EC2::Instance');
 });
 
@@ -213,9 +213,18 @@ test('Can Use Spotfleet Runner', () => {
 test('Can Use Spotfleet Runner None ', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-spotfleet');
+  const newvpc = new Vpc(stack, 'NEWVPC', {
+    cidr: '10.1.0.0/16',
+    maxAzs: 2,
+    natGateways: 1,
+  });
   const testspot = new GitlabContainerRunner(stack, 'testing', {
     gitlabtoken: 'GITLAB_TOKEN',
     spotFleet: true,
+    selfvpc: newvpc,
+    vpcSubnet: {
+      subnetType: SubnetType.PRIVATE,
+    },
   });
   testspot.expireAfter(Duration.hours(6));
   expect(stack).toHaveResource('AWS::EC2::SpotFleet');

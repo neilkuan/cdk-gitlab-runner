@@ -1,4 +1,4 @@
-import { GitlabContainerRunner } from '../lib/index';
+import { GitlabContainerRunner } from '../src/index';
 import { App, Stack, Duration, CfnOutput } from '@aws-cdk/core';
 import { Port, Peer, SubnetType, Vpc } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
@@ -22,7 +22,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
   ebsSize: 100,
   selfvpc: vpc,
   vpcSubnet: {
-    subnetType: SubnetType.PUBLIC,
+    subnetType: SubnetType.PRIVATE,
   },
 });
 
