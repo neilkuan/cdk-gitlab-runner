@@ -9,6 +9,10 @@
 tsconfig.json
 # exclude jsii outdir
 dist
+cdk.context.json
+cdk.out
+coverage
+yarn-error.log
 !# include javascript files and typescript declarations
 !*.js
 !*.d.ts
