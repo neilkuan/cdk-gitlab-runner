@@ -72,7 +72,6 @@
   "bundledDependencies": [],
   "keywords": [
     "aws",
-    "cdk",
     "gitlab",
     "runner"
   ],

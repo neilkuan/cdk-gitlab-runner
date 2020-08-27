@@ -426,14 +426,14 @@ export class GitlabContainerRunner extends Construct {
         },
       });
       const onEvent = new lambda.Function(this, 'OnEvent', {
-        code: lambda.Code.fromAsset(path.join(__dirname, './')),
+        code: lambda.Code.fromAsset(path.join(__dirname, './getinstanceId/')),
         handler: 'index.on_event',
         runtime: lambda.Runtime.PYTHON_3_8,
         timeout: Duration.seconds(60),
       });
 
       const isComplete = new lambda.Function(this, 'IsComplete', {
-        code: lambda.Code.fromAsset(path.join(__dirname, './')),
+        code: lambda.Code.fromAsset(path.join(__dirname, './getinstanceId/')),
         handler: 'index.is_complete',
         runtime: lambda.Runtime.PYTHON_3_8,
         timeout: Duration.seconds(60),

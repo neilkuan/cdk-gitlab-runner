@@ -9,7 +9,7 @@ const project = new ConstructLibraryAws({
   repository: 'https://github.com/guan840912/cdk-gitlab-runner.git',
   authorName: 'Neil Kuan',
   authorEmail: 'guan840912@gmail.com',
-  keywords: ['aws', 'gitlab', 'runner', 'cdk'],
+  keywords: ['aws', 'gitlab', 'runner'],
   catalog: {
     twitter: 'neil_kuan',
     announce: 'false',
