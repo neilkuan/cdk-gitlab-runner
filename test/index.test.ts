@@ -1,5 +1,9 @@
-import { GitlabContainerRunner } from '../lib/index';
-import { App, Stack } from '@aws-cdk/core';
+import {
+  GitlabContainerRunner,
+  InstanceInterruptionBehavior,
+  BlockDuration,
+} from '../lib/index';
+import { App, Stack, Duration } from '@aws-cdk/core';
 import '@aws-cdk/assert/jest';
 import { Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
 import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
@@ -8,12 +12,7 @@ test('Create the Runner', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
   new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN' });
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
-    UserData: {
-      'Fn::Base64':
-        '#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --executor docker --docker-image "alpine:latest" --description "Docker Runner" --tag-list "gitlab,awscdk,runner" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
-    },
-  });
+  expect(stack).toHaveResource('AWS::EC2::Instance');
   expect(stack).toHaveResource('AWS::IAM::Role');
   expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
     SecurityGroupEgress: [
@@ -35,12 +34,7 @@ test('Testing runner tag change ', () => {
     tag2: 'bb',
     tag3: 'cc',
   });
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
-    UserData: {
-      'Fn::Base64':
-        '#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --executor docker --docker-image "alpine:latest" --description "Docker Runner" --tag-list "aa,bb,cc" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
-    },
-  });
+  expect(stack).toHaveResource('AWS::EC2::Instance');
   expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
     SecurityGroupEgress: [
       {
@@ -92,6 +86,13 @@ test('Runner Can Add Ingress ', () => {
   });
   expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
     SecurityGroupIngress: [
+      {
+        CidrIp: '0.0.0.0/0',
+        Description: 'from 0.0.0.0/0:22',
+        FromPort: 22,
+        IpProtocol: 'tcp',
+        ToPort: 22,
+      },
       {
         CidrIp: '1.2.3.4/8',
         Description: 'from 1.2.3.4/8:80',
@@ -170,12 +171,7 @@ test('Can Use Coustom Gitlab Url', () => {
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
-    UserData: {
-      'Fn::Base64':
-        '#!/bin/bash\nyum update -y\nyum install docker -y\nservice docker start\nusermod -aG docker ec2-user\nchmod +x /var/run/docker.sock\nservice docker restart &&  chkconfig docker on\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.my.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --executor docker --docker-image "alpine:latest" --description "Docker Runner" --tag-list "gitlab,awscdk,runner" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
-    },
-  });
+  expect(stack).toHaveResource('AWS::EC2::Instance');
 });
 
 test('Can Use Coustom EBS Size', () => {
@@ -195,4 +191,32 @@ test('Can Use Coustom EBS Size', () => {
       },
     ],
   });
+});
+
+test('Can Use Spotfleet Runner', () => {
+  const mockApp = new App();
+  const stack = new Stack(mockApp, 'testing-spotfleet');
+  const testspot = new GitlabContainerRunner(stack, 'testing', {
+    gitlabtoken: 'GITLAB_TOKEN',
+    spotFleet: true,
+    instanceInterruptionBehavior: InstanceInterruptionBehavior.HIBERNATE,
+    ebsSize: 100,
+    blockDuration: BlockDuration.SIXTEEN_HOURS,
+    vpcSubnet: {
+      subnetType: SubnetType.PUBLIC,
+    },
+  });
+  testspot.expireAfter(Duration.hours(6));
+  expect(stack).toHaveResource('AWS::EC2::SpotFleet');
+});
+
+test('Can Use Spotfleet Runner None ', () => {
+  const mockApp = new App();
+  const stack = new Stack(mockApp, 'testing-spotfleet');
+  const testspot = new GitlabContainerRunner(stack, 'testing', {
+    gitlabtoken: 'GITLAB_TOKEN',
+    spotFleet: true,
+  });
+  testspot.expireAfter(Duration.hours(6));
+  expect(stack).toHaveResource('AWS::EC2::SpotFleet');
 });
