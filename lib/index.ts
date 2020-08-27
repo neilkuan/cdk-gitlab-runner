@@ -170,28 +170,28 @@ export interface GitlabContainerRunnerProps {
   /**
    * SSH key name
    *
-   * @default - no ssh key will be assigned
+   * @default - no ssh key will be assigned , !!! only support spotfleet runner !!! .
    */
   readonly keyName?: string;
 
   /**
    * Reservce the Spot Runner instance as spot block with defined duration
    *
-   * @default - BlockDuration.ONE_HOUR
+   * @default - BlockDuration.ONE_HOUR , !!! only support spotfleet runner !!! .
    */
   readonly blockDuration?: BlockDuration;
 
   /**
    * The behavior when a Spot Runner Instance is interrupted
    *
-   * @default - InstanceInterruptionBehavior.TERMINATE
+   * @default - InstanceInterruptionBehavior.TERMINATE , !!! only support spotfleet runner !!! .
    */
   readonly instanceInterruptionBehavior?: InstanceInterruptionBehavior;
 
   /**
    * the time when the spot fleet allocation expires
    *
-   * @default - no expiration
+   * @default - no expiration , !!! only support spotfleet runner !!! .
    */
   readonly validUntil?: string;
 
@@ -239,26 +239,26 @@ export class GitlabContainerRunner extends Construct {
   public readonly runnerRole: IRole;
 
   /**
-   * This represents a Runner EC2 instance .
+   * This represents a Runner EC2 instance , !!! only support On-demand runner instance !!! .
    */
   public readonly runnerEc2!: IInstance;
 
   public readonly vpc!: IVpc;
 
   /**
-   * The time when the the fleet allocation will expire
+   * The time when the the fleet allocation will expire , !!! only support spotfleet runner !!! .
    */
   private validUntil?: string;
 
   public readonly defaultRunnerSG!: ISecurityGroup;
 
   /**
-   * SpotFleetRequestId for this spot fleet
+   * SpotFleetRequestId for this spot fleet , !!! only support spotfleet runner !!! .
    */
   public readonly spotFleetRequestId!: string;
 
   /**
-   * the first instance id in this fleet
+   * the first instance id in this fleet , !!! only support spotfleet runner !!! .
    */
   readonly spotFleetInstanceId!: string;
 
@@ -483,6 +483,10 @@ export class GitlabContainerRunner extends Construct {
       value: this.runnerRole.roleArn,
     });
   }
+
+  /**
+   * @default - !!! only support spotfleet runner !!! .
+   */
   public expireAfter(duration: Duration) {
     const date = new Date();
     date.setSeconds(date.getSeconds() + duration.toSeconds());

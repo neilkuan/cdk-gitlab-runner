@@ -98,7 +98,7 @@ const runner = new GitlabContainerRunner(this, 'runner-instance-add-policy', {
   tag3: 'cc',
 });
 runner.runnerRole.addManagedPolicy(
-  ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')
+  ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
 );
 ```
 
@@ -119,7 +119,10 @@ const runner = new GitlabContainerRunner(this, 'runner-add-SG-ingress', {
 });
 
 // you can add ingress in your runner SG .
-runner.runneEc2.connections.allowFrom(Peer.ipv4('0.0.0.0/0'), Port.tcp(80));
+runner.defaultRunnerSG.connections.allowFrom(
+  Peer.ipv4('0.0.0.0/0'),
+  Port.tcp(80),
+);
 ```
 
 ### Use self VPC
@@ -171,7 +174,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
   ec2iamrole: role,
 });
 runner.runnerRole.addManagedPolicy(
-  ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess')
+  ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
 );
 ```
 
@@ -186,6 +189,24 @@ new GitlabContainerRunner(stack, 'testing', {
   gitlabtoken: '$GITLAB_TOKEN',
   ebsSize: 50,
 });
+```
+
+### Support Spotfleet Gitlab Runner
+
+> 2020/08/27 , you can use spotfleet instance be your gitlab runner,
+> after create spotfleet instance will auto output instance id .thank [@pahud](https://github.com/pahud/cdk-spot-one) again ~~~
+
+```typescript
+import { GitlabContainerRunner, BlockDuration } from 'cdk-gitlab-runner';
+
+const runner = new GitlabContainerRunner(stack, 'testing', {
+  gitlabtoken: 'GITLAB_TOKEN',
+  ec2type: 't3.large',
+  blockDuration: BlockDuration.ONE_HOUR,
+  spotFleet: true,
+});
+// configure the expiration after 1 hours
+runner.expireAfter(Duration.hours(1));
 ```
 
 # Note

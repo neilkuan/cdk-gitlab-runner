@@ -11,7 +11,7 @@ const role = new Role(stack, 'runner-role', {
   roleName: 'TestRole',
 });
 const runner = new GitlabContainerRunner(stack, 'testing', {
-  gitlabtoken: 'akjvr3qz72Hdw8fZNb8T',
+  gitlabtoken: 'GITLAB_TOKEN',
   ec2type: 't3.large',
   ec2iamrole: role,
   ebsSize: 100,
