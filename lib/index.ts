@@ -198,6 +198,22 @@ export interface GitlabContainerRunnerProps {
   /**
    * VPC subnet for the spot fleet
    *
+   * @example
+   * const vpc = new Vpc(stack, 'nat', {
+   * natGateways: 1,
+   * maxAzs: 2,
+   * });
+   * const runner = new GitlabContainerRunner(stack, 'testing', {
+   *   gitlabtoken: 'GITLAB_TOKEN',
+   *   ec2type: 't3.large',
+   *   ec2iamrole: role,
+   *   ebsSize: 100,
+   *   selfvpc: vpc,
+   *   vpcSubnet: {
+   *     subnetType: SubnetType.PUBLIC,
+   *   },
+   * });
+   *
    * @default - public subnet
    */
   readonly vpcSubnet?: SubnetSelection;
@@ -437,7 +453,7 @@ export class GitlabContainerRunner extends Construct {
         }),
       );
 
-      const fleetInstances = new CustomResource(this, 'ModifySG', {
+      const fleetInstances = new CustomResource(this, 'GetInstanceId', {
         serviceToken: myProvider.serviceToken,
         properties: {
           SpotFleetRequestId: cfnSpotFleet.ref,
@@ -458,6 +474,9 @@ export class GitlabContainerRunner extends Construct {
         instanceType: new InstanceType(ec2type),
         instanceName: 'Gitlab-Runner',
         vpc: this.vpc,
+        vpcSubnets: props.vpcSubnet ?? {
+          subnetType: SubnetType.PUBLIC,
+        },
         machineImage: MachineImage.latestAmazonLinux({
           generation: AmazonLinuxGeneration.AMAZON_LINUX_2,
         }),

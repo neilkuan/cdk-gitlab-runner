@@ -1,6 +1,6 @@
-import { GitlabContainerRunner, BlockDuration } from '../lib/index';
+import { GitlabContainerRunner } from '../lib/index';
 import { App, Stack, Duration, CfnOutput } from '@aws-cdk/core';
-import { Port, Peer } from '@aws-cdk/aws-ec2';
+import { Port, Peer, SubnetType, Vpc } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 
 const mockApp = new App();
@@ -10,13 +10,20 @@ const role = new Role(stack, 'runner-role', {
   description: 'For Gitlab EC2 Runner Test Role',
   roleName: 'TestRole',
 });
+
+const vpc = new Vpc(stack, 'nat', {
+  natGateways: 1,
+  maxAzs: 2,
+});
 const runner = new GitlabContainerRunner(stack, 'testing', {
   gitlabtoken: 'GITLAB_TOKEN',
   ec2type: 't3.large',
   ec2iamrole: role,
   ebsSize: 100,
-  blockDuration: BlockDuration.ONE_HOUR,
-  spotFleet: true,
+  selfvpc: vpc,
+  vpcSubnet: {
+    subnetType: SubnetType.PUBLIC,
+  },
 });
 
 runner.expireAfter(Duration.hours(1));
