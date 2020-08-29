@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.61.3](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.61.2...v1.61.3) (2020-08-29)
 
+### [1.61.3](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.61.2...v1.61.3) (2020-08-29)
+
 ### [1.61.2](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.61.1...v1.61.2) (2020-08-27)
 
 ### [1.61.1](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.61.0...v1.61.1) (2020-08-27)
