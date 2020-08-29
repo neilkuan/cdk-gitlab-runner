@@ -15,7 +15,7 @@ const project = new ConstructLibraryAws({
     announce: false,
   },
   projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
-  cdkVersion: '1.61.0',
+  cdkVersion: '1.61.1',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
