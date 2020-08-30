@@ -37,5 +37,6 @@ project.npmignore.exclude(
   'cdk.out',
   'coverage',
   'yarn-error.log',
+  'image',
 );
 project.synth();

@@ -16,6 +16,7 @@ cdk.context.json
 cdk.out
 coverage
 yarn-error.log
+image
 !/lib
 !/lib/**/*.js
 !/lib/**/*.d.ts
