@@ -2,6 +2,7 @@ const { ConstructLibraryAws } = require('projen');
 
 const PROJECT_NAME = 'cdk-gitlab-runner';
 const PROJECT_DESCRIPTION = 'A Gitlab Runner JSII construct lib for AWS CDK';
+const PROJEN_PINNED_VERSION = '0.3.47';
 
 const project = new ConstructLibraryAws({
   name: PROJECT_NAME,
@@ -29,6 +30,10 @@ const project = new ConstructLibraryAws({
     module: 'cdk_gitlab_runner',
   },
 });
+
+if (PROJEN_PINNED_VERSION) {
+  project.devDependencies.projen = PROJEN_PINNED_VERSION;
+}
 
 project.gitignore.exclude('cdk.context.json', 'cdk.out');
 
