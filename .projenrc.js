@@ -2,7 +2,7 @@ const { ConstructLibraryAws } = require('projen');
 
 const PROJECT_NAME = 'cdk-gitlab-runner';
 const PROJECT_DESCRIPTION = 'A Gitlab Runner JSII construct lib for AWS CDK';
-const PROJEN_PINNED_VERSION = '0.3.47';
+const PROJEN_PINNED_VERSION = '0.3.50';
 
 const project = new ConstructLibraryAws({
   name: PROJECT_NAME,
@@ -13,7 +13,7 @@ const project = new ConstructLibraryAws({
   keywords: ['aws', 'gitlab', 'runner'],
   catalog: {
     twitter: 'neil_kuan',
-    announce: true,
+    announce: false,
   },
   projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
   cdkVersion: '1.61.1',
