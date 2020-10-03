@@ -14,8 +14,11 @@ const project = new ConstructLibraryAws({
     twitter: 'neil_kuan',
     announce: true,
   },
+  projenUpgradeSecret: 'AUTOMATION_GITHUB_TOKEN',
+  stability: 'experimental',
+  autoReleaseSchedule: 'never',
   projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
-  cdkVersion: '1.65.0',
+  cdkVersion: '1.66.0',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
@@ -30,14 +33,25 @@ const project = new ConstructLibraryAws({
   },
 });
 
+project.mergify.addRule({
+  name: 'Merge approved pull requests with auto-merge label if CI passes',
+  conditions: [
+    '#approved-reviews-by>=1',
+    'status-success=build',
+    'label=auto-merge',
+    'label!=do-not-merge',
+    'label!=work-in-progress',
+  ],
+  actions: {
+    merge: {
+      method: 'merge',
+      commit_message: 'title+body',
+    },
+  },
+});
 
-project.gitignore.exclude('cdk.context.json', 'cdk.out');
+const common_exclude = ['cdk.out', 'cdk.context.json', 'image', 'yarn-error.log','coverage'];
+project.gitignore.exclude(...common_exclude);
 
-project.npmignore.exclude(
-  'cdk.context.json',
-  'cdk.out',
-  'coverage',
-  'yarn-error.log',
-  'image',
-);
+project.npmignore.exclude(...common_exclude);
 project.synth();

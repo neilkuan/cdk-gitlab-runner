@@ -1,12 +1,13 @@
+import { Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
+import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { App, Stack, Duration } from '@aws-cdk/core';
 import {
   GitlabContainerRunner,
   InstanceInterruptionBehavior,
   BlockDuration,
 } from '../src/index';
-import { App, Stack, Duration } from '@aws-cdk/core';
 import '@aws-cdk/assert/jest';
-import { Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
-import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
+
 
 test('Create the Runner', () => {
   const mockApp = new App();

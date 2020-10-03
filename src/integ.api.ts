@@ -1,7 +1,7 @@
-import { GitlabContainerRunner } from '../src/index';
-import { App, Stack, Duration, CfnOutput } from '@aws-cdk/core';
 import { Port, Peer, SubnetType, Vpc } from '@aws-cdk/aws-ec2';
 import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { App, Stack, Duration, CfnOutput } from '@aws-cdk/core';
+import { GitlabContainerRunner } from '../src/index';
 
 const mockApp = new App();
 const stack = new Stack(mockApp, 'testing-stack');

@@ -1,21 +1,4 @@
-import {
-  Construct,
-  CfnOutput,
-  Fn,
-  Stack,
-  Duration,
-  Lazy,
-  CustomResource,
-  Token,
-} from '@aws-cdk/core';
-import {
-  IRole,
-  Role,
-  ServicePrincipal,
-  ManagedPolicy,
-  CfnInstanceProfile,
-  PolicyStatement,
-} from '@aws-cdk/aws-iam';
+import * as path from 'path';
 import {
   Instance,
   InstanceType,
@@ -34,9 +17,26 @@ import {
   ISecurityGroup,
   SubnetSelection,
 } from '@aws-cdk/aws-ec2';
+import {
+  IRole,
+  Role,
+  ServicePrincipal,
+  ManagedPolicy,
+  CfnInstanceProfile,
+  PolicyStatement,
+} from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as logs from '@aws-cdk/aws-logs';
-import * as path from 'path';
+import {
+  Construct,
+  CfnOutput,
+  Fn,
+  Stack,
+  Duration,
+  Lazy,
+  CustomResource,
+  Token,
+} from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 
 export interface GitlabContainerRunnerProps {
