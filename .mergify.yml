@@ -31,14 +31,3 @@ pull_request_rules:
       merge:
         method: merge
         commit_message: title+body
-  - name: Merge approved pull requests with auto-merge label if CI passes
-    conditions:
-      - "#approved-reviews-by>=1"
-      - status-success=build
-      - label=auto-merge
-      - label!=do-not-merge
-      - label!=work-in-progress
-    actions:
-      merge:
-        method: merge
-        commit_message: title+body
