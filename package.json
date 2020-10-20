@@ -31,7 +31,7 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-cdk/assert": "^1.68.0",
+    "@aws-cdk/assert": "^1.69.0",
     "@types/jest": "^26.0.7",
     "@types/node": "^10.17.0",
     "@typescript-eslint/eslint-plugin": "^4.3.0",
@@ -47,27 +47,27 @@
     "jsii-pacmak": "^1.11.0",
     "jsii-release": "^0.1.6",
     "json-schema": "^0.2.5",
-    "projen": "^0.3.113",
+    "projen": "^0.3.111",
     "standard-version": "^9.0.0",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.5"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-ec2": "^1.68.0",
-    "@aws-cdk/aws-iam": "^1.68.0",
-    "@aws-cdk/aws-lambda": "^1.68.0",
-    "@aws-cdk/aws-logs": "^1.68.0",
-    "@aws-cdk/core": "^1.68.0",
-    "@aws-cdk/custom-resources": "^1.68.0",
+    "@aws-cdk/aws-ec2": "^1.69.0",
+    "@aws-cdk/aws-iam": "^1.69.0",
+    "@aws-cdk/aws-lambda": "^1.69.0",
+    "@aws-cdk/aws-logs": "^1.69.0",
+    "@aws-cdk/core": "^1.69.0",
+    "@aws-cdk/custom-resources": "^1.69.0",
     "constructs": "^3.0.4"
   },
   "dependencies": {
-    "@aws-cdk/aws-ec2": "^1.68.0",
-    "@aws-cdk/aws-iam": "^1.68.0",
-    "@aws-cdk/aws-lambda": "^1.68.0",
-    "@aws-cdk/aws-logs": "^1.68.0",
-    "@aws-cdk/core": "^1.68.0",
-    "@aws-cdk/custom-resources": "^1.68.0"
+    "@aws-cdk/aws-ec2": "^1.69.0",
+    "@aws-cdk/aws-iam": "^1.69.0",
+    "@aws-cdk/aws-lambda": "^1.69.0",
+    "@aws-cdk/aws-logs": "^1.69.0",
+    "@aws-cdk/core": "^1.69.0",
+    "@aws-cdk/custom-resources": "^1.69.0"
   },
   "bundledDependencies": [],
   "keywords": [
