@@ -14,9 +14,9 @@ dist
 /.eslintrc.json
 cdk.out
 cdk.context.json
-image
 yarn-error.log
 coverage
+image
 !/lib
 !/lib/**/*.js
 !/lib/**/*.d.ts

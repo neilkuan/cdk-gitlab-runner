@@ -11,6 +11,7 @@ const project = new AwsCdkConstructLibrary({
   authorName: 'Neil Kuan',
   authorEmail: 'guan840912@gmail.com',
   keywords: ['aws', 'gitlab', 'runner'],
+  dependabot: false,
   catalog: {
     twitter: 'neil_kuan',
     announce: true,
@@ -74,8 +75,8 @@ workflow.addJobs({
   },
 });
 
-const common_exclude = ['cdk.out', 'cdk.context.json', 'image', 'yarn-error.log','coverage'];
+const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log','coverage'];
 project.gitignore.exclude(...common_exclude);
 
-project.npmignore.exclude(...common_exclude);
+project.npmignore.exclude(...common_exclude, 'image');
 project.synth();
