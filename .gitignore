@@ -54,6 +54,7 @@ coverage
 !/.github/workflows/release.yml
 !/.mergify.yml
 !/.github/workflows/projenupgrade.yml
+!/.github/pull_request_template.md
 !/src
 !/tsconfig.jest.json
 !/test
