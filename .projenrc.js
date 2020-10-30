@@ -16,11 +16,12 @@ const project = new AwsCdkConstructLibrary({
     twitter: 'neil_kuan',
     announce: true,
   },
+  compat: true,
   projenUpgradeSecret: 'AUTOMATION_GITHUB_TOKEN',
   stability: 'experimental',
   // creates PRs for projen upgrades
   // projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
-  cdkVersion: '1.69.0',
+  cdkVersion: '1.70.0',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',

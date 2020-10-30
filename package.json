@@ -14,7 +14,7 @@
     "bump": "yarn run --silent no-changes || standard-version",
     "release": "yarn run --silent no-changes || (yarn run bump && git push --follow-tags origin master)",
     "projen:upgrade": "yarn upgrade -L projen && CI=\"\" yarn projen",
-    "compile": "jsii --silence-warnings=reserved-word --no-fix-peer-dependencies && jsii-docgen",
+    "compile": "jsii --silence-warnings=reserved-word --no-fix-peer-dependencies && jsii-docgen && yarn run compat",
     "watch": "jsii -w --silence-warnings=reserved-word --no-fix-peer-dependencies",
     "build": "yarn run test && yarn run compile && yarn run package",
     "package": "jsii-pacmak",
@@ -31,7 +31,7 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-cdk/assert": "^1.69.0",
+    "@aws-cdk/assert": "^1.70.0",
     "@types/jest": "^26.0.7",
     "@types/node": "^10.17.0",
     "@typescript-eslint/eslint-plugin": "^4.3.0",
@@ -53,21 +53,21 @@
     "typescript": "^3.9.5"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-ec2": "^1.69.0",
-    "@aws-cdk/aws-iam": "^1.69.0",
-    "@aws-cdk/aws-lambda": "^1.69.0",
-    "@aws-cdk/aws-logs": "^1.69.0",
-    "@aws-cdk/core": "^1.69.0",
-    "@aws-cdk/custom-resources": "^1.69.0",
+    "@aws-cdk/aws-ec2": "^1.70.0",
+    "@aws-cdk/aws-iam": "^1.70.0",
+    "@aws-cdk/aws-lambda": "^1.70.0",
+    "@aws-cdk/aws-logs": "^1.70.0",
+    "@aws-cdk/core": "^1.70.0",
+    "@aws-cdk/custom-resources": "^1.70.0",
     "constructs": "^3.0.4"
   },
   "dependencies": {
-    "@aws-cdk/aws-ec2": "^1.69.0",
-    "@aws-cdk/aws-iam": "^1.69.0",
-    "@aws-cdk/aws-lambda": "^1.69.0",
-    "@aws-cdk/aws-logs": "^1.69.0",
-    "@aws-cdk/core": "^1.69.0",
-    "@aws-cdk/custom-resources": "^1.69.0"
+    "@aws-cdk/aws-ec2": "^1.70.0",
+    "@aws-cdk/aws-iam": "^1.70.0",
+    "@aws-cdk/aws-lambda": "^1.70.0",
+    "@aws-cdk/aws-logs": "^1.70.0",
+    "@aws-cdk/core": "^1.70.0",
+    "@aws-cdk/custom-resources": "^1.70.0"
   },
   "bundledDependencies": [],
   "keywords": [
