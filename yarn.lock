@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@aws-cdk/assert@^1.70.0":
+"@aws-cdk/assert@^1.71.0":
   version "1.71.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/assert/-/assert-1.71.0.tgz#98c44210ffbf4b68020a46a59b0a3d3dda8fbfea"
   integrity sha512-Q5SzTYOeABL6VrXBNFt5zaWJU9ctjLDO7yiYSVNE1RhhYWbRQ6gBQ9XUxXZpm0l0xMqWqUPpeJhdprMPELYwHw==
@@ -73,7 +73,7 @@
     "@aws-cdk/core" "1.71.0"
     constructs "^3.2.0"
 
-"@aws-cdk/aws-ec2@1.71.0", "@aws-cdk/aws-ec2@^1.70.0":
+"@aws-cdk/aws-ec2@1.71.0", "@aws-cdk/aws-ec2@^1.71.0":
   version "1.71.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-ec2/-/aws-ec2-1.71.0.tgz#6dc08c70fd1040228c883dc12a215701092a6040"
   integrity sha512-VgqDqxmilIBw0WM5Y9fK7TpoAJetLXYEZXLyCMvOzqTgei/hYMEwlBW+2HYkN8qRaB0zHEYdJj2znqtqlWlSPQ==
@@ -112,7 +112,7 @@
     "@aws-cdk/core" "1.71.0"
     constructs "^3.2.0"
 
-"@aws-cdk/aws-iam@1.71.0", "@aws-cdk/aws-iam@^1.70.0":
+"@aws-cdk/aws-iam@1.71.0", "@aws-cdk/aws-iam@^1.71.0":
   version "1.71.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-iam/-/aws-iam-1.71.0.tgz#4c233c91d41c4f21a7e552b80a7e59083ac0e6bc"
   integrity sha512-TBpjXnBlGhzDofBvPiakpGfZILdjN+T2m3JilCaKVrUnm0tVepi9qzQQxDfSeD3XOdTo+ENL5LKK1oE4rk/Bvw==
@@ -130,7 +130,7 @@
     "@aws-cdk/core" "1.71.0"
     constructs "^3.2.0"
 
-"@aws-cdk/aws-lambda@1.71.0", "@aws-cdk/aws-lambda@^1.70.0":
+"@aws-cdk/aws-lambda@1.71.0", "@aws-cdk/aws-lambda@^1.71.0":
   version "1.71.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda/-/aws-lambda-1.71.0.tgz#2fe3bf4b0c85928e12f116de5991fb1378684a23"
   integrity sha512-lMbGkv0yNhFfVT+uRTfGCiFBh7VMYTLKhabzQ1yBrUNShSUDvwUSR3rW6MqBCWBChcq6V7VTzsaVPYKaIgSv9g==
@@ -150,7 +150,7 @@
     "@aws-cdk/cx-api" "1.71.0"
     constructs "^3.2.0"
 
-"@aws-cdk/aws-logs@1.71.0", "@aws-cdk/aws-logs@^1.70.0":
+"@aws-cdk/aws-logs@1.71.0", "@aws-cdk/aws-logs@^1.71.0":
   version "1.71.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-logs/-/aws-logs-1.71.0.tgz#7573fa9e11c499676fa4ec9b7a502b4ca5387840"
   integrity sha512-8Q9TarCPFMX1FZzPPODTWmThyaoicWZ1UgqRvJKgucWwGPiAmlE3eJZdP94xGPB3MFysO6URU8wxr0kfwn+sVA==
@@ -247,7 +247,7 @@
     string-width "^4.2.0"
     table "^6.0.3"
 
-"@aws-cdk/core@1.71.0", "@aws-cdk/core@^1.70.0":
+"@aws-cdk/core@1.71.0", "@aws-cdk/core@^1.71.0":
   version "1.71.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.71.0.tgz#ae6aa860487e08ee57d7e89a95367ba0bee7cde3"
   integrity sha512-k4CBCwglSfxiuAQ8WoQHQHwcF6jTl1PbvWFjyhQnzzkV2RYloTbAASQMzmo0nEFBBBP8wOfJMwCAGTK5B6b8BQ==
@@ -259,7 +259,7 @@
     fs-extra "^9.0.1"
     minimatch "^3.0.4"
 
-"@aws-cdk/custom-resources@^1.70.0":
+"@aws-cdk/custom-resources@^1.71.0":
   version "1.71.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/custom-resources/-/custom-resources-1.71.0.tgz#e985e7e099e84b829da8961ce250be1f90351aed"
   integrity sha512-hxlQFQOpu+oe0hjvSa8XZmSRfIjzc+4xS+2bkIKzfhckMO26T3RlLjppQPneQ0a++EPdFrsWCOPic/ZNo7HjdA==
