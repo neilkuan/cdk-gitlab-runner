@@ -294,3 +294,7 @@ root# cd /home/ec2-user/.gitlab-runner/ && ls
 config.toml
 
 ```
+
+
+## :clap:  Supporters
+[![Stargazers repo roster for @guan840912/cdk-gitlab-runner](https://reporoster.com/stars/guan840912/cdk-gitlab-runner)](https://github.com/guan840912/cdk-gitlab-runner/stargazers)
