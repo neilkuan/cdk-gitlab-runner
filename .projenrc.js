@@ -22,7 +22,15 @@ const project = new AwsCdkConstructLibrary({
   // creates PRs for projen upgrades
   // projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
   cdkVersion: '1.71.0',
-  cdkDependencies: [
+  deps: [
+    '@aws-cdk/aws-iam',
+    '@aws-cdk/aws-ec2',
+    '@aws-cdk/aws-lambda',
+    '@aws-cdk/aws-logs',
+    '@aws-cdk/core',
+    '@aws-cdk/custom-resources',
+  ],
+  peerDeps: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
     '@aws-cdk/aws-lambda',
