@@ -77,9 +77,7 @@ import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 
 new GitlabContainerRunner(this, 'runner-instance-change-tag', {
   gitlabtoken: '$GITLABTOKEN',
-  tag1: 'aa',
-  tag2: 'bb',
-  tag3: 'cc',
+  tags: ['aa', 'bb', 'cc'],
 });
 ```
 
@@ -94,9 +92,7 @@ import { ManagedPolicy } from '@aws-cdk/aws-iam';
 
 const runner = new GitlabContainerRunner(this, 'runner-instance-add-policy', {
   gitlabtoken: '$GITLABTOKEN',
-  tag1: 'aa',
-  tag2: 'bb',
-  tag3: 'cc',
+  tags: ['aa', 'bb', 'cc'],
 });
 runner.runnerRole.addManagedPolicy(
   ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
@@ -114,9 +110,7 @@ import { Port, Peer } from '@aws-cdk/aws-ec2';
 
 const runner = new GitlabContainerRunner(this, 'runner-add-SG-ingress', {
   gitlabtoken: 'GITLABTOKEN',
-  tag1: 'aa',
-  tag2: 'bb',
-  tag3: 'cc',
+  tags: ['aa', 'bb', 'cc'],
 });
 
 // you can add ingress in your runner SG .

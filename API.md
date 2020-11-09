@@ -55,6 +55,7 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
   * **tag1** (<code>string</code>)  Gitlab Runner register tag1  . __*Default*__: tag1: gitlab .
   * **tag2** (<code>string</code>)  Gitlab Runner register tag2  . __*Default*__: tag2: awscdk .
   * **tag3** (<code>string</code>)  Gitlab Runner register tag3  . __*Default*__: tag3: runner .
+  * **tags** (<code>Array<string></code>)  tags for the runner. __*Default*__: ['runner', 'gitlab', 'awscdk']
   * **validUntil** (<code>string</code>)  the time when the spot fleet allocation expires. __*Default*__: no expiration , !!! only support spotfleet runner !!! .
   * **vpcSubnet** (<code>[SubnetSelection](#aws-cdk-aws-ec2-subnetselection)</code>)  VPC subnet for the spot fleet. __*Default*__: public subnet
 
@@ -109,9 +110,10 @@ Name | Type | Description
 **keyName**?🔹 | <code>string</code> | SSH key name.<br/>__*Default*__: no ssh key will be assigned , !!! only support spotfleet runner !!! .
 **selfvpc**?🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | VPC for the Gitlab Runner .<br/>__*Default*__: new VPC will be created , 1 Vpc , 2 Public Subnet .
 **spotFleet**?🔹 | <code>boolean</code> | Gitlab Runner instance Use Spot Fleet or not ?!.<br/>__*Default*__: spotFleet=false
-**tag1**?🔹 | <code>string</code> | Gitlab Runner register tag1  .<br/>__*Default*__: tag1: gitlab .
-**tag2**?🔹 | <code>string</code> | Gitlab Runner register tag2  .<br/>__*Default*__: tag2: awscdk .
-**tag3**?🔹 | <code>string</code> | Gitlab Runner register tag3  .<br/>__*Default*__: tag3: runner .
+**tag1**?⚠️ | <code>string</code> | Gitlab Runner register tag1  .<br/>__*Default*__: tag1: gitlab .
+**tag2**?⚠️ | <code>string</code> | Gitlab Runner register tag2  .<br/>__*Default*__: tag2: awscdk .
+**tag3**?⚠️ | <code>string</code> | Gitlab Runner register tag3  .<br/>__*Default*__: tag3: runner .
+**tags**?🔹 | <code>Array<string></code> | tags for the runner.<br/>__*Default*__: ['runner', 'gitlab', 'awscdk']
 **validUntil**?🔹 | <code>string</code> | the time when the spot fleet allocation expires.<br/>__*Default*__: no expiration , !!! only support spotfleet runner !!! .
 **vpcSubnet**?🔹 | <code>[SubnetSelection](#aws-cdk-aws-ec2-subnetselection)</code> | VPC subnet for the spot fleet.<br/>__*Default*__: public subnet
 

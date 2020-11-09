@@ -16,7 +16,7 @@ const vpc = new Vpc(stack, 'nat', {
   maxAzs: 2,
 });
 const runner = new GitlabContainerRunner(stack, 'testing', {
-  gitlabtoken: 'GITLAB_TOKEN',
+  gitlabtoken: stack.node.tryGetContext('GITLAB_TOKEN') ?? 'GITLAB_TOKEN',
   ec2type: 't3.large',
   ec2iamrole: role,
   ebsSize: 100,

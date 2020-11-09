@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@aws-cdk/assert@^1.71.0":
+"@aws-cdk/assert@^1.72.0":
   version "1.72.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/assert/-/assert-1.72.0.tgz#2811b89536a34d970ba43f73f9c77228a73c90ca"
   integrity sha512-ikzkFtpTyJeJdQb9ajxa8/wVouEp6dKGU2NhaBrn1gR3r7Qekp3VFZHYytz8RRsf9vLy3P7vzqlT3k8WLeUm4g==
@@ -4921,7 +4921,7 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.3.161:
+projen@^0.3.138:
   version "0.3.161"
   resolved "https://registry.yarnpkg.com/projen/-/projen-0.3.161.tgz#e24a3b575d8b17959115752419cf7d9a7eae4142"
   integrity sha512-Rf825yRRCtm24LW/CNEIZNIHnvEMfOFVAwKNE+VuGzN5JTmwcJhBulePZGrUIZMnbhvhbJlk5Dtr9g81+Q2x2Q==

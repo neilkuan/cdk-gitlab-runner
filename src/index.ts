@@ -107,6 +107,8 @@ export interface GitlabContainerRunnerProps {
    * @example
    * new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN', tag1: 'aa' });
    *
+   * @deprecated - use tags ['runner', 'gitlab', 'awscdk']
+   *
    * @default - tag1: gitlab .
    *
    */
@@ -117,6 +119,8 @@ export interface GitlabContainerRunnerProps {
    *
    * @example
    * new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN', tag2: 'bb' });
+   *
+   * @deprecated - use tags ['runner', 'gitlab', 'awscdk']
    *
    * @default - tag2: awscdk .
    *
@@ -129,10 +133,19 @@ export interface GitlabContainerRunnerProps {
    * @example
    * new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN', tag3: 'cc' });
    *
+   * @deprecated - use tags ['runner', 'gitlab', 'awscdk']
+   *
    * @default - tag3: runner .
    *
    */
   readonly tag3?: string;
+
+  /**
+   * tags for the runner
+   *
+   * @default - ['runner', 'gitlab', 'awscdk']
+   */
+  readonly tags?: string[];
 
   /**
    * Gitlab Runner register url .
@@ -282,9 +295,7 @@ export class GitlabContainerRunner extends Construct {
     super(scope, id);
     const spotFleetId = id;
     const token = props.gitlabtoken;
-    const tag1 = props.tag1 ?? 'gitlab';
-    const tag2 = props.tag2 ?? 'awscdk';
-    const tag3 = props.tag3 ?? 'runner';
+    const tags = props.tags ?? ['gitlab', 'awscdk', 'runner'];
     const gitlaburl = props.gitlaburl ?? 'https://gitlab.com/';
     const ec2type = props.ec2type ?? 't3.micro';
     const shell = UserData.forLinux();
@@ -297,11 +308,7 @@ export class GitlabContainerRunner extends Construct {
         ' --registration-token ' +
         token +
         ' --docker-pull-policy if-not-present --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --executor docker --docker-image "alpine:latest" --description "Docker Runner" --tag-list "' +
-        tag1 +
-        ',' +
-        tag2 +
-        ',' +
-        tag3 +
+        this.synthesizeTags(tags)+
         '" --docker-privileged',
 
       'sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine',
@@ -510,5 +517,8 @@ export class GitlabContainerRunner extends Construct {
     const date = new Date();
     date.setSeconds(date.getSeconds() + duration.toSeconds());
     this.validUntil = date.toISOString();
+  }
+  private synthesizeTags(tags: string[]): string {
+    return tags.join(',');
   }
 }
