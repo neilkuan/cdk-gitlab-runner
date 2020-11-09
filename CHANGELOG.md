@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.72.0](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.71.14...v1.72.0) (2020-11-09)
+
+
+### Features
+
+* add tags function ([20013a0](https://github.com/guan840912/cdk-gitlab-runner/commit/20013a08a65f97b327e75dd516c4337e05188c2e))
+
 ### 1.71.14 (2020-11-09)
 
 ### 1.71.13 (2020-11-09)
