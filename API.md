@@ -66,12 +66,12 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
 
 Name | Type | Description 
 -----|------|-------------
-**defaultRunnerSG**🔹 | <code>[ISecurityGroup](#aws-cdk-aws-ec2-isecuritygroup)</code> | <span></span>
-**runnerEc2**🔹 | <code>[IInstance](#aws-cdk-aws-ec2-iinstance)</code> | This represents a Runner EC2 instance , !!! only support On-demand runner instance !!! .
+**defaultRunnerSG**🔹 | <code>[ISecurityGroup](#aws-cdk-aws-ec2-isecuritygroup)</code> | The EC2 runner's default SecurityGroup.
+**runnerEc2**🔹 | <code>[IInstance](#aws-cdk-aws-ec2-iinstance)</code> | This represents a Runner EC2 instance , !!! only support On-demand runner instance !!!
 **runnerRole**🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | The IAM role assumed by the Runner instance .
-**spotFleetInstanceId**🔹 | <code>string</code> | the first instance id in this fleet , !!! only support spotfleet runner !!! .
-**spotFleetRequestId**🔹 | <code>string</code> | SpotFleetRequestId for this spot fleet , !!! only support spotfleet runner !!! .
-**vpc**🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | <span></span>
+**spotFleetInstanceId**🔹 | <code>string</code> | the first instance id in this fleet , !!! only support spotfleet runner !!!
+**spotFleetRequestId**🔹 | <code>string</code> | SpotFleetRequestId for this spot fleet , !!! only support spotfleet runner !!!
+**vpc**🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | The EC2 runner's vpc.
 
 ### Methods
 

@@ -268,26 +268,32 @@ export class GitlabContainerRunner extends Construct {
   public readonly runnerRole: IRole;
 
   /**
-   * This represents a Runner EC2 instance , !!! only support On-demand runner instance !!! .
+   * This represents a Runner EC2 instance , !!! only support On-demand runner instance !!!
    */
   public readonly runnerEc2!: IInstance;
 
+  /**
+   * The EC2 runner's vpc.
+   */
   public readonly vpc!: IVpc;
 
   /**
-   * The time when the the fleet allocation will expire , !!! only support spotfleet runner !!! .
+   * The time when the the fleet allocation will expire , !!! only support spotfleet runner !!!
    */
   private validUntil?: string;
 
+  /**
+   * The EC2 runner's default SecurityGroup.
+   */
   public readonly defaultRunnerSG!: ISecurityGroup;
 
   /**
-   * SpotFleetRequestId for this spot fleet , !!! only support spotfleet runner !!! .
+   * SpotFleetRequestId for this spot fleet , !!! only support spotfleet runner !!!
    */
   public readonly spotFleetRequestId!: string;
 
   /**
-   * the first instance id in this fleet , !!! only support spotfleet runner !!! .
+   * the first instance id in this fleet , !!! only support spotfleet runner !!!
    */
   readonly spotFleetInstanceId!: string;
 
