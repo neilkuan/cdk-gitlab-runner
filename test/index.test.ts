@@ -230,3 +230,39 @@ test('Can Use Spotfleet Runner None ', () => {
   testspot.expireAfter(Duration.hours(6));
   expect(stack).toHaveResource('AWS::EC2::SpotFleet');
 });
+
+test('User data have add another docker volumes', () => {
+  const mockApp = new App();
+  const stack = new Stack(mockApp, 'testing-spotfleet');
+
+  new GitlabContainerRunner(stack, 'testing', {
+    gitlabtoken: 'GITLAB_TOKEN',
+    dockerVolumes: [
+      {
+        hostPath: '/tmp/cahce',
+        containerPath: '/tmp/cahce',
+      },
+    ],
+  });
+
+  expect(stack).toHaveResource('AWS::EC2::Instance', {
+    UserData: {
+      'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --docker-volumes \"/tmp/cahce:/tmp/cahce\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+    },
+  });
+});
+
+test('User data not add another docker volumes', () => {
+  const mockApp = new App();
+  const stack = new Stack(mockApp, 'testing-spotfleet');
+
+  new GitlabContainerRunner(stack, 'testing', {
+    gitlabtoken: 'GITLAB_TOKEN',
+  });
+
+  expect(stack).toHaveResource('AWS::EC2::Instance', {
+    UserData: {
+      'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+    },
+  });
+});

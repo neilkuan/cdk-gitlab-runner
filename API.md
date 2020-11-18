@@ -11,6 +11,7 @@ Name|Description
 
 Name|Description
 ----|-----------
+[DockerVolumes](#cdk-gitlab-runner-dockervolumes)|*No description*
 [GitlabContainerRunnerProps](#cdk-gitlab-runner-gitlabcontainerrunnerprops)|*No description*
 
 
@@ -44,6 +45,7 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
 * **props** (<code>[GitlabContainerRunnerProps](#cdk-gitlab-runner-gitlabcontainerrunnerprops)</code>)  *No description*
   * **gitlabtoken** (<code>string</code>)  Gitlab token for the Register Runner . 
   * **blockDuration** (<code>[BlockDuration](#cdk-gitlab-runner-blockduration)</code>)  Reservce the Spot Runner instance as spot block with defined duration. __*Default*__: BlockDuration.ONE_HOUR , !!! only support spotfleet runner !!! .
+  * **dockerVolumes** (<code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code>)  add another Gitlab Container Runner Docker Volumes Path at job runner runtime. __*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
   * **ec2iamrole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
   * **ec2type** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
@@ -91,6 +93,20 @@ expireAfter(duration: Duration): void
 
 
 
+## struct DockerVolumes 🔹 <a id="cdk-gitlab-runner-dockervolumes"></a>
+
+
+
+
+
+
+Name | Type | Description 
+-----|------|-------------
+**containerPath**🔹 | <code>string</code> | Job Runtime Container Path Host Path.
+**hostPath**🔹 | <code>string</code> | EC2 Runner Host Path.
+
+
+
 ## struct GitlabContainerRunnerProps 🔹 <a id="cdk-gitlab-runner-gitlabcontainerrunnerprops"></a>
 
 
@@ -102,6 +118,7 @@ Name | Type | Description
 -----|------|-------------
 **gitlabtoken**🔹 | <code>string</code> | Gitlab token for the Register Runner .
 **blockDuration**?🔹 | <code>[BlockDuration](#cdk-gitlab-runner-blockduration)</code> | Reservce the Spot Runner instance as spot block with defined duration.<br/>__*Default*__: BlockDuration.ONE_HOUR , !!! only support spotfleet runner !!! .
+**dockerVolumes**?🔹 | <code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code> | add another Gitlab Container Runner Docker Volumes Path at job runner runtime.<br/>__*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
 **ebsSize**?🔹 | <code>number</code> | Gitlab Runner instance EBS size .<br/>__*Default*__: ebsSize=60
 **ec2iamrole**?🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | IAM role for the Gitlab Runner Instance .<br/>__*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
 **ec2type**?🔹 | <code>string</code> | Runner default EC2 instance type.<br/>__*Default*__: t3.micro

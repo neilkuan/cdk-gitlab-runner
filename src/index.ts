@@ -39,6 +39,24 @@ import {
 } from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 
+export interface DockerVolumes {
+  /**
+   * EC2 Runner Host Path
+   *
+   * @example - /tmp/cahce
+   * more detail see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnersdocker-section
+   */
+  readonly hostPath: string;
+
+  /**
+   * Job Runtime Container Path Host Path
+   *
+   *  @example - /tmp/cahce
+   * more detail see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnersdocker-section
+   */
+  readonly containerPath: string;
+}
+
 export interface GitlabContainerRunnerProps {
   /**
    * Gitlab token for the Register Runner .
@@ -230,6 +248,23 @@ export interface GitlabContainerRunnerProps {
    * @default - public subnet
    */
   readonly vpcSubnet?: SubnetSelection;
+
+  /**
+   * add another Gitlab Container Runner Docker Volumes Path at job runner runtime.
+   *
+   * more detail see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnersdocker-section
+   *
+   * @default - already mount "/var/run/docker.sock:/var/run/docker.sock"
+   *
+   * @example
+   * dockerVolumes: [
+   *   {
+   *     hostPath: '/tmp/cache',
+   *     containerPath: '/tmp/cache',
+   *   },
+   * ],
+   */
+  readonly dockerVolumes?: DockerVolumes[];
 }
 
 export enum BlockDuration {
@@ -313,7 +348,7 @@ export class GitlabContainerRunner extends Construct {
         gitlaburl +
         ' --registration-token ' +
         token +
-        ' --docker-pull-policy if-not-present --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --executor docker --docker-image "alpine:latest" --description "Docker Runner" --tag-list "' +
+        ' --docker-pull-policy if-not-present ' + this.dockerVolumesList(props?.dockerVolumes) + ' --executor docker --docker-image "alpine:latest" --description "Docker Runner" --tag-list "' +
         this.synthesizeTags(tags)+
         '" --docker-privileged',
 
@@ -526,5 +561,18 @@ export class GitlabContainerRunner extends Construct {
   }
   private synthesizeTags(tags: string[]): string {
     return tags.join(',');
+  }
+  private dockerVolumesList(dockerVolume: DockerVolumes[] | undefined): string {
+    let tempString :string = '--docker-volumes "/var/run/docker.sock:/var/run/docker.sock"';
+    if (dockerVolume) {
+      let tempList :string[] = [];
+      dockerVolume.forEach(e => {
+        tempList.push(`"${e.hostPath}:${e.containerPath}"`);
+      });
+      tempList.forEach(e => {
+        tempString = `${tempString} --docker-volumes ${e}`;
+      });
+    }
+    return tempString;
   }
 }
