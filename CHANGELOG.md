@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.75.0](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.74.0...v1.75.0) (2020-11-18)
+
+
+### Features
+
+* support add another bind volumes ([8bbdb13](https://github.com/guan840912/cdk-gitlab-runner/commit/8bbdb13951276bc09d605d4ff3249992354ff0c2))
+
 ## [1.74.0](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.73.0...v1.74.0) (2020-11-18)
 
 ## [1.73.0](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.72.11...v1.73.0) (2020-11-18)
