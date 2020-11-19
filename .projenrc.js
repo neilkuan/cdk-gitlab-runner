@@ -28,13 +28,8 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-lambda',
     '@aws-cdk/aws-logs',
     '@aws-cdk/core',
+    '@aws-cdk/aws-s3',
     '@aws-cdk/custom-resources',
-  ],
-  deps: [
-    'cdk-s3bucket-ng'
-  ],
-  peerDeps: [
-    'cdk-s3bucket-ng'
   ],
   python: {
     distName: 'cdk-gitlab-runner',

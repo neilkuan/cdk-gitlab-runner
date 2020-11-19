@@ -66,6 +66,12 @@ def on_delete(event):
     print("run unregister runner")
     with urllib.request.urlopen(req) as res:
         print (res.read())
+    print("remove object in Bucket")
+    s3 = boto3.resource('s3')
+    bucket = s3.Bucket(props['BucketName'])
+    # see - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/migrations3.html
+    for key in bucket.objects.all():
+        key.delete()
     output = {'Status': 'deleted'}
     return output
 

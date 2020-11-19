@@ -27,6 +27,7 @@ import {
 } from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as logs from '@aws-cdk/aws-logs';
+import { Bucket } from '@aws-cdk/aws-s3';
 import {
   Construct,
   CfnOutput,
@@ -39,7 +40,6 @@ import {
   RemovalPolicy,
 } from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
-import { BucketNg } from 'cdk-s3bucket-ng';
 export interface DockerVolumes {
   /**
    * EC2 Runner Host Path
@@ -340,7 +340,7 @@ export class GitlabContainerRunner extends Construct {
     const tags = props.tags ?? ['gitlab', 'awscdk', 'runner'];
     const gitlaburl = props.gitlaburl ?? 'https://gitlab.com/';
     const ec2type = props.ec2type ?? 't3.micro';
-    const runnerBucket = new BucketNg(this, 'runnerBucket', {
+    const runnerBucket = new Bucket(this, 'runnerBucket', {
       removalPolicy: RemovalPolicy.DESTROY,
     });
     const shell = UserData.forLinux();
@@ -560,7 +560,7 @@ export class GitlabContainerRunner extends Construct {
       logRetention: logs.RetentionDays.ONE_DAY,
     });
 
-    new CustomResource(this, 'unregisterRunnerCR', {
+    const unregisterRunnerCR = new CustomResource(this, 'unregisterRunnerCR', {
       resourceType: 'Custom::unregisterRunnerProvider',
       serviceToken: unregisterRunnerProvider.serviceToken,
       properties: {
@@ -569,7 +569,8 @@ export class GitlabContainerRunner extends Construct {
       },
     });
 
-    runnerBucket.grantRead(unregisterRunnerOnEvent);
+    runnerBucket.grantReadWrite(unregisterRunnerOnEvent);
+    unregisterRunnerCR.node.addDependency(runnerBucket);
     this.runnerRole.addManagedPolicy(
       ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
     );
