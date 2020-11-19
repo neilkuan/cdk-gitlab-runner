@@ -49,7 +49,7 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
   * **ec2iamrole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
   * **ec2type** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
-  * **gitlaburl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: gitlaburl='https://gitlab.com/'
+  * **gitlaburl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: gitlaburl='https://gitlab.com/' , please use https://yourgitlab.com/ do not use https://yourgitlab.com
   * **instanceInterruptionBehavior** (<code>[InstanceInterruptionBehavior](#cdk-gitlab-runner-instanceinterruptionbehavior)</code>)  The behavior when a Spot Runner Instance is interrupted. __*Default*__: InstanceInterruptionBehavior.TERMINATE , !!! only support spotfleet runner !!! .
   * **keyName** (<code>string</code>)  SSH key name. __*Default*__: no ssh key will be assigned , !!! only support spotfleet runner !!! .
   * **selfvpc** (<code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code>)  VPC for the Gitlab Runner . __*Default*__: new VPC will be created , 1 Vpc , 2 Public Subnet .
@@ -122,7 +122,7 @@ Name | Type | Description
 **ebsSize**?🔹 | <code>number</code> | Gitlab Runner instance EBS size .<br/>__*Default*__: ebsSize=60
 **ec2iamrole**?🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | IAM role for the Gitlab Runner Instance .<br/>__*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
 **ec2type**?🔹 | <code>string</code> | Runner default EC2 instance type.<br/>__*Default*__: t3.micro
-**gitlaburl**?🔹 | <code>string</code> | Gitlab Runner register url .<br/>__*Default*__: gitlaburl='https://gitlab.com/'
+**gitlaburl**?🔹 | <code>string</code> | Gitlab Runner register url .<br/>__*Default*__: gitlaburl='https://gitlab.com/' , please use https://yourgitlab.com/ do not use https://yourgitlab.com
 **instanceInterruptionBehavior**?🔹 | <code>[InstanceInterruptionBehavior](#cdk-gitlab-runner-instanceinterruptionbehavior)</code> | The behavior when a Spot Runner Instance is interrupted.<br/>__*Default*__: InstanceInterruptionBehavior.TERMINATE , !!! only support spotfleet runner !!! .
 **keyName**?🔹 | <code>string</code> | SSH key name.<br/>__*Default*__: no ssh key will be assigned , !!! only support spotfleet runner !!! .
 **selfvpc**?🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | VPC for the Gitlab Runner .<br/>__*Default*__: new VPC will be created , 1 Vpc , 2 Public Subnet .

@@ -30,6 +30,12 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/core',
     '@aws-cdk/custom-resources',
   ],
+  deps: [
+    'cdk-s3bucket-ng'
+  ],
+  peerDeps: [
+    'cdk-s3bucket-ng'
+  ],
   python: {
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
@@ -76,7 +82,7 @@ workflow.addJobs({
   },
 });
 
-const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log','coverage'];
+const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log','coverage', 'venv'];
 project.gitignore.exclude(...common_exclude);
 
 project.npmignore.exclude(...common_exclude, 'image');

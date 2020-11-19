@@ -36,9 +36,10 @@ import {
   Lazy,
   CustomResource,
   Token,
+  RemovalPolicy,
 } from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
-
+import { BucketNg } from 'cdk-s3bucket-ng';
 export interface DockerVolumes {
   /**
    * EC2 Runner Host Path
@@ -171,7 +172,7 @@ export interface GitlabContainerRunnerProps {
    * @example
    * const runner = new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN',gitlaburl: 'https://gitlab.com/'});
    *
-   * @default - gitlaburl='https://gitlab.com/'
+   * @default - gitlaburl='https://gitlab.com/' , please use https://yourgitlab.com/ do not use https://yourgitlab.com
    *
    */
   readonly gitlaburl?: string;
@@ -339,6 +340,9 @@ export class GitlabContainerRunner extends Construct {
     const tags = props.tags ?? ['gitlab', 'awscdk', 'runner'];
     const gitlaburl = props.gitlaburl ?? 'https://gitlab.com/';
     const ec2type = props.ec2type ?? 't3.micro';
+    const runnerBucket = new BucketNg(this, 'runnerBucket', {
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
     const shell = UserData.forLinux();
     shell.addCommands(
       'yum update -y ',
@@ -354,6 +358,7 @@ export class GitlabContainerRunner extends Construct {
 
       'sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine',
       'usermod -aG docker ssm-user',
+      `TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '"' -f 2) && echo '{"token": "TOKEN"}' > /tmp/runnertoken.txt && sed -i s/TOKEN/$TOKEN/g /tmp/runnertoken.txt && aws s3 cp /tmp/runnertoken.txt s3://${runnerBucket.bucketName}/`,
     );
 
     this.runnerRole =
@@ -366,7 +371,7 @@ export class GitlabContainerRunner extends Construct {
     const instanceProfile = new CfnInstanceProfile(this, 'InstanceProfile', {
       roles: [this.runnerRole.roleName],
     });
-
+    runnerBucket.grantWrite(this.runnerRole);
     this.vpc =
       props.selfvpc ??
       new Vpc(this, 'VPC', {
@@ -542,6 +547,29 @@ export class GitlabContainerRunner extends Construct {
         value: this.runnerEc2.instanceId,
       });
     }
+
+    const unregisterRunnerOnEvent = new lambda.Function(this, 'unregisterRunnerOnEvent', {
+      code: lambda.Code.fromAsset(path.join(__dirname, '../getinstanceId')),
+      handler: 'unregister_runner.on_event',
+      runtime: lambda.Runtime.PYTHON_3_8,
+      timeout: Duration.seconds(60),
+    });
+
+    const unregisterRunnerProvider = new cr.Provider(this, 'unregisterRunnerProvider', {
+      onEventHandler: unregisterRunnerOnEvent,
+      logRetention: logs.RetentionDays.ONE_DAY,
+    });
+
+    new CustomResource(this, 'unregisterRunnerCR', {
+      resourceType: 'Custom::unregisterRunnerProvider',
+      serviceToken: unregisterRunnerProvider.serviceToken,
+      properties: {
+        BucketName: runnerBucket.bucketName,
+        GitlabUrl: gitlaburl,
+      },
+    });
+
+    runnerBucket.grantRead(unregisterRunnerOnEvent);
     this.runnerRole.addManagedPolicy(
       ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
     );

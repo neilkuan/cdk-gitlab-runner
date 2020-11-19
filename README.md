@@ -204,6 +204,25 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
 runner.expireAfter(Duration.hours(1));
 ```
 
+> 2020/11/19, you setting job runtime bind host volumes.
+> see more https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnersdocker-section
+
+```typescript
+import { GitlabContainerRunner, BlockDuration } from 'cdk-gitlab-runner';
+
+const runner = new GitlabContainerRunner(stack, 'testing', {
+  gitlabtoken: 'GITLAB_TOKEN',
+  ec2type: 't3.large',
+  dockerVolumes: [
+    {
+      hostPath: '/tmp/cahce',
+      containerPath: '/tmp/cahce',
+    },
+  ],
+});
+```
+> 2020/11/19, support runner auto unregister runner when cdk app destroy.
+
 # Note
 
 ![](https://img.shields.io/badge/version-1.47.1-green=?style=plastic&logo=appveyor) vs ![](https://img.shields.io/badge/version-1.49.1-green=?style=plastic&logo=appveyor)

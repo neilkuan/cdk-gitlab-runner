@@ -31,9 +31,7 @@ test('Testing runner tag change ', () => {
   const stack = new Stack(mockApp, 'testing-stack');
   new GitlabContainerRunner(stack, 'testing-have-type-tag', {
     gitlabtoken: 'GITLAB_TOKEN',
-    tag1: 'aa',
-    tag2: 'bb',
-    tag3: 'cc',
+    tags: ['aa', 'bb', 'cc'],
   });
   expect(stack).toHaveResource('AWS::EC2::Instance');
   expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
@@ -74,9 +72,7 @@ test('Runner Can Add Ingress ', () => {
   const runner = new GitlabContainerRunner(stack, 'testing', {
     gitlabtoken: 'GITLAB_TOKEN',
     ec2type: 't2.micro',
-    tag1: 'aa',
-    tag2: 'bb',
-    tag3: 'cc',
+    tags: ['aa', 'bb', 'cc'],
   });
   runner.runnerEc2.connections.allowFrom(Peer.ipv4('1.2.3.4/8'), Port.tcp(80));
   expect(stack).toHaveResource('AWS::EC2::Instance', {
@@ -128,7 +124,6 @@ test('Runner Can Use Self VPC ', () => {
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
-  expect(stack).not.toHaveResource('AWS::S3::Bucket');
   expect(stack).toHaveResource('AWS::EC2::VPC', {
     CidrBlock: '10.1.0.0/16',
   });
@@ -247,7 +242,18 @@ test('User data have add another docker volumes', () => {
 
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     UserData: {
-      'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --docker-volumes \"/tmp/cahce:/tmp/cahce\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+      'Fn::Base64': {
+        'Fn::Join': [
+          '',
+          [
+            "#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --docker-volumes \"/tmp/cahce:/tmp/cahce\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '\"' -f 2) && echo '{\"token\": \"TOKEN\"}' > /tmp/runnertoken.txt && sed -i s/TOKEN/$TOKEN/g /tmp/runnertoken.txt && aws s3 cp /tmp/runnertoken.txt s3://",
+            {
+              Ref: 'testingrunnerBucketDC6B5D4E',
+            },
+            '/',
+          ],
+        ],
+      },
     },
   });
 });
@@ -262,7 +268,18 @@ test('User data not add another docker volumes', () => {
 
   expect(stack).toHaveResource('AWS::EC2::Instance', {
     UserData: {
-      'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+      'Fn::Base64': {
+        'Fn::Join': [
+          '',
+          [
+            "#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\" --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '\"' -f 2) && echo '{\"token\": \"TOKEN\"}' > /tmp/runnertoken.txt && sed -i s/TOKEN/$TOKEN/g /tmp/runnertoken.txt && aws s3 cp /tmp/runnertoken.txt s3://",
+            {
+              Ref: 'testingrunnerBucketDC6B5D4E',
+            },
+            '/',
+          ],
+        ],
+      },
     },
   });
 });
