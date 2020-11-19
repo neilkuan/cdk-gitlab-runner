@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.75.1](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.75.0...v1.75.1) (2020-11-19)
+
+
+### Features
+
+* support unregister runner when destroy cdkapp ([16333dc](https://github.com/guan840912/cdk-gitlab-runner/commit/16333dca882bf3d98e65e62cd469227d6341ecca))
+
 ## [1.75.0](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.74.0...v1.75.0) (2020-11-18)
 
 
