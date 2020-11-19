@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.75.2](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.75.1...v1.75.2) (2020-11-19)
+
+
+### Bug Fixes
+
+* bucket dependency issue ([30e756c](https://github.com/guan840912/cdk-gitlab-runner/commit/30e756ce855c9cbbbd538473253256ae27d0863d))
+
 ### [1.75.1](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.75.0...v1.75.1) (2020-11-19)
 
 
