@@ -27,8 +27,8 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-ec2',
     '@aws-cdk/aws-lambda',
     '@aws-cdk/aws-logs',
-    '@aws-cdk/core',
     '@aws-cdk/aws-s3',
+    '@aws-cdk/core',
     '@aws-cdk/custom-resources',
   ],
   python: {
