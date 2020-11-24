@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.75.8](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.75.7...v1.75.8) (2020-11-24)
+
+
+### Bug Fixes
+
+* gitlab-instance.ts typo ([9eb5a9d](https://github.com/guan840912/cdk-gitlab-runner/commit/9eb5a9ddc7459c8b3ee4a974068261e2f5e3c479))
+* gitlab-instance.ts typo ([a81eee0](https://github.com/guan840912/cdk-gitlab-runner/commit/a81eee0519e8c0b1f39511c0b39b1f64c8759e1c))
+
 ### [1.75.7](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.75.6...v1.75.7) (2020-11-24)
 
 ### 1.75.6 (2020-11-24)
