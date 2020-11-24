@@ -54,6 +54,8 @@
     "typescript": "^3.9.5"
   },
   "peerDependencies": {
+    "@aws-cdk/aws-autoscaling": "^1.74.0",
+    "@aws-cdk/aws-autoscaling-hooktargets": "^1.74.0",
     "@aws-cdk/aws-ec2": "^1.74.0",
     "@aws-cdk/aws-iam": "^1.74.0",
     "@aws-cdk/aws-lambda": "^1.74.0",
@@ -64,6 +66,8 @@
     "constructs": "^3.2.27"
   },
   "dependencies": {
+    "@aws-cdk/aws-autoscaling": "^1.74.0",
+    "@aws-cdk/aws-autoscaling-hooktargets": "^1.74.0",
     "@aws-cdk/aws-ec2": "^1.74.0",
     "@aws-cdk/aws-iam": "^1.74.0",
     "@aws-cdk/aws-lambda": "^1.74.0",

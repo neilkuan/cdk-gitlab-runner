@@ -186,6 +186,20 @@ new GitlabContainerRunner(stack, 'testing', {
 });
 ```
 
+### Control the number of runners with AutoScalingGroup
+
+> 2020/11/25 , you can set the number of runners.
+
+```typescript
+import { GitlabRunnerAutoscaling } from 'cdk-gitlab-runner';
+
+new GitlabRunnerAutoscaling(stack, 'testing', {
+  gitlabToken: '$GITLAB_TOKEN',
+  minCapacity: 2,
+  maxCapacity: 2,
+});
+```
+
 ### Support Spotfleet Gitlab Runner
 
 > 2020/08/27 , you can use spotfleet instance be your gitlab runner,

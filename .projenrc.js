@@ -25,6 +25,8 @@ const project = new AwsCdkConstructLibrary({
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
+    '@aws-cdk/aws-autoscaling',
+    '@aws-cdk/aws-autoscaling-hooktargets',
     '@aws-cdk/aws-lambda',
     '@aws-cdk/aws-logs',
     '@aws-cdk/aws-s3',

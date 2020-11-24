@@ -5,6 +5,10 @@ from urllib.error import URLError, HTTPError
 import logging
 import json
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
 def check_token():
     with open('/tmp/runnertoken.txt', 'r') as token_file:
         token = token_file.read()
@@ -78,3 +82,21 @@ def on_delete(event):
 
 def is_complete(event):
     return {'IsComplete': True}
+
+
+def unregister(event, context):
+    ssm = boto3.client('ssm')
+
+    for record in event['Records']:
+        instance_id = json.loads(record['Sns']['Message'])['EC2InstanceId']
+
+        logger.info(f"Unregistering gitlab runner: {instance_id}")
+
+        ssm.send_command(
+            InstanceIds=[instance_id],
+            DocumentName='AWS-RunShellScript',
+            Parameters={
+                # see - https://docs.gitlab.com/runner/commands/#gitlab-runner-unregister
+                'commands': ['docker exec gitlab-runner gitlab-runner unregister --all-runners']
+            }
+        )
