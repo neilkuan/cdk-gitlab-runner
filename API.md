@@ -5,6 +5,7 @@
 Name|Description
 ----|-----------
 [GitlabContainerRunner](#cdk-gitlab-runner-gitlabcontainerrunner)|*No description*
+[GitlabRunnerAutoscaling](#cdk-gitlab-runner-gitlabrunnerautoscaling)|*No description*
 
 
 **Structs**
@@ -13,6 +14,7 @@ Name|Description
 ----|-----------
 [DockerVolumes](#cdk-gitlab-runner-dockervolumes)|*No description*
 [GitlabContainerRunnerProps](#cdk-gitlab-runner-gitlabcontainerrunnerprops)|*No description*
+[GitlabRunnerAutoscalingProps](#cdk-gitlab-runner-gitlabrunnerautoscalingprops)|*No description*
 
 
 **Enums**
@@ -93,6 +95,52 @@ expireAfter(duration: Duration): void
 
 
 
+## class GitlabRunnerAutoscaling 🔹 <a id="cdk-gitlab-runner-gitlabrunnerautoscaling"></a>
+
+
+
+__Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
+__Extends__: [Construct](#aws-cdk-core-construct)
+
+### Initializer
+
+
+
+
+```ts
+new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAutoscalingProps)
+```
+
+* **scope** (<code>[Construct](#aws-cdk-core-construct)</code>)  *No description*
+* **id** (<code>string</code>)  *No description*
+* **props** (<code>[GitlabRunnerAutoscalingProps](#cdk-gitlab-runner-gitlabrunnerautoscalingprops)</code>)  *No description*
+  * **gitlabToken** (<code>string</code>)  Gitlab token. 
+  * **desiredCapacity** (<code>number</code>)  Desired capacity limit for autoscaling group. __*Default*__: minCapacity, and leave unchanged during deployment
+  * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
+  * **gitlabUrl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
+  * **instanceRole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
+  * **instanceType** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
+  * **maxCapacity** (<code>number</code>)  Maximum capacity limit for autoscaling group. __*Default*__: desiredCapacity
+  * **minCapacity** (<code>number</code>)  Minimum capacity limit for autoscaling group. __*Default*__: minCapacity: 1
+  * **spotPrice** (<code>string</code>)  The maximum hourly price (in USD) to be paid for any Spot Instance launched to fulfill the request. __*Default*__: undefined
+  * **tags** (<code>Array<string></code>)  tags for the runner. __*Default*__: ['runner', 'gitlab', 'awscdk']
+  * **vpc** (<code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code>)  VPC for the Gitlab Runner . __*Default*__: A new VPC will be created.
+  * **vpcSubnet** (<code>[SubnetSelection](#aws-cdk-aws-ec2-subnetselection)</code>)  VPC subnet. __*Default*__: private subnet
+
+
+
+### Properties
+
+
+Name | Type | Description 
+-----|------|-------------
+**autoscalingGroup**🔹 | <code>[IAutoScalingGroup](#aws-cdk-aws-autoscaling-iautoscalinggroup)</code> | This represents a Runner Auto Scaling Group.
+**instanceRole**🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | The IAM role assumed by the Runner instance.
+**securityGroup**🔹 | <code>[ISecurityGroup](#aws-cdk-aws-ec2-isecuritygroup)</code> | The EC2 runner's default SecurityGroup.
+**vpc**🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | The EC2 runner's VPC.
+
+
+
 ## struct DockerVolumes 🔹 <a id="cdk-gitlab-runner-dockervolumes"></a>
 
 
@@ -133,6 +181,30 @@ Name | Type | Description
 **tags**?🔹 | <code>Array<string></code> | tags for the runner.<br/>__*Default*__: ['runner', 'gitlab', 'awscdk']
 **validUntil**?🔹 | <code>string</code> | the time when the spot fleet allocation expires.<br/>__*Default*__: no expiration , !!! only support spotfleet runner !!! .
 **vpcSubnet**?🔹 | <code>[SubnetSelection](#aws-cdk-aws-ec2-subnetselection)</code> | VPC subnet for the spot fleet.<br/>__*Default*__: public subnet
+
+
+
+## struct GitlabRunnerAutoscalingProps 🔹 <a id="cdk-gitlab-runner-gitlabrunnerautoscalingprops"></a>
+
+
+
+
+
+
+Name | Type | Description 
+-----|------|-------------
+**gitlabToken**🔹 | <code>string</code> | Gitlab token.
+**desiredCapacity**?🔹 | <code>number</code> | Desired capacity limit for autoscaling group.<br/>__*Default*__: minCapacity, and leave unchanged during deployment
+**ebsSize**?🔹 | <code>number</code> | Gitlab Runner instance EBS size .<br/>__*Default*__: ebsSize=60
+**gitlabUrl**?🔹 | <code>string</code> | Gitlab Runner register url .<br/>__*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
+**instanceRole**?🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | IAM role for the Gitlab Runner Instance .<br/>__*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
+**instanceType**?🔹 | <code>string</code> | Runner default EC2 instance type.<br/>__*Default*__: t3.micro
+**maxCapacity**?🔹 | <code>number</code> | Maximum capacity limit for autoscaling group.<br/>__*Default*__: desiredCapacity
+**minCapacity**?🔹 | <code>number</code> | Minimum capacity limit for autoscaling group.<br/>__*Default*__: minCapacity: 1
+**spotPrice**?🔹 | <code>string</code> | The maximum hourly price (in USD) to be paid for any Spot Instance launched to fulfill the request.<br/>__*Default*__: undefined
+**tags**?🔹 | <code>Array<string></code> | tags for the runner.<br/>__*Default*__: ['runner', 'gitlab', 'awscdk']
+**vpc**?🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | VPC for the Gitlab Runner .<br/>__*Default*__: A new VPC will be created.
+**vpcSubnet**?🔹 | <code>[SubnetSelection](#aws-cdk-aws-ec2-subnetselection)</code> | VPC subnet.<br/>__*Default*__: private subnet
 
 
 
