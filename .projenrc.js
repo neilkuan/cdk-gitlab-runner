@@ -14,7 +14,7 @@ const project = new AwsCdkConstructLibrary({
   dependabot: false,
   catalog: {
     twitter: 'neil_kuan',
-    announce: true,
+    announce: false,
   },
   compat: true,
   projenUpgradeSecret: 'AUTOMATION_GITHUB_TOKEN',

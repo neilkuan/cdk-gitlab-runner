@@ -200,6 +200,6 @@
   },
   "awscdkio": {
     "twitter": "neil_kuan",
-    "announce": true
+    "announce": false
   }
 }

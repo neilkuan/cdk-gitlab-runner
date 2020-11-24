@@ -1,1 +1,1 @@
-export * from './gitlab-runner-insatnce';
+export * from './gitlab-runner-instance';
