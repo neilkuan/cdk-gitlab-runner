@@ -33,6 +33,7 @@ import {
   CfnOutput,
   Duration,
 } from '@aws-cdk/core';
+import { DockerVolumes } from './gitlab-runner-interfaces';
 
 export interface GitlabRunnerAutoscalingProps {
   /**
@@ -189,6 +190,23 @@ export interface GitlabRunnerAutoscalingProps {
    * @default - private subnet
    */
   readonly vpcSubnet?: SubnetSelection;
+
+  /**
+   * add another Gitlab Container Runner Docker Volumes Path at job runner runtime.
+   *
+   * more detail see https://docs.gitlab.com/runner/configuration/advanced-configuration.html#the-runnersdocker-section
+   *
+   * @default - already mount "/var/run/docker.sock:/var/run/docker.sock"
+   *
+   * @example
+   * dockerVolumes: [
+   *   {
+   *     hostPath: '/tmp/cache',
+   *     containerPath: '/tmp/cache',
+   *   },
+   * ],
+   */
+  readonly dockerVolumes?: DockerVolumes[];
 }
 
 export class GitlabRunnerAutoscaling extends Construct {
@@ -220,14 +238,15 @@ export class GitlabRunnerAutoscaling extends Construct {
     const gitlabUrl = props.gitlabUrl ?? 'https://gitlab.com/';
     const instanceType = props.instanceType ?? 't3.micro';
     const userData = UserData.forLinux();
+
     userData.addCommands(
       'yum update -y ',
       'sleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
       'systemctl restart docker && systemctl enable docker',
       `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
       --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url ${gitlabUrl} --registration-token ${token} \
-      --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --executor docker --docker-image "alpine:latest" \
-      --description "A Runner on EC2 Instance (${instanceType})" --tag-list "${tags.join(',')}" --docker-privileged`,
+      --executor docker --docker-image "alpine:latest" \
+      --description "A Runner on EC2 Instance (${instanceType})" --tag-list "${tags.join(',')}" --docker-privileged ${this.dockerVolumesList(props?.dockerVolumes)} `,
       'sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine',
       'usermod -aG docker ssm-user',
     );
@@ -314,5 +333,18 @@ export class GitlabRunnerAutoscaling extends Construct {
     new CfnOutput(this, 'GitlabRunnerAutoScalingGroupArn', {
       value: this.autoscalingGroup.autoScalingGroupArn,
     });
+  }
+  private dockerVolumesList(dockerVolume: DockerVolumes[] | undefined): string {
+    let tempString :string = '--docker-volumes "/var/run/docker.sock:/var/run/docker.sock"';
+    if (dockerVolume) {
+      let tempList :string[] = [];
+      dockerVolume.forEach(e => {
+        tempList.push(`"${e.hostPath}:${e.containerPath}"`);
+      });
+      tempList.forEach(e => {
+        tempString = `${tempString} --docker-volumes ${e}`;
+      });
+    }
+    return tempString;
   }
 }

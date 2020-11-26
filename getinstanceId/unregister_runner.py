@@ -86,7 +86,7 @@ def is_complete(event):
 
 def unregister(event, context):
     ssm = boto3.client('ssm')
-
+    print (event)
     for record in event['Records']:
         instance_id = json.loads(record['Sns']['Message'])['EC2InstanceId']
 

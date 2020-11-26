@@ -116,6 +116,7 @@ new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAut
 * **props** (<code>[GitlabRunnerAutoscalingProps](#cdk-gitlab-runner-gitlabrunnerautoscalingprops)</code>)  *No description*
   * **gitlabToken** (<code>string</code>)  Gitlab token. 
   * **desiredCapacity** (<code>number</code>)  Desired capacity limit for autoscaling group. __*Default*__: minCapacity, and leave unchanged during deployment
+  * **dockerVolumes** (<code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code>)  add another Gitlab Container Runner Docker Volumes Path at job runner runtime. __*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
   * **gitlabUrl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
   * **instanceRole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
@@ -195,6 +196,7 @@ Name | Type | Description
 -----|------|-------------
 **gitlabToken**🔹 | <code>string</code> | Gitlab token.
 **desiredCapacity**?🔹 | <code>number</code> | Desired capacity limit for autoscaling group.<br/>__*Default*__: minCapacity, and leave unchanged during deployment
+**dockerVolumes**?🔹 | <code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code> | add another Gitlab Container Runner Docker Volumes Path at job runner runtime.<br/>__*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
 **ebsSize**?🔹 | <code>number</code> | Gitlab Runner instance EBS size .<br/>__*Default*__: ebsSize=60
 **gitlabUrl**?🔹 | <code>string</code> | Gitlab Runner register url .<br/>__*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
 **instanceRole**?🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | IAM role for the Gitlab Runner Instance .<br/>__*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .

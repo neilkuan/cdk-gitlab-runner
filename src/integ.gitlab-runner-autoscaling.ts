@@ -17,6 +17,13 @@ const runner = new GitlabRunnerAutoscaling(stack, 'TestRunnerAutoscaling', {
   gitlabToken: stack.node.tryGetContext('GITLAB_TOKEN'),
   ebsSize: 10,
   vpc: vpc,
+  dockerVolumes: [{
+    hostPath: '/tmp/cache',
+    containerPath: '/tmp/cache',
+  }],
+  desiredCapacity: 1,
+  maxCapacity: 1,
+  minCapacity: 1,
 });
 
 new CfnOutput(stack, 'role', { value: runner.instanceRole.roleArn });

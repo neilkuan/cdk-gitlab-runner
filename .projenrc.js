@@ -1,4 +1,4 @@
-const { AwsCdkConstructLibrary, GithubWorkflow } = require('projen');
+const { AwsCdkConstructLibrary } = require('projen');
 
 const PROJECT_NAME = 'cdk-gitlab-runner';
 const PROJECT_DESCRIPTION = 'A Gitlab Runner JSII construct lib for AWS CDK';
@@ -21,7 +21,7 @@ const project = new AwsCdkConstructLibrary({
   stability: 'experimental',
   // creates PRs for projen upgrades
   // projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
-  cdkVersion: '1.74.0',
+  cdkVersion: '1.75.0',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
@@ -40,7 +40,7 @@ const project = new AwsCdkConstructLibrary({
 });
 
 // create a custom projen and yarn upgrade workflow
-const workflow = new GithubWorkflow(project, 'ProjenYarnUpgrade');
+workflow = project.github.addWorkflow('ProjenYarnUpgrade');
 
 workflow.on({
   schedule: [{
