@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.75.11](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.75.10...v1.75.11) (2020-11-26)
+
+
+### Bug Fixes
+
+* projen version issue ([c258aca](https://github.com/guan840912/cdk-gitlab-runner/commit/c258aca9d5acae99b6ab2ceedaf5f60258b16814))
+* projen version issue ([85442db](https://github.com/guan840912/cdk-gitlab-runner/commit/85442db0c22ca3bd1239786a848256e6ab6f08f6))
+
 ### 1.75.10 (2020-11-25)
 
 ### 1.75.9 (2020-11-24)
