@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.75.12 (2020-11-27)
+
 ### [1.75.11](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.75.10...v1.75.11) (2020-11-26)
 
 
