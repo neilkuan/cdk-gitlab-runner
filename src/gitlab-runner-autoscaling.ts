@@ -1,38 +1,11 @@
 import * as path from 'path';
-import {
-  AutoScalingGroup,
-  IAutoScalingGroup,
-  BlockDeviceVolume,
-  LifecycleTransition,
-  DefaultResult,
-} from '@aws-cdk/aws-autoscaling';
+import * as asg from '@aws-cdk/aws-autoscaling';
 import { FunctionHook } from '@aws-cdk/aws-autoscaling-hooktargets';
-import {
-  InstanceType,
-  MachineImage,
-  UserData,
-  AmazonLinuxGeneration,
-  Vpc,
-  IVpc,
-  SubnetSelection,
-  ISecurityGroup,
-  SecurityGroup,
-} from '@aws-cdk/aws-ec2';
-import {
-  IRole,
-  Role,
-  ServicePrincipal,
-  ManagedPolicy,
-  PolicyStatement,
-  Policy,
-  Effect,
-} from '@aws-cdk/aws-iam';
+import * as ec2 from '@aws-cdk/aws-ec2';
+import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
-import {
-  Construct,
-  CfnOutput,
-  Duration,
-} from '@aws-cdk/core';
+import * as cdk from '@aws-cdk/core';
+import * as cr from '@aws-cdk/custom-resources';
 import { DockerVolumes } from './gitlab-runner-interfaces';
 
 export interface GitlabRunnerAutoscalingProps {
@@ -75,7 +48,7 @@ export interface GitlabRunnerAutoscalingProps {
    * @default - A new VPC will be created.
    *
    */
-  readonly vpc?: IVpc;
+  readonly vpc?: ec2.IVpc;
 
   /**
    * IAM role for the Gitlab Runner Instance .
@@ -92,7 +65,7 @@ export interface GitlabRunnerAutoscalingProps {
    * @default - new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
    *
    */
-  readonly instanceRole?: IRole;
+  readonly instanceRole?: iam.IRole;
 
   /**
    * The maximum hourly price (in USD) to be paid for any Spot Instance launched to fulfill the request.
@@ -189,7 +162,7 @@ export interface GitlabRunnerAutoscalingProps {
    *
    * @default - private subnet
    */
-  readonly vpcSubnet?: SubnetSelection;
+  readonly vpcSubnet?: ec2.SubnetSelection;
 
   /**
    * add another Gitlab Container Runner Docker Volumes Path at job runner runtime.
@@ -209,35 +182,35 @@ export interface GitlabRunnerAutoscalingProps {
   readonly dockerVolumes?: DockerVolumes[];
 }
 
-export class GitlabRunnerAutoscaling extends Construct {
+export class GitlabRunnerAutoscaling extends cdk.Construct {
   /**
    * The IAM role assumed by the Runner instance.
    */
-  public readonly instanceRole: IRole;
+  public readonly instanceRole: iam.IRole;
 
   /**
    * This represents a Runner Auto Scaling Group
    */
-  public readonly autoscalingGroup: IAutoScalingGroup;
+  public readonly autoscalingGroup: asg.IAutoScalingGroup;
 
   /**
    * The EC2 runner's VPC.
    */
-  public readonly vpc: IVpc;
+  public readonly vpc: ec2.IVpc;
 
   /**
    * The EC2 runner's default SecurityGroup.
    */
-  public readonly securityGroup: ISecurityGroup;
+  public readonly securityGroup: ec2.ISecurityGroup;
 
 
-  constructor(scope: Construct, id: string, props: GitlabRunnerAutoscalingProps) {
+  constructor(scope: cdk.Construct, id: string, props: GitlabRunnerAutoscalingProps) {
     super(scope, id);
     const token = props.gitlabToken;
     const tags = props.tags ?? ['gitlab', 'awscdk', 'runner'];
     const gitlabUrl = props.gitlabUrl ?? 'https://gitlab.com/';
     const instanceType = props.instanceType ?? 't3.micro';
-    const userData = UserData.forLinux();
+    const userData = ec2.UserData.forLinux();
 
     userData.addCommands(
       'yum update -y ',
@@ -253,27 +226,27 @@ export class GitlabRunnerAutoscaling extends Construct {
 
     this.instanceRole =
       props.instanceRole ??
-      new Role(this, 'GitlabRunnerInstanceRole', {
-        assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
+      new iam.Role(this, 'GitlabRunnerInstanceRole', {
+        assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
         description: 'For EC2 Instance (Gitlab Runner) Role',
       });
     this.instanceRole.addManagedPolicy(
-      ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
+      iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
     );
 
-    this.vpc = props.vpc ?? new Vpc(this, 'VPC');
+    this.vpc = props.vpc ?? new ec2.Vpc(this, 'VPC');
 
-    this.securityGroup = new SecurityGroup(this, 'GitlabRunnerSecurityGroup', {
+    this.securityGroup = new ec2.SecurityGroup(this, 'GitlabRunnerSecurityGroup', {
       vpc: this.vpc,
     });
 
-    this.autoscalingGroup = new AutoScalingGroup(this, 'GitlabRunnerAutoscalingGroup', {
-      instanceType: new InstanceType(instanceType),
+    this.autoscalingGroup = new asg.AutoScalingGroup(this, 'GitlabRunnerAutoscalingGroup', {
+      instanceType: new ec2.InstanceType(instanceType),
       autoScalingGroupName: `Gitlab Runners (${instanceType})`,
       vpc: this.vpc,
       vpcSubnets: props.vpcSubnet,
-      machineImage: MachineImage.latestAmazonLinux({
-        generation: AmazonLinuxGeneration.AMAZON_LINUX_2,
+      machineImage: ec2.MachineImage.latestAmazonLinux({
+        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
       }),
       role: this.instanceRole,
       securityGroup: this.securityGroup,
@@ -281,7 +254,7 @@ export class GitlabRunnerAutoscaling extends Construct {
       blockDevices: [
         {
           deviceName: '/dev/xvda',
-          volume: BlockDeviceVolume.ebs(props.ebsSize ?? 60),
+          volume: asg.BlockDeviceVolume.ebs(props.ebsSize ?? 60),
         },
       ],
       spotPrice: props.spotPrice,
@@ -290,17 +263,14 @@ export class GitlabRunnerAutoscaling extends Construct {
       desiredCapacity: props.desiredCapacity,
     });
 
-    const unregisterPolicy = new Policy(this, 'GitlabRunnerUnregisterPolicy', {
+    const unregisterPolicy = new iam.Policy(this, 'GitlabRunnerUnregisterPolicy', {
       statements: [
-        new PolicyStatement({
-          effect: Effect.ALLOW,
-          resources: ['*'],
-          actions: ['ssm:SendCommand'],
-        }),
-        new PolicyStatement({
-          effect: Effect.ALLOW,
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
           resources: ['*'],
           actions: [
+            'ssm:SendCommand',
+            'autoscaling:DescribeAutoScalingGroups',
             'logs:CreateLogGroup',
             'logs:CreateLogStream',
             'logs:PutLogEvents',
@@ -309,28 +279,49 @@ export class GitlabRunnerAutoscaling extends Construct {
       ],
     });
 
-    const unregisterRole = new Role(this, 'GitlabRunnerUnregisterRole', {
-      assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
+    const unregisterRole = new iam.Role(this, 'GitlabRunnerUnregisterRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       description: 'For Gitlab Runner Unregistering Function Role',
     });
     unregisterRole.attachInlinePolicy(unregisterPolicy);
 
+    // Lambda function to unregiser runners on terminating instance
     const unregisterFunction = new lambda.Function(this, 'GitlabRunnerUnregisterFunction', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../getinstanceId')),
-      handler: 'unregister_runner.unregister',
+      code: lambda.Code.fromAsset(path.join(__dirname, '../assets')),
+      handler: 'autoscaling_events.unregister',
       runtime: lambda.Runtime.PYTHON_3_8,
-      timeout: Duration.seconds(60),
+      timeout: cdk.Duration.seconds(60),
       role: unregisterRole,
     });
 
     this.autoscalingGroup.addLifecycleHook('GitlabRunnerLifeCycleHook', {
-      lifecycleTransition: LifecycleTransition.INSTANCE_TERMINATING,
+      lifecycleTransition: asg.LifecycleTransition.INSTANCE_TERMINATING,
       notificationTarget: new FunctionHook(unregisterFunction),
-      defaultResult: DefaultResult.CONTINUE,
-      heartbeatTimeout: Duration.seconds(60),
+      defaultResult: asg.DefaultResult.CONTINUE,
+      heartbeatTimeout: cdk.Duration.seconds(60),
     });
 
-    new CfnOutput(this, 'GitlabRunnerAutoScalingGroupArn', {
+    // Lambda function to unregiser runners on destroying stack
+    const unregisterCustomResource = new lambda.Function(this, 'GitlabRunnerUnregisterCustomResource', {
+      code: lambda.Code.fromAsset(path.join(__dirname, '../assets')),
+      handler: 'autoscaling_events.on_event',
+      runtime: lambda.Runtime.PYTHON_3_8,
+      role: unregisterRole,
+    });
+
+    const unregisterProvider = new cr.Provider(this, 'GitlabRunnerUnregisterProvider', {
+      onEventHandler: unregisterCustomResource,
+    });
+
+    const customResource = new cdk.CustomResource(this, 'GitlabRunnerCustomResource', {
+      serviceToken: unregisterProvider.serviceToken,
+      properties: {
+        AutoScalingGroupNames: [this.autoscalingGroup.autoScalingGroupName],
+      },
+    });
+    customResource.node.addDependency(unregisterProvider);
+
+    new cdk.CfnOutput(this, 'GitlabRunnerAutoScalingGroupArn', {
       value: this.autoscalingGroup.autoScalingGroupArn,
     });
   }
