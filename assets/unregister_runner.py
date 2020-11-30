@@ -82,21 +82,3 @@ def on_delete(event):
 
 def is_complete(event):
     return {'IsComplete': True}
-
-
-def unregister(event, context):
-    ssm = boto3.client('ssm')
-    print (event)
-    for record in event['Records']:
-        instance_id = json.loads(record['Sns']['Message'])['EC2InstanceId']
-
-        logger.info(f"Unregistering gitlab runner: {instance_id}")
-
-        ssm.send_command(
-            InstanceIds=[instance_id],
-            DocumentName='AWS-RunShellScript',
-            Parameters={
-                # see - https://docs.gitlab.com/runner/commands/#gitlab-runner-unregister
-                'commands': ['docker exec gitlab-runner gitlab-runner unregister --all-runners']
-            }
-        )
