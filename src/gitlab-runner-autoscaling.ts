@@ -68,16 +68,11 @@ export interface GitlabRunnerAutoscalingProps {
   readonly instanceRole?: iam.IRole;
 
   /**
-   * The maximum hourly price (in USD) to be paid for any Spot Instance launched to fulfill the request.
-   * Spot Instances are launched when the price you specify exceeds the current Spot market price.
+   * Run worker nodes as EC2 Spot
    *
-   * @example
-   * new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', spotPrice: 1.23 });
-   *
-   * @default - undefined
-   *
+   * @default - false
    */
-  readonly spotPrice?: string;
+  readonly spotInstance?: boolean;
 
   /**
    * Minimum capacity limit for autoscaling group.
@@ -191,7 +186,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
   /**
    * This represents a Runner Auto Scaling Group
    */
-  public readonly autoscalingGroup: asg.IAutoScalingGroup;
+  public readonly autoscalingGroup: asg.AutoScalingGroup;
 
   /**
    * The EC2 runner's VPC.
@@ -239,6 +234,38 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
     this.securityGroup = new ec2.SecurityGroup(this, 'GitlabRunnerSecurityGroup', {
       vpc: this.vpc,
     });
+    const instanceProfile = new iam.CfnInstanceProfile(this, 'InstanceProfile', {
+      roles: [this.instanceRole.roleName],
+    });
+    const lt = new ec2.CfnLaunchTemplate(this, 'GitlabRunnerLaunchTemplate', {
+      launchTemplateData: {
+        imageId: ec2.MachineImage.latestAmazonLinux({
+          generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
+        }).getImage(this).imageId,
+        instanceType: instanceType,
+        instanceMarketOptions: {
+          marketType: props.spotInstance ? 'spot' : undefined,
+          spotOptions: props.spotInstance ? {
+            spotInstanceType: 'one-time',
+          } : undefined,
+        },
+        userData: cdk.Fn.base64(userData.render()),
+        blockDeviceMappings: [
+          {
+            deviceName: '/dev/xvda',
+            ebs: {
+              volumeSize: props.ebsSize ?? 60,
+            },
+          },
+        ],
+        iamInstanceProfile: {
+          arn: instanceProfile.attrArn,
+        },
+        securityGroupIds: this.securityGroup.connections.securityGroups.map(
+          (m) => m.securityGroupId,
+        ),
+      },
+    });
 
     this.autoscalingGroup = new asg.AutoScalingGroup(this, 'GitlabRunnerAutoscalingGroup', {
       instanceType: new ec2.InstanceType(instanceType),
@@ -248,20 +275,18 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       machineImage: ec2.MachineImage.latestAmazonLinux({
         generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
       }),
-      role: this.instanceRole,
-      securityGroup: this.securityGroup,
-      userData,
-      blockDevices: [
-        {
-          deviceName: '/dev/xvda',
-          volume: asg.BlockDeviceVolume.ebs(props.ebsSize ?? 60),
-        },
-      ],
-      spotPrice: props.spotPrice,
       minCapacity: props.minCapacity,
       maxCapacity: props.maxCapacity,
       desiredCapacity: props.desiredCapacity,
     });
+
+    const cfnAsg = this.autoscalingGroup.node.tryFindChild('ASG') as asg.CfnAutoScalingGroup;
+    cfnAsg.addPropertyDeletionOverride('LaunchConfigurationName');
+    cfnAsg.addPropertyOverride('LaunchTemplate', {
+      LaunchTemplateId: lt.ref,
+      Version: lt.attrLatestVersionNumber,
+    });
+    this.autoscalingGroup.node.tryRemoveChild('LaunchConfig');
 
     const unregisterPolicy = new iam.Policy(this, 'GitlabRunnerUnregisterPolicy', {
       statements: [
