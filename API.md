@@ -123,7 +123,7 @@ new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAut
   * **instanceType** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
   * **maxCapacity** (<code>number</code>)  Maximum capacity limit for autoscaling group. __*Default*__: desiredCapacity
   * **minCapacity** (<code>number</code>)  Minimum capacity limit for autoscaling group. __*Default*__: minCapacity: 1
-  * **spotPrice** (<code>string</code>)  The maximum hourly price (in USD) to be paid for any Spot Instance launched to fulfill the request. __*Default*__: undefined
+  * **spotInstance** (<code>boolean</code>)  Run worker nodes as EC2 Spot. __*Default*__: false
   * **tags** (<code>Array<string></code>)  tags for the runner. __*Default*__: ['runner', 'gitlab', 'awscdk']
   * **vpc** (<code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code>)  VPC for the Gitlab Runner . __*Default*__: A new VPC will be created.
   * **vpcSubnet** (<code>[SubnetSelection](#aws-cdk-aws-ec2-subnetselection)</code>)  VPC subnet. __*Default*__: private subnet
@@ -135,7 +135,7 @@ new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAut
 
 Name | Type | Description 
 -----|------|-------------
-**autoscalingGroup**🔹 | <code>[IAutoScalingGroup](#aws-cdk-aws-autoscaling-iautoscalinggroup)</code> | This represents a Runner Auto Scaling Group.
+**autoscalingGroup**🔹 | <code>[AutoScalingGroup](#aws-cdk-aws-autoscaling-autoscalinggroup)</code> | This represents a Runner Auto Scaling Group.
 **instanceRole**🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | The IAM role assumed by the Runner instance.
 **securityGroup**🔹 | <code>[ISecurityGroup](#aws-cdk-aws-ec2-isecuritygroup)</code> | The EC2 runner's default SecurityGroup.
 **vpc**🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | The EC2 runner's VPC.
@@ -203,7 +203,7 @@ Name | Type | Description
 **instanceType**?🔹 | <code>string</code> | Runner default EC2 instance type.<br/>__*Default*__: t3.micro
 **maxCapacity**?🔹 | <code>number</code> | Maximum capacity limit for autoscaling group.<br/>__*Default*__: desiredCapacity
 **minCapacity**?🔹 | <code>number</code> | Minimum capacity limit for autoscaling group.<br/>__*Default*__: minCapacity: 1
-**spotPrice**?🔹 | <code>string</code> | The maximum hourly price (in USD) to be paid for any Spot Instance launched to fulfill the request.<br/>__*Default*__: undefined
+**spotInstance**?🔹 | <code>boolean</code> | Run worker nodes as EC2 Spot.<br/>__*Default*__: false
 **tags**?🔹 | <code>Array<string></code> | tags for the runner.<br/>__*Default*__: ['runner', 'gitlab', 'awscdk']
 **vpc**?🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | VPC for the Gitlab Runner .<br/>__*Default*__: A new VPC will be created.
 **vpcSubnet**?🔹 | <code>[SubnetSelection](#aws-cdk-aws-ec2-subnetselection)</code> | VPC subnet.<br/>__*Default*__: private subnet
