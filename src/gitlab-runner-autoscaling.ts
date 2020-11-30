@@ -4,6 +4,7 @@ import { FunctionHook } from '@aws-cdk/aws-autoscaling-hooktargets';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
+import * as logs from '@aws-cdk/aws-logs';
 import * as cdk from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 import { DockerVolumes } from './gitlab-runner-interfaces';
@@ -317,6 +318,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       runtime: lambda.Runtime.PYTHON_3_8,
       timeout: cdk.Duration.seconds(60),
       role: unregisterRole,
+      logRetention: logs.RetentionDays.ONE_DAY,
     });
 
     this.autoscalingGroup.addLifecycleHook('GitlabRunnerLifeCycleHook', {
@@ -332,6 +334,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       handler: 'autoscaling_events.on_event',
       runtime: lambda.Runtime.PYTHON_3_8,
       role: unregisterRole,
+      logRetention: logs.RetentionDays.ONE_DAY,
     });
 
     const unregisterProvider = new cr.Provider(this, 'GitlabRunnerUnregisterProvider', {
