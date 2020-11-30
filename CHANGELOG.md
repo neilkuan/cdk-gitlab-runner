@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.76.0](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.75.17...v1.76.0) (2020-11-30)
+
+
+### Features
+
+* use launch template replace launchConfigure ([b1028aa](https://github.com/guan840912/cdk-gitlab-runner/commit/b1028aa04ac1de66cb01d90ceb4b13d2f2d640aa))
+* use launch template replace launchConfigure ([f1ecf36](https://github.com/guan840912/cdk-gitlab-runner/commit/f1ecf3662d0edca10306a2f188f1f58dd1b88b32))
+
 ### 1.75.17 (2020-11-30)
 
 ### 1.75.16 (2020-11-30)
