@@ -118,6 +118,7 @@ new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAut
   * **desiredCapacity** (<code>number</code>)  Desired capacity limit for autoscaling group. __*Default*__: minCapacity, and leave unchanged during deployment
   * **dockerVolumes** (<code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code>)  add another Gitlab Container Runner Docker Volumes Path at job runner runtime. __*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
+  * **gitlabRunnerImage** (<code>string</code>)  Image URL of Gitlab Runner. __*Default*__: t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
   * **gitlabUrl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
   * **instanceRole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
   * **instanceType** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
@@ -139,6 +140,36 @@ Name | Type | Description
 **instanceRole**🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | The IAM role assumed by the Runner instance.
 **securityGroup**🔹 | <code>[ISecurityGroup](#aws-cdk-aws-ec2-isecuritygroup)</code> | The EC2 runner's default SecurityGroup.
 **vpc**🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | The EC2 runner's VPC.
+
+### Methods
+
+
+#### createUserData(props)🔹 <a id="cdk-gitlab-runner-gitlabrunnerautoscaling-createuserdata"></a>
+
+
+
+```ts
+createUserData(props: GitlabRunnerAutoscalingProps): Array<string>
+```
+
+* **props** (<code>[GitlabRunnerAutoscalingProps](#cdk-gitlab-runner-gitlabrunnerautoscalingprops)</code>)  *No description*
+  * **gitlabToken** (<code>string</code>)  Gitlab token. 
+  * **desiredCapacity** (<code>number</code>)  Desired capacity limit for autoscaling group. __*Default*__: minCapacity, and leave unchanged during deployment
+  * **dockerVolumes** (<code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code>)  add another Gitlab Container Runner Docker Volumes Path at job runner runtime. __*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
+  * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
+  * **gitlabRunnerImage** (<code>string</code>)  Image URL of Gitlab Runner. __*Default*__: t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+  * **gitlabUrl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
+  * **instanceRole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
+  * **instanceType** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
+  * **maxCapacity** (<code>number</code>)  Maximum capacity limit for autoscaling group. __*Default*__: desiredCapacity
+  * **minCapacity** (<code>number</code>)  Minimum capacity limit for autoscaling group. __*Default*__: minCapacity: 1
+  * **spotInstance** (<code>boolean</code>)  Run worker nodes as EC2 Spot. __*Default*__: false
+  * **tags** (<code>Array<string></code>)  tags for the runner. __*Default*__: ['runner', 'gitlab', 'awscdk']
+  * **vpc** (<code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code>)  VPC for the Gitlab Runner . __*Default*__: A new VPC will be created.
+  * **vpcSubnet** (<code>[SubnetSelection](#aws-cdk-aws-ec2-subnetselection)</code>)  VPC subnet. __*Default*__: private subnet
+
+__Returns__:
+* <code>Array<string></code>
 
 
 
@@ -198,6 +229,7 @@ Name | Type | Description
 **desiredCapacity**?🔹 | <code>number</code> | Desired capacity limit for autoscaling group.<br/>__*Default*__: minCapacity, and leave unchanged during deployment
 **dockerVolumes**?🔹 | <code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code> | add another Gitlab Container Runner Docker Volumes Path at job runner runtime.<br/>__*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
 **ebsSize**?🔹 | <code>number</code> | Gitlab Runner instance EBS size .<br/>__*Default*__: ebsSize=60
+**gitlabRunnerImage**?🔹 | <code>string</code> | Image URL of Gitlab Runner.<br/>__*Default*__: t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
 **gitlabUrl**?🔹 | <code>string</code> | Gitlab Runner register url .<br/>__*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
 **instanceRole**?🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | IAM role for the Gitlab Runner Instance .<br/>__*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
 **instanceType**?🔹 | <code>string</code> | Runner default EC2 instance type.<br/>__*Default*__: t3.micro

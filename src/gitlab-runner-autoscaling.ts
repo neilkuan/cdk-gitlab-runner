@@ -19,6 +19,17 @@ export interface GitlabRunnerAutoscalingProps {
   readonly gitlabToken: string;
 
   /**
+   * Image URL of Gitlab Runner.
+   *
+   * @example
+   * new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', gitlabRunnerImage: 'gitlab/gitlab-runner:alpine' });
+   *
+   * @default t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+   *
+   */
+  readonly gitlabRunnerImage?: string;
+
+  /**
    * Runner default EC2 instance type.
    *
    * @example
@@ -202,26 +213,19 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
 
   constructor(scope: cdk.Construct, id: string, props: GitlabRunnerAutoscalingProps) {
     super(scope, id);
-    const token = props.gitlabToken;
-    const tags = props.tags ?? ['gitlab', 'awscdk', 'runner'];
-    const gitlabUrl = props.gitlabUrl ?? 'https://gitlab.com/';
-    const instanceType = props.instanceType ?? 't3.micro';
-    const userData = ec2.UserData.forLinux();
+    const defaultProps = {
+      instanceType: 't3.micro',
+      tags: ['gitlab', 'awscdk', 'runner'],
+      gitlabUrl: 'https://gitlab.com/',
+      gitlabRunnerImage: 't3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine',
+    };
+    const runnerProps = { ...defaultProps, ...props };
 
-    userData.addCommands(
-      'yum update -y ',
-      'sleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
-      'systemctl restart docker && systemctl enable docker',
-      `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
-      --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url ${gitlabUrl} --registration-token ${token} \
-      --executor docker --docker-image "alpine:latest" \
-      --description "A Runner on EC2 Instance (${instanceType})" --tag-list "${tags.join(',')}" --docker-privileged ${this.dockerVolumesList(props?.dockerVolumes)} `,
-      'sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine',
-      'usermod -aG docker ssm-user',
-    );
+    const userData = ec2.UserData.forLinux();
+    userData.addCommands(...this.createUserData(runnerProps));
 
     this.instanceRole =
-      props.instanceRole ??
+      runnerProps.instanceRole ??
       new iam.Role(this, 'GitlabRunnerInstanceRole', {
         assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
         description: 'For EC2 Instance (Gitlab Runner) Role',
@@ -230,7 +234,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
     );
 
-    this.vpc = props.vpc ?? new ec2.Vpc(this, 'VPC');
+    this.vpc = runnerProps.vpc ?? new ec2.Vpc(this, 'VPC');
 
     this.securityGroup = new ec2.SecurityGroup(this, 'GitlabRunnerSecurityGroup', {
       vpc: this.vpc,
@@ -243,10 +247,10 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
         imageId: ec2.MachineImage.latestAmazonLinux({
           generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
         }).getImage(this).imageId,
-        instanceType: instanceType,
+        instanceType: runnerProps.instanceType,
         instanceMarketOptions: {
-          marketType: props.spotInstance ? 'spot' : undefined,
-          spotOptions: props.spotInstance ? {
+          marketType: runnerProps.spotInstance ? 'spot' : undefined,
+          spotOptions: runnerProps.spotInstance ? {
             spotInstanceType: 'one-time',
           } : undefined,
         },
@@ -255,7 +259,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
           {
             deviceName: '/dev/xvda',
             ebs: {
-              volumeSize: props.ebsSize ?? 60,
+              volumeSize: runnerProps.ebsSize ?? 60,
             },
           },
         ],
@@ -269,16 +273,16 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
     });
 
     this.autoscalingGroup = new asg.AutoScalingGroup(this, 'GitlabRunnerAutoscalingGroup', {
-      instanceType: new ec2.InstanceType(instanceType),
-      autoScalingGroupName: `Gitlab Runners (${instanceType})`,
+      instanceType: new ec2.InstanceType(runnerProps.instanceType),
+      autoScalingGroupName: `Gitlab Runners (${runnerProps.instanceType})`,
       vpc: this.vpc,
-      vpcSubnets: props.vpcSubnet,
+      vpcSubnets: runnerProps.vpcSubnet,
       machineImage: ec2.MachineImage.latestAmazonLinux({
         generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
       }),
-      minCapacity: props.minCapacity,
-      maxCapacity: props.maxCapacity,
-      desiredCapacity: props.desiredCapacity,
+      minCapacity: runnerProps.minCapacity,
+      maxCapacity: runnerProps.maxCapacity,
+      desiredCapacity: runnerProps.desiredCapacity,
     });
 
     const cfnAsg = this.autoscalingGroup.node.tryFindChild('ASG') as asg.CfnAutoScalingGroup;
@@ -353,10 +357,11 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       value: this.autoscalingGroup.autoScalingGroupArn,
     });
   }
+
   private dockerVolumesList(dockerVolume: DockerVolumes[] | undefined): string {
-    let tempString :string = '--docker-volumes "/var/run/docker.sock:/var/run/docker.sock"';
+    let tempString: string = '--docker-volumes "/var/run/docker.sock:/var/run/docker.sock"';
     if (dockerVolume) {
-      let tempList :string[] = [];
+      let tempList: string[] = [];
       dockerVolume.forEach(e => {
         tempList.push(`"${e.hostPath}:${e.containerPath}"`);
       });
@@ -365,5 +370,20 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       });
     }
     return tempString;
+  }
+
+  public createUserData(props: GitlabRunnerAutoscalingProps): string[] {
+    return [
+      'yum update -y ',
+      'sleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
+      'systemctl restart docker && systemctl enable docker',
+      `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
+    --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlabUrl} --registration-token ${props.gitlabToken} \
+    --docker-pull-policy if-not-present ${this.dockerVolumesList(props?.dockerVolumes)} \
+    --executor docker --docker-image "alpine:latest" --description "A Runner on EC2 Instance (${props.instanceType})" \
+    --tag-list "${props.tags?.join(',')}" --docker-privileged`,
+      `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
+      'usermod -aG docker ssm-user',
+    ];
   }
 }
