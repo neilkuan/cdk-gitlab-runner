@@ -55,6 +55,17 @@ export interface GitlabContainerRunnerProps {
   readonly gitlabtoken: string;
 
   /**
+   * Image URL of Gitlab Runner.
+   *
+   * @example
+   * new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', gitlabRunnerImage: 'gitlab/gitlab-runner:alpine' });
+   *
+   * @default t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+   *
+   */
+  readonly gitlabRunnerImage?: string;
+
+  /**
    * Runner default EC2 instance type.
    *
    * @example
@@ -320,44 +331,34 @@ export class GitlabContainerRunner extends Construct {
   constructor(scope: Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
     const spotFleetId = id;
-    const token = props.gitlabtoken;
-    const tags = props.tags ?? ['gitlab', 'awscdk', 'runner'];
-    const gitlaburl = props.gitlaburl ?? 'https://gitlab.com/';
-    const ec2type = props.ec2type ?? 't3.micro';
+
+    const defaultProps = {
+      gitlabRunnerImage: 't3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine',
+      gitlaburl: 'https://gitlab.com/',
+      ec2type: 't3.micro',
+      tags: ['gitlab', 'awscdk', 'runner'],
+    };
+    const runnerProps = { ...defaultProps, ...props };
+
     const runnerBucket = new Bucket(this, 'runnerBucket', {
       removalPolicy: RemovalPolicy.DESTROY,
     });
     const shell = UserData.forLinux();
-    shell.addCommands(
-      'yum update -y ',
-      'sleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
-      'systemctl restart docker && systemctl enable docker',
-      'docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url ' +
-        gitlaburl +
-        ' --registration-token ' +
-        token +
-        ' --docker-pull-policy if-not-present ' + this.dockerVolumesList(props?.dockerVolumes) + ' --executor docker --docker-image "alpine:latest" --description "Docker Runner" --tag-list "' +
-        this.synthesizeTags(tags)+
-        '" --docker-privileged',
-
-      'sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine',
-      'usermod -aG docker ssm-user',
-      `TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '"' -f 2) && echo '{"token": "TOKEN"}' > /tmp/runnertoken.txt && sed -i s/TOKEN/$TOKEN/g /tmp/runnertoken.txt && aws s3 cp /tmp/runnertoken.txt s3://${runnerBucket.bucketName}/`,
-    );
+    shell.addCommands(...this.createUserData(runnerProps, runnerBucket.bucketName));
 
     this.runnerRole =
-      props.ec2iamrole ??
+      runnerProps.ec2iamrole ??
       new Role(this, 'runner-role', {
         assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
         description: 'For Gitlab EC2 Runner Role',
       });
-    this.validUntil = props.validUntil;
+    this.validUntil = runnerProps.validUntil;
     const instanceProfile = new CfnInstanceProfile(this, 'InstanceProfile', {
       roles: [this.runnerRole.roleName],
     });
     runnerBucket.grantWrite(this.runnerRole);
     this.vpc =
-      props.selfvpc ??
+      runnerProps.selfvpc ??
       new Vpc(this, 'VPC', {
         cidr: '10.0.0.0/16',
         maxAzs: 2,
@@ -374,7 +375,7 @@ export class GitlabContainerRunner extends Construct {
       vpc: this.vpc,
     });
     this.defaultRunnerSG.connections.allowFromAnyIpv4(Port.tcp(22));
-    const spotOrOnDemand = props.spotFleet ?? false;
+    const spotOrOnDemand = runnerProps.spotFleet ?? false;
     if (spotOrOnDemand) {
       //throw new Error('yes new spotfleet');
 
@@ -384,25 +385,24 @@ export class GitlabContainerRunner extends Construct {
       const lt = new CfnLaunchTemplate(this, 'LaunchTemplate', {
         launchTemplateData: {
           imageId,
-          instanceType: ec2type,
+          instanceType: runnerProps.ec2type,
           blockDeviceMappings: [
             {
               deviceName: '/dev/xvda',
               ebs: {
-                volumeSize: props.ebsSize ?? 60,
+                volumeSize: runnerProps.ebsSize ?? 60,
               },
             },
           ],
           userData: Fn.base64(shell.render()),
-          keyName: props.keyName,
+          keyName: runnerProps.keyName,
           tagSpecifications: [
             {
               resourceType: 'instance',
               tags: [
                 {
                   key: 'Name',
-                  value: `${
-                    Stack.of(this).stackName
+                  value: `${Stack.of(this).stackName
                   }/spotFleetGitlabRunner/${spotFleetId}`,
                 },
               ],
@@ -412,9 +412,9 @@ export class GitlabContainerRunner extends Construct {
             marketType: 'spot',
             spotOptions: {
               blockDurationMinutes:
-                props.blockDuration ?? BlockDuration.ONE_HOUR,
+                runnerProps.blockDuration ?? BlockDuration.ONE_HOUR,
               instanceInterruptionBehavior:
-                props.instanceInterruptionBehavior ??
+                runnerProps.instanceInterruptionBehavior ??
                 InstanceInterruptionBehavior.TERMINATE,
             },
           },
@@ -436,7 +436,7 @@ export class GitlabContainerRunner extends Construct {
         ],
       });
 
-      const vpcSubnetSelection = props.vpcSubnet ?? {
+      const vpcSubnetSelection = runnerProps.vpcSubnet ?? {
         subnetType: SubnetType.PUBLIC,
       };
       const subnetConfig = this.vpc
@@ -508,10 +508,10 @@ export class GitlabContainerRunner extends Construct {
       new CfnOutput(this, 'SpotFleetId', { value: cfnSpotFleet.ref });
     } else {
       this.runnerEc2 = new Instance(this, 'GitlabRunner', {
-        instanceType: new InstanceType(ec2type),
+        instanceType: new InstanceType(runnerProps.ec2type),
         instanceName: 'Gitlab-Runner',
         vpc: this.vpc,
-        vpcSubnets: props.vpcSubnet ?? {
+        vpcSubnets: runnerProps.vpcSubnet ?? {
           subnetType: SubnetType.PUBLIC,
         },
         machineImage: MachineImage.latestAmazonLinux({
@@ -523,7 +523,7 @@ export class GitlabContainerRunner extends Construct {
         blockDevices: [
           {
             deviceName: '/dev/xvda',
-            volume: BlockDeviceVolume.ebs(props.ebsSize ?? 60),
+            volume: BlockDeviceVolume.ebs(runnerProps.ebsSize ?? 60),
           },
         ],
       });
@@ -549,7 +549,7 @@ export class GitlabContainerRunner extends Construct {
       serviceToken: unregisterRunnerProvider.serviceToken,
       properties: {
         BucketName: runnerBucket.bucketName,
-        GitlabUrl: gitlaburl,
+        GitlabUrl: runnerProps.gitlaburl,
       },
     });
 
@@ -572,13 +572,11 @@ export class GitlabContainerRunner extends Construct {
     date.setSeconds(date.getSeconds() + duration.toSeconds());
     this.validUntil = date.toISOString();
   }
-  private synthesizeTags(tags: string[]): string {
-    return tags.join(',');
-  }
+
   private dockerVolumesList(dockerVolume: DockerVolumes[] | undefined): string {
-    let tempString :string = '--docker-volumes "/var/run/docker.sock:/var/run/docker.sock"';
+    let tempString: string = '--docker-volumes "/var/run/docker.sock:/var/run/docker.sock"';
     if (dockerVolume) {
-      let tempList :string[] = [];
+      let tempList: string[] = [];
       dockerVolume.forEach(e => {
         tempList.push(`"${e.hostPath}:${e.containerPath}"`);
       });
@@ -587,5 +585,21 @@ export class GitlabContainerRunner extends Construct {
       });
     }
     return tempString;
+  }
+
+  public createUserData(props: GitlabContainerRunnerProps, bucketName: string): string[] {
+    return [
+      'yum update -y ',
+      'sleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
+      'systemctl restart docker && systemctl enable docker',
+      `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
+      --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlaburl} --registration-token ${props.gitlabtoken} \
+      --docker-pull-policy if-not-present ${this.dockerVolumesList(props?.dockerVolumes)} \
+      --executor docker --docker-image "alpine:latest" --description "Docker Runner" \
+      --tag-list "${props.tags?.join(',')}" --docker-privileged`,
+      `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
+      'usermod -aG docker ssm-user',
+      `TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '"' -f 2) && echo '{"token": "TOKEN"}' > /tmp/runnertoken.txt && sed -i s/TOKEN/$TOKEN/g /tmp/runnertoken.txt && aws s3 cp /tmp/runnertoken.txt s3://${bucketName}`,
+    ];
   }
 }

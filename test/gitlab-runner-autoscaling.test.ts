@@ -245,7 +245,7 @@ test('Check instance type change', () => {
   });
 });
 
-test('Check Tags list and gitlab Url', () => {
+test('Can overwrite default props', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
   const props = {
@@ -255,6 +255,7 @@ test('Check Tags list and gitlab Url', () => {
     desiredCapacity: 4,
     tags: ['a', 'b', 'c'],
     gitlabUrl: 'https://gitlab.example.com',
+    gitlabRunnerImage: 'gitlab/gitlab-runner:alpine',
     instanceType: 't3.large',
     spotInstance: true,
     dockerVolumes: [{
