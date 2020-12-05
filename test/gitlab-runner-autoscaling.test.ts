@@ -6,7 +6,7 @@ const defaultProps = {
   instanceType: 't3.micro',
   tags: ['gitlab', 'awscdk', 'runner'],
   gitlabUrl: 'https://gitlab.com/',
-  gitlabRunnerImage: 't3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine',
+  gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
 };
 
 

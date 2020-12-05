@@ -9,7 +9,7 @@ import {
 import '@aws-cdk/assert/jest';
 
 const defaultProps = {
-  gitlabRunnerImage: 't3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine',
+  gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
   gitlaburl: 'https://gitlab.com/',
   ec2type: 't3.micro',
   tags: ['gitlab', 'awscdk', 'runner'],

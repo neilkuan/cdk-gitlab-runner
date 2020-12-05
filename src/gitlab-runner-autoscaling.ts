@@ -24,7 +24,7 @@ export interface GitlabRunnerAutoscalingProps {
    * @example
    * new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', gitlabRunnerImage: 'gitlab/gitlab-runner:alpine' });
    *
-   * @default t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+   * @default public.ecr.aws/gitlab/gitlab-runner:alpine
    *
    */
   readonly gitlabRunnerImage?: string;
@@ -217,7 +217,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       instanceType: 't3.micro',
       tags: ['gitlab', 'awscdk', 'runner'],
       gitlabUrl: 'https://gitlab.com/',
-      gitlabRunnerImage: 't3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine',
+      gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
     };
     const runnerProps = { ...defaultProps, ...props };
 

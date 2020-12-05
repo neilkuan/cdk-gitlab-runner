@@ -60,7 +60,7 @@ export interface GitlabContainerRunnerProps {
    * @example
    * new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', gitlabRunnerImage: 'gitlab/gitlab-runner:alpine' });
    *
-   * @default t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+   * @default public.ecr.aws/gitlab/gitlab-runner:alpine
    *
    */
   readonly gitlabRunnerImage?: string;
@@ -333,7 +333,7 @@ export class GitlabContainerRunner extends Construct {
     const spotFleetId = id;
 
     const defaultProps = {
-      gitlabRunnerImage: 't3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine',
+      gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
       gitlaburl: 'https://gitlab.com/',
       ec2type: 't3.micro',
       tags: ['gitlab', 'awscdk', 'runner'],

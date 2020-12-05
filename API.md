@@ -51,7 +51,7 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
   * **ec2iamrole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
   * **ec2type** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
-  * **gitlabRunnerImage** (<code>string</code>)  Image URL of Gitlab Runner. __*Default*__: t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+  * **gitlabRunnerImage** (<code>string</code>)  Image URL of Gitlab Runner. __*Default*__: public.ecr.aws/gitlab/gitlab-runner:alpine
   * **gitlaburl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: gitlaburl='https://gitlab.com/' , please use https://yourgitlab.com/ do not use https://yourgitlab.com
   * **instanceInterruptionBehavior** (<code>[InstanceInterruptionBehavior](#cdk-gitlab-runner-instanceinterruptionbehavior)</code>)  The behavior when a Spot Runner Instance is interrupted. __*Default*__: InstanceInterruptionBehavior.TERMINATE , !!! only support spotfleet runner !!! .
   * **keyName** (<code>string</code>)  SSH key name. __*Default*__: no ssh key will be assigned , !!! only support spotfleet runner !!! .
@@ -133,7 +133,7 @@ new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAut
   * **desiredCapacity** (<code>number</code>)  Desired capacity limit for autoscaling group. __*Default*__: minCapacity, and leave unchanged during deployment
   * **dockerVolumes** (<code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code>)  add another Gitlab Container Runner Docker Volumes Path at job runner runtime. __*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
-  * **gitlabRunnerImage** (<code>string</code>)  Image URL of Gitlab Runner. __*Default*__: t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+  * **gitlabRunnerImage** (<code>string</code>)  Image URL of Gitlab Runner. __*Default*__: public.ecr.aws/gitlab/gitlab-runner:alpine
   * **gitlabUrl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
   * **instanceRole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
   * **instanceType** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
@@ -172,7 +172,7 @@ createUserData(props: GitlabRunnerAutoscalingProps): Array<string>
   * **desiredCapacity** (<code>number</code>)  Desired capacity limit for autoscaling group. __*Default*__: minCapacity, and leave unchanged during deployment
   * **dockerVolumes** (<code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code>)  add another Gitlab Container Runner Docker Volumes Path at job runner runtime. __*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
-  * **gitlabRunnerImage** (<code>string</code>)  Image URL of Gitlab Runner. __*Default*__: t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+  * **gitlabRunnerImage** (<code>string</code>)  Image URL of Gitlab Runner. __*Default*__: public.ecr.aws/gitlab/gitlab-runner:alpine
   * **gitlabUrl** (<code>string</code>)  Gitlab Runner register url . __*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
   * **instanceRole** (<code>[IRole](#aws-cdk-aws-iam-irole)</code>)  IAM role for the Gitlab Runner Instance . __*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
   * **instanceType** (<code>string</code>)  Runner default EC2 instance type. __*Default*__: t3.micro
@@ -217,7 +217,7 @@ Name | Type | Description
 **ebsSize**?🔹 | <code>number</code> | Gitlab Runner instance EBS size .<br/>__*Default*__: ebsSize=60
 **ec2iamrole**?🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | IAM role for the Gitlab Runner Instance .<br/>__*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
 **ec2type**?🔹 | <code>string</code> | Runner default EC2 instance type.<br/>__*Default*__: t3.micro
-**gitlabRunnerImage**?🔹 | <code>string</code> | Image URL of Gitlab Runner.<br/>__*Default*__: t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+**gitlabRunnerImage**?🔹 | <code>string</code> | Image URL of Gitlab Runner.<br/>__*Default*__: public.ecr.aws/gitlab/gitlab-runner:alpine
 **gitlaburl**?🔹 | <code>string</code> | Gitlab Runner register url .<br/>__*Default*__: gitlaburl='https://gitlab.com/' , please use https://yourgitlab.com/ do not use https://yourgitlab.com
 **instanceInterruptionBehavior**?🔹 | <code>[InstanceInterruptionBehavior](#cdk-gitlab-runner-instanceinterruptionbehavior)</code> | The behavior when a Spot Runner Instance is interrupted.<br/>__*Default*__: InstanceInterruptionBehavior.TERMINATE , !!! only support spotfleet runner !!! .
 **keyName**?🔹 | <code>string</code> | SSH key name.<br/>__*Default*__: no ssh key will be assigned , !!! only support spotfleet runner !!! .
@@ -245,7 +245,7 @@ Name | Type | Description
 **desiredCapacity**?🔹 | <code>number</code> | Desired capacity limit for autoscaling group.<br/>__*Default*__: minCapacity, and leave unchanged during deployment
 **dockerVolumes**?🔹 | <code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code> | add another Gitlab Container Runner Docker Volumes Path at job runner runtime.<br/>__*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
 **ebsSize**?🔹 | <code>number</code> | Gitlab Runner instance EBS size .<br/>__*Default*__: ebsSize=60
-**gitlabRunnerImage**?🔹 | <code>string</code> | Image URL of Gitlab Runner.<br/>__*Default*__: t3.micropublic.ecr.aws/gitlab/gitlab-runner:alpine
+**gitlabRunnerImage**?🔹 | <code>string</code> | Image URL of Gitlab Runner.<br/>__*Default*__: public.ecr.aws/gitlab/gitlab-runner:alpine
 **gitlabUrl**?🔹 | <code>string</code> | Gitlab Runner register url .<br/>__*Default*__: https://gitlab.com/ , The trailing slash is mandatory.
 **instanceRole**?🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | IAM role for the Gitlab Runner Instance .<br/>__*Default*__: new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
 **instanceType**?🔹 | <code>string</code> | Runner default EC2 instance type.<br/>__*Default*__: t3.micro
