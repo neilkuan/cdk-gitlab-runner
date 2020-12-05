@@ -2,6 +2,13 @@ import { App, Stack } from '@aws-cdk/core';
 import { GitlabRunnerAutoscaling } from '../src/index';
 import '@aws-cdk/assert/jest';
 
+const defaultProps = {
+  instanceType: 't3.micro',
+  tags: ['gitlab', 'awscdk', 'runner'],
+  gitlabUrl: 'https://gitlab.com/',
+  gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
+};
+
 
 test('Can set Autoscaling size', () => {
   const mockApp = new App();
@@ -22,12 +29,13 @@ test('Can set Autoscaling size', () => {
 test('Check User Data', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  new GitlabRunnerAutoscaling(stack, 'testing', {
+  const props = {
     gitlabToken: 'GITLAB_TOKEN',
     minCapacity: 4,
     maxCapacity: 4,
     desiredCapacity: 4,
-  });
+  };
+  const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
   expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
       BlockDeviceMappings: [
@@ -60,7 +68,7 @@ test('Check User Data', () => {
         },
       ],
       UserData: {
-        'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --executor docker --docker-image "alpine:latest"       --description "A Runner on EC2 Instance (t3.micro)" --tag-list "gitlab,awscdk,runner" --docker-privileged --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
       },
     },
   });
@@ -70,7 +78,7 @@ test('Check User Data', () => {
 test('Check Docker Volumes', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  new GitlabRunnerAutoscaling(stack, 'testing', {
+  const props = {
     gitlabToken: 'GITLAB_TOKEN',
     minCapacity: 4,
     maxCapacity: 4,
@@ -80,7 +88,8 @@ test('Check Docker Volumes', () => {
       hostPath: '/tmp/cache',
       containerPath: '/tmp/cache',
     }],
-  });
+  };
+  const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
   expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
       BlockDeviceMappings: [
@@ -113,7 +122,7 @@ test('Check Docker Volumes', () => {
         },
       ],
       UserData: {
-        'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --executor docker --docker-image "alpine:latest"       --description "A Runner on EC2 Instance (t3.micro)" --tag-list "gitlab,awscdk,runner" --docker-privileged --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --docker-volumes "/tmp/cache:/tmp/cache" \nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
       },
     },
   });
@@ -122,7 +131,7 @@ test('Check Docker Volumes', () => {
 test('Check use spot instance', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  new GitlabRunnerAutoscaling(stack, 'testing', {
+  const props = {
     gitlabToken: 'GITLAB_TOKEN',
     minCapacity: 4,
     maxCapacity: 4,
@@ -132,7 +141,8 @@ test('Check use spot instance', () => {
       hostPath: '/tmp/cache',
       containerPath: '/tmp/cache',
     }],
-  });
+  };
+  const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
   expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
       BlockDeviceMappings: [
@@ -170,7 +180,7 @@ test('Check use spot instance', () => {
         },
       ],
       UserData: {
-        'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --executor docker --docker-image "alpine:latest"       --description "A Runner on EC2 Instance (t3.micro)" --tag-list "gitlab,awscdk,runner" --docker-privileged --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --docker-volumes "/tmp/cache:/tmp/cache" \nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
       },
     },
   });
@@ -179,7 +189,7 @@ test('Check use spot instance', () => {
 test('Check instance type change', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  new GitlabRunnerAutoscaling(stack, 'testing', {
+  const props = {
     gitlabToken: 'GITLAB_TOKEN',
     minCapacity: 4,
     maxCapacity: 4,
@@ -190,7 +200,8 @@ test('Check instance type change', () => {
       hostPath: '/tmp/cache',
       containerPath: '/tmp/cache',
     }],
-  });
+  };
+  const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
   expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
       BlockDeviceMappings: [
@@ -228,29 +239,31 @@ test('Check instance type change', () => {
         },
       ],
       UserData: {
-        'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --executor docker --docker-image "alpine:latest"       --description "A Runner on EC2 Instance (t3.large)" --tag-list "gitlab,awscdk,runner" --docker-privileged --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --docker-volumes "/tmp/cache:/tmp/cache" \nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
       },
     },
   });
 });
 
-test('Check Tags list and gitlab Url', () => {
+test('Can overwrite default props', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
-  new GitlabRunnerAutoscaling(stack, 'testing', {
+  const props = {
     gitlabToken: 'GITLAB_TOKEN',
     minCapacity: 4,
     maxCapacity: 4,
     desiredCapacity: 4,
     tags: ['a', 'b', 'c'],
     gitlabUrl: 'https://gitlab.example.com',
+    gitlabRunnerImage: 'gitlab/gitlab-runner:alpine',
     instanceType: 't3.large',
     spotInstance: true,
     dockerVolumes: [{
       hostPath: '/tmp/cache',
       containerPath: '/tmp/cache',
     }],
-  });
+  };
+  const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
   expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
       BlockDeviceMappings: [
@@ -288,7 +301,7 @@ test('Check Tags list and gitlab Url', () => {
         },
       ],
       UserData: {
-        'Fn::Base64': '#!/bin/bash\nyum update -y \nsleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.example.com --registration-token GITLAB_TOKEN       --executor docker --docker-image "alpine:latest"       --description "A Runner on EC2 Instance (t3.large)" --tag-list "a,b,c" --docker-privileged --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" --docker-volumes "/tmp/cache:/tmp/cache" \nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nusermod -aG docker ssm-user',
+        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
       },
     },
   });
