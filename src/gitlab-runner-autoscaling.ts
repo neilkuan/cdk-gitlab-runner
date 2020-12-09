@@ -383,7 +383,6 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
     --executor docker --docker-image "alpine:latest" --description "A Runner on EC2 Instance (${props.instanceType})" \
     --tag-list "${props.tags?.join(',')}" --docker-privileged`,
       `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
-      'usermod -aG docker ssm-user',
     ];
   }
 }
