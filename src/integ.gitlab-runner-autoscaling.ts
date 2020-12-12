@@ -15,15 +15,12 @@ const vpc = ec2.Vpc.fromLookup(stack, 'DefaultVpc', {
 });
 const runner = new GitlabRunnerAutoscaling(stack, 'TestRunnerAutoscaling', {
   gitlabToken: stack.node.tryGetContext('GITLAB_TOKEN'),
-  ebsSize: 30,
+  ebsSize: 10,
   vpc: vpc,
   dockerVolumes: [{
     hostPath: '/tmp/cache',
     containerPath: '/tmp/cache',
   }],
-  instanceType: 't3.large',
-  desiredCapacity: 1,
-  maxCapacity: 1,
   minCapacity: 1,
   spotInstance: true,
 });

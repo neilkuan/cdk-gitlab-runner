@@ -59,6 +59,7 @@
     "@aws-cdk/aws-lambda": "^1.76.0",
     "@aws-cdk/aws-logs": "^1.76.0",
     "@aws-cdk/aws-s3": "^1.76.0",
+    "@aws-cdk/aws-s3-assets": "^1.76.0",
     "@aws-cdk/core": "^1.76.0",
     "@aws-cdk/custom-resources": "^1.76.0",
     "constructs": "^3.2.27"
@@ -71,6 +72,7 @@
     "@aws-cdk/aws-lambda": "^1.76.0",
     "@aws-cdk/aws-logs": "^1.76.0",
     "@aws-cdk/aws-s3": "^1.76.0",
+    "@aws-cdk/aws-s3-assets": "^1.76.0",
     "@aws-cdk/core": "^1.76.0",
     "@aws-cdk/custom-resources": "^1.76.0"
   },
