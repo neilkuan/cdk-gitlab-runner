@@ -5,6 +5,7 @@ import * as ec2 from '@aws-cdk/aws-ec2';
 import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as logs from '@aws-cdk/aws-logs';
+import * as assets from '@aws-cdk/aws-s3-assets';
 import * as cdk from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 import { DockerVolumes } from './gitlab-runner-interfaces';
@@ -221,7 +222,16 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
     };
     const runnerProps = { ...defaultProps, ...props };
 
+    const asset = new assets.Asset(this, 'GitlabRunnerUserDataAsset', {
+      path: path.join(__dirname, '../assets/userdata/amazon-cloudwatch-agent.json'),
+    });
+
     const userData = ec2.UserData.forLinux();
+    userData.addS3DownloadCommand({
+      bucket: asset.bucket,
+      bucketKey: asset.s3ObjectKey,
+      localFile: '/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json',
+    });
     userData.addCommands(...this.createUserData(runnerProps));
 
     this.instanceRole =
@@ -229,10 +239,12 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       new iam.Role(this, 'GitlabRunnerInstanceRole', {
         assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
         description: 'For EC2 Instance (Gitlab Runner) Role',
+        managedPolicies: [
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
+          iam.ManagedPolicy.fromAwsManagedPolicyName('CloudWatchAgentServerPolicy'),
+          iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
+        ],
       });
-    this.instanceRole.addManagedPolicy(
-      iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
-    );
 
     this.vpc = runnerProps.vpc ?? new ec2.Vpc(this, 'VPC');
 
@@ -317,7 +329,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
 
     // Lambda function to unregiser runners on terminating instance
     const unregisterFunction = new lambda.Function(this, 'GitlabRunnerUnregisterFunction', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../assets')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../assets/functions')),
       handler: 'autoscaling_events.unregister',
       runtime: lambda.Runtime.PYTHON_3_8,
       timeout: cdk.Duration.seconds(60),
@@ -334,7 +346,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
 
     // Lambda function to unregiser runners on destroying stack
     const unregisterCustomResource = new lambda.Function(this, 'GitlabRunnerUnregisterCustomResource', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../assets')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../assets/functions')),
       handler: 'autoscaling_events.on_event',
       runtime: lambda.Runtime.PYTHON_3_8,
       role: unregisterRole,
@@ -374,14 +386,14 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
 
   public createUserData(props: GitlabRunnerAutoscalingProps): string[] {
     return [
-      'yum update -y ',
-      'sleep 15 && yum install docker git -y && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
-      'systemctl restart docker && systemctl enable docker',
+      'yum update -y',
+      'sleep 15 && yum install -y docker git amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
+      'systemctl restart docker && systemctl enable docker && systemctl start amazon-cloudwatch-agent && systemctl enable amazon-cloudwatch-agent',
       `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
-    --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlabUrl} --registration-token ${props.gitlabToken} \
-    --docker-pull-policy if-not-present ${this.dockerVolumesList(props?.dockerVolumes)} \
-    --executor docker --docker-image "alpine:latest" --description "A Runner on EC2 Instance (${props.instanceType})" \
-    --tag-list "${props.tags?.join(',')}" --docker-privileged`,
+      --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlabUrl} --registration-token ${props.gitlabToken} \
+      --docker-pull-policy if-not-present ${this.dockerVolumesList(props?.dockerVolumes)} \
+      --executor docker --docker-image "alpine:latest" --description "A Runner on EC2 Instance (${props.instanceType})" \
+      --tag-list "${props.tags?.join(',')}" --docker-privileged`,
       `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
     ];
   }

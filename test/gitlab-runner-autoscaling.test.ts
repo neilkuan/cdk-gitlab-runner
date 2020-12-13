@@ -1,6 +1,7 @@
+import { anything } from '@aws-cdk/assert';
+import '@aws-cdk/assert/jest';
 import { App, Stack } from '@aws-cdk/core';
 import { GitlabRunnerAutoscaling } from '../src/index';
-import '@aws-cdk/assert/jest';
 
 const defaultProps = {
   instanceType: 't3.micro',
@@ -10,219 +11,163 @@ const defaultProps = {
 };
 
 
-test('Can set Autoscaling size', () => {
-  const mockApp = new App();
-  const stack = new Stack(mockApp, 'testing-stack');
+test('Can set autoscaling capacities', () => {
+  const app = new App();
+  const stack = new Stack(app, 'testing-stack');
   new GitlabRunnerAutoscaling(stack, 'testing', {
     gitlabToken: 'GITLAB_TOKEN',
-    minCapacity: 4,
+    minCapacity: 2,
     maxCapacity: 4,
-    desiredCapacity: 4,
+    desiredCapacity: 3,
   });
+
   expect(stack).toHaveResource('AWS::AutoScaling::AutoScalingGroup', {
-    MinSize: '4',
+    MinSize: '2',
     MaxSize: '4',
-    DesiredCapacity: '4',
+    DesiredCapacity: '3',
   });
 });
 
-test('Check User Data', () => {
-  const mockApp = new App();
-  const stack = new Stack(mockApp, 'testing-stack');
+test('Can set User Data', () => {
+  const app = new App();
+  const stack = new Stack(app, 'testing-stack');
   const props = {
     gitlabToken: 'GITLAB_TOKEN',
-    minCapacity: 4,
-    maxCapacity: 4,
-    desiredCapacity: 4,
   };
   const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
-  expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
+
+  expect(stack).toHaveResourceLike('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
-      BlockDeviceMappings: [
-        {
-          DeviceName: '/dev/xvda',
-          Ebs: {
-            VolumeSize: 60,
-          },
-        },
-      ],
-      IamInstanceProfile: {
-        Arn: {
-          'Fn::GetAtt': [
-            'testingInstanceProfile8AC9DD14',
-            'Arn',
-          ],
-        },
-      },
-      ImageId: {
-        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
-      },
-      InstanceMarketOptions: {},
-      InstanceType: 't3.micro',
-      SecurityGroupIds: [
-        {
-          'Fn::GetAtt': [
-            'testingGitlabRunnerSecurityGroup88DBF615',
-            'GroupId',
-          ],
-        },
-      ],
       UserData: {
-        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
+        'Fn::Base64': {
+          'Fn::Join': ['', [
+            "#!/bin/bash\nmkdir -p $(dirname '/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json')\naws s3 cp 's3://",
+            anything(),
+            '/',
+            anything(),
+            anything(),
+            `' '/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
+          ]],
+        },
       },
     },
   });
 });
 
-
-test('Check Docker Volumes', () => {
-  const mockApp = new App();
-  const stack = new Stack(mockApp, 'testing-stack');
+test('Can set Docker Volumes', () => {
+  const app = new App();
+  const stack = new Stack(app, 'testing-stack');
   const props = {
     gitlabToken: 'GITLAB_TOKEN',
-    minCapacity: 4,
-    maxCapacity: 4,
-    desiredCapacity: 4,
-    ebsSize: 30,
     dockerVolumes: [{
       hostPath: '/tmp/cache',
       containerPath: '/tmp/cache',
     }],
   };
   const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
-  expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
+
+  expect(stack).toHaveResourceLike('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
-      BlockDeviceMappings: [
-        {
-          DeviceName: '/dev/xvda',
-          Ebs: {
-            VolumeSize: 30,
-          },
-        },
-      ],
-      IamInstanceProfile: {
-        Arn: {
-          'Fn::GetAtt': [
-            'testingInstanceProfile8AC9DD14',
-            'Arn',
-          ],
-        },
-      },
-      ImageId: {
-        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
-      },
-      InstanceMarketOptions: {},
-      InstanceType: 't3.micro',
-      SecurityGroupIds: [
-        {
-          'Fn::GetAtt': [
-            'testingGitlabRunnerSecurityGroup88DBF615',
-            'GroupId',
-          ],
-        },
-      ],
       UserData: {
-        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
+        'Fn::Base64': {
+          'Fn::Join': ['', [
+            "#!/bin/bash\nmkdir -p $(dirname '/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json')\naws s3 cp 's3://",
+            anything(),
+            '/',
+            anything(),
+            anything(),
+            `' '/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json'\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
+          ]],
+        },
       },
     },
   });
+
 });
 
-test('Check use spot instance', () => {
-  const mockApp = new App();
-  const stack = new Stack(mockApp, 'testing-stack');
-  const props = {
+test('Can launch as spot instance', () => {
+  const app = new App();
+  const stack = new Stack(app, 'testing-stack');
+  new GitlabRunnerAutoscaling(stack, 'testing', {
     gitlabToken: 'GITLAB_TOKEN',
-    minCapacity: 4,
-    maxCapacity: 4,
-    desiredCapacity: 4,
     spotInstance: true,
-    dockerVolumes: [{
-      hostPath: '/tmp/cache',
-      containerPath: '/tmp/cache',
-    }],
-  };
-  const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
-  expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
+  });
+
+  expect(stack).toHaveResourceLike('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
-      BlockDeviceMappings: [
-        {
-          DeviceName: '/dev/xvda',
-          Ebs: {
-            VolumeSize: 60,
-          },
-        },
-      ],
-      IamInstanceProfile: {
-        Arn: {
-          'Fn::GetAtt': [
-            'testingInstanceProfile8AC9DD14',
-            'Arn',
-          ],
-        },
-      },
-      ImageId: {
-        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
-      },
       InstanceMarketOptions: {
         MarketType: 'spot',
         SpotOptions: {
           SpotInstanceType: 'one-time',
         },
       },
-      InstanceType: 't3.micro',
-      SecurityGroupIds: [
-        {
-          'Fn::GetAtt': [
-            'testingGitlabRunnerSecurityGroup88DBF615',
-            'GroupId',
-          ],
-        },
-      ],
-      UserData: {
-        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
-      },
     },
   });
 });
 
-test('Check instance type change', () => {
-  const mockApp = new App();
-  const stack = new Stack(mockApp, 'testing-stack');
-  const props = {
+test('Can set instance type', () => {
+  const app = new App();
+  const stack = new Stack(app, 'testing-stack');
+  new GitlabRunnerAutoscaling(stack, 'testing', {
     gitlabToken: 'GITLAB_TOKEN',
-    minCapacity: 4,
-    maxCapacity: 4,
-    desiredCapacity: 4,
     instanceType: 't3.large',
-    spotInstance: true,
-    dockerVolumes: [{
-      hostPath: '/tmp/cache',
-      containerPath: '/tmp/cache',
-    }],
-  };
-  const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
-  expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
+  });
+
+  expect(stack).toHaveResourceLike('AWS::EC2::LaunchTemplate', {
+    LaunchTemplateData: {
+      InstanceType: 't3.large',
+    },
+  });
+});
+
+test('Can set EBS size', () => {
+  const app = new App();
+  const stack = new Stack(app, 'testing-stack');
+  new GitlabRunnerAutoscaling(stack, 'testing', {
+    gitlabToken: 'GITLAB_TOKEN',
+    ebsSize: 100,
+  });
+
+  expect(stack).toHaveResourceLike('AWS::EC2::LaunchTemplate', {
     LaunchTemplateData: {
       BlockDeviceMappings: [
         {
           DeviceName: '/dev/xvda',
           Ebs: {
-            VolumeSize: 60,
+            VolumeSize: 100,
           },
         },
       ],
-      IamInstanceProfile: {
-        Arn: {
-          'Fn::GetAtt': [
-            'testingInstanceProfile8AC9DD14',
-            'Arn',
-          ],
+    },
+  });
+});
+
+test('Can overwrite props', () => {
+  const app = new App();
+  const stack = new Stack(app, 'testing-stack');
+  new GitlabRunnerAutoscaling(stack, 'testing', {
+    gitlabToken: 'GITLAB_TOKEN',
+    minCapacity: 2,
+    ebsSize: 100,
+    instanceType: 't3.large',
+    spotInstance: true,
+  });
+
+  expect(stack).toHaveResource('AWS::AutoScaling::AutoScalingGroup', {
+    MinSize: '2',
+    MaxSize: '2',
+  });
+
+  expect(stack).toHaveResourceLike('AWS::EC2::LaunchTemplate', {
+    LaunchTemplateData: {
+      BlockDeviceMappings: [
+        {
+          DeviceName: '/dev/xvda',
+          Ebs: {
+            VolumeSize: 100,
+          },
         },
-      },
-      ImageId: {
-        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
-      },
+      ],
       InstanceMarketOptions: {
         MarketType: 'spot',
         SpotOptions: {
@@ -230,79 +175,6 @@ test('Check instance type change', () => {
         },
       },
       InstanceType: 't3.large',
-      SecurityGroupIds: [
-        {
-          'Fn::GetAtt': [
-            'testingGitlabRunnerSecurityGroup88DBF615',
-            'GroupId',
-          ],
-        },
-      ],
-      UserData: {
-        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
-      },
-    },
-  });
-});
-
-test('Can overwrite default props', () => {
-  const mockApp = new App();
-  const stack = new Stack(mockApp, 'testing-stack');
-  const props = {
-    gitlabToken: 'GITLAB_TOKEN',
-    minCapacity: 4,
-    maxCapacity: 4,
-    desiredCapacity: 4,
-    tags: ['a', 'b', 'c'],
-    gitlabUrl: 'https://gitlab.example.com',
-    gitlabRunnerImage: 'gitlab/gitlab-runner:alpine',
-    instanceType: 't3.large',
-    spotInstance: true,
-    dockerVolumes: [{
-      hostPath: '/tmp/cache',
-      containerPath: '/tmp/cache',
-    }],
-  };
-  const runner = new GitlabRunnerAutoscaling(stack, 'testing', props);
-  expect(stack).toHaveResource('AWS::EC2::LaunchTemplate', {
-    LaunchTemplateData: {
-      BlockDeviceMappings: [
-        {
-          DeviceName: '/dev/xvda',
-          Ebs: {
-            VolumeSize: 60,
-          },
-        },
-      ],
-      IamInstanceProfile: {
-        Arn: {
-          'Fn::GetAtt': [
-            'testingInstanceProfile8AC9DD14',
-            'Arn',
-          ],
-        },
-      },
-      ImageId: {
-        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
-      },
-      InstanceMarketOptions: {
-        MarketType: 'spot',
-        SpotOptions: {
-          SpotInstanceType: 'one-time',
-        },
-      },
-      InstanceType: 't3.large',
-      SecurityGroupIds: [
-        {
-          'Fn::GetAtt': [
-            'testingGitlabRunnerSecurityGroup88DBF615',
-            'GroupId',
-          ],
-        },
-      ],
-      UserData: {
-        'Fn::Base64': `#!/bin/bash\n${runner.createUserData({ ...defaultProps, ...props }).join('\n')}`,
-      },
     },
   });
 });
