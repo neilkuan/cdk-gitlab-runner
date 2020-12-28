@@ -46,7 +46,6 @@ tsconfig.json
 cdk.out
 cdk.context.json
 yarn-error.log
-coverage
 venv
 !/.projen/tasks.json
 !/package.json
