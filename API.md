@@ -130,6 +130,7 @@ new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAut
 * **id** (<code>string</code>)  *No description*
 * **props** (<code>[GitlabRunnerAutoscalingProps](#cdk-gitlab-runner-gitlabrunnerautoscalingprops)</code>)  *No description*
   * **gitlabToken** (<code>string</code>)  Gitlab token. 
+  * **alarms** (<code>Array<json></code>)  Parameters of put_metric_alarm function. __*Default*__: [{ AlarmName: 'GitlabRunnerDiskUsage', MetricName: 'disk_used_percent', }]
   * **desiredCapacity** (<code>number</code>)  Desired capacity limit for autoscaling group. __*Default*__: minCapacity, and leave unchanged during deployment
   * **dockerVolumes** (<code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code>)  add another Gitlab Container Runner Docker Volumes Path at job runner runtime. __*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
@@ -154,6 +155,7 @@ Name | Type | Description
 **autoscalingGroup**🔹 | <code>[AutoScalingGroup](#aws-cdk-aws-autoscaling-autoscalinggroup)</code> | This represents a Runner Auto Scaling Group.
 **instanceRole**🔹 | <code>[IRole](#aws-cdk-aws-iam-irole)</code> | The IAM role assumed by the Runner instance.
 **securityGroup**🔹 | <code>[ISecurityGroup](#aws-cdk-aws-ec2-isecuritygroup)</code> | The EC2 runner's default SecurityGroup.
+**topicAlarm**🔹 | <code>[ITopic](#aws-cdk-aws-sns-itopic)</code> | The SNS topic to suscribe alarms for EC2 runner's metrics.
 **vpc**🔹 | <code>[IVpc](#aws-cdk-aws-ec2-ivpc)</code> | The EC2 runner's VPC.
 
 ### Methods
@@ -169,6 +171,7 @@ createUserData(props: GitlabRunnerAutoscalingProps): Array<string>
 
 * **props** (<code>[GitlabRunnerAutoscalingProps](#cdk-gitlab-runner-gitlabrunnerautoscalingprops)</code>)  *No description*
   * **gitlabToken** (<code>string</code>)  Gitlab token. 
+  * **alarms** (<code>Array<json></code>)  Parameters of put_metric_alarm function. __*Default*__: [{ AlarmName: 'GitlabRunnerDiskUsage', MetricName: 'disk_used_percent', }]
   * **desiredCapacity** (<code>number</code>)  Desired capacity limit for autoscaling group. __*Default*__: minCapacity, and leave unchanged during deployment
   * **dockerVolumes** (<code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code>)  add another Gitlab Container Runner Docker Volumes Path at job runner runtime. __*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
   * **ebsSize** (<code>number</code>)  Gitlab Runner instance EBS size . __*Default*__: ebsSize=60
@@ -242,6 +245,7 @@ Name | Type | Description
 Name | Type | Description 
 -----|------|-------------
 **gitlabToken**🔹 | <code>string</code> | Gitlab token.
+**alarms**?🔹 | <code>Array<json></code> | Parameters of put_metric_alarm function.<br/>__*Default*__: [{ AlarmName: 'GitlabRunnerDiskUsage', MetricName: 'disk_used_percent', }]
 **desiredCapacity**?🔹 | <code>number</code> | Desired capacity limit for autoscaling group.<br/>__*Default*__: minCapacity, and leave unchanged during deployment
 **dockerVolumes**?🔹 | <code>Array<[DockerVolumes](#cdk-gitlab-runner-dockervolumes)></code> | add another Gitlab Container Runner Docker Volumes Path at job runner runtime.<br/>__*Default*__: already mount "/var/run/docker.sock:/var/run/docker.sock"
 **ebsSize**?🔹 | <code>number</code> | Gitlab Runner instance EBS size .<br/>__*Default*__: ebsSize=60
