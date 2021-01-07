@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.77.0](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.76.30...v1.77.0) (2021-01-07)
+
+
+### Features
+
+* Add alarm on high disk usage ([01a2f6a](https://github.com/guan840912/cdk-gitlab-runner/commit/01a2f6a8c19e7761b5291cebf6d764e33394148b))
+
 ### [1.76.30](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.76.29...v1.76.30) (2021-01-07)
 
 ### [1.76.29](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.76.28...v1.76.29) (2021-01-06)
