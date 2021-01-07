@@ -6,6 +6,8 @@ import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as logs from '@aws-cdk/aws-logs';
 import * as assets from '@aws-cdk/aws-s3-assets';
+import * as sns from '@aws-cdk/aws-sns';
+import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
 import * as cdk from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 import { DockerVolumes } from './gitlab-runner-interfaces';
@@ -188,6 +190,19 @@ export interface GitlabRunnerAutoscalingProps {
    * ],
    */
   readonly dockerVolumes?: DockerVolumes[];
+
+  /**
+   * Parameters of put_metric_alarm function
+   *
+   * https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.put_metric_alarm
+   *
+   * @default - [{
+   *     AlarmName: 'GitlabRunnerDiskUsage',
+   *     MetricName: 'disk_used_percent',
+   * }]
+   *
+   */
+  readonly alarms?: object[];
 }
 
 export class GitlabRunnerAutoscaling extends cdk.Construct {
@@ -211,6 +226,11 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
    */
   public readonly securityGroup: ec2.ISecurityGroup;
 
+  /**
+   * The SNS topic to suscribe alarms for EC2 runner's metrics.
+   */
+  public readonly topicAlarm: sns.ITopic;
+
 
   constructor(scope: cdk.Construct, id: string, props: GitlabRunnerAutoscalingProps) {
     super(scope, id);
@@ -219,6 +239,12 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       tags: ['gitlab', 'awscdk', 'runner'],
       gitlabUrl: 'https://gitlab.com/',
       gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
+      alarms: [
+        {
+          AlarmName: 'GitlabRunnerDiskUsage',
+          MetricName: 'disk_used_percent',
+        },
+      ],
     };
     const runnerProps = { ...defaultProps, ...props };
 
@@ -305,29 +331,78 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
     });
     this.autoscalingGroup.node.tryRemoveChild('LaunchConfig');
 
-    const unregisterPolicy = new iam.Policy(this, 'GitlabRunnerUnregisterPolicy', {
-      statements: [
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          resources: ['*'],
-          actions: [
-            'ssm:SendCommand',
-            'autoscaling:DescribeAutoScalingGroups',
-            'logs:CreateLogGroup',
-            'logs:CreateLogStream',
-            'logs:PutLogEvents',
-          ],
-        }),
-      ],
+    this.topicAlarm = new sns.Topic(this, 'GitlabRunnerAlarm');
+    const alarms = JSON.stringify(runnerProps.alarms);
+
+    // Put alarms at launch
+    const registerFunction = new lambda.Function(this, 'GitlabRunnerRegisterFunction', {
+      code: lambda.Code.fromAsset(path.join(__dirname, '../assets/functions')),
+      handler: 'autoscaling_events.register',
+      runtime: lambda.Runtime.PYTHON_3_8,
+      timeout: cdk.Duration.seconds(60),
+      logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        ALARMS: alarms,
+        SNS_TOPIC_ARN: this.topicAlarm.topicArn,
+      },
+    });
+    registerFunction.role?.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        resources: ['*'],
+        actions: [
+          'cloudwatch:PutMetricAlarm',
+        ],
+      }),
+    );
+
+    this.autoscalingGroup.addLifecycleHook('GitlabRunnerLifeCycleHookLaunching', {
+      lifecycleTransition: asg.LifecycleTransition.INSTANCE_LAUNCHING,
+      notificationTarget: new FunctionHook(registerFunction),
+      defaultResult: asg.DefaultResult.CONTINUE,
+      heartbeatTimeout: cdk.Duration.seconds(60),
     });
 
+    // Add an alarm action to terminate invalid instances
+    const alarmAction = new lambda.Function(this, 'GitlabRunnerAlarmAction', {
+      code: lambda.Code.fromAsset(path.join(__dirname, '../assets/functions')),
+      handler: 'autoscaling_events.on_alarm',
+      runtime: lambda.Runtime.PYTHON_3_8,
+      timeout: cdk.Duration.seconds(60),
+      logRetention: logs.RetentionDays.ONE_DAY,
+    });
+    alarmAction.role?.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        resources: ['*'],
+        actions: [
+          'autoscaling:SetInstanceHealth',
+        ],
+      }),
+    );
+    const alarmSubscription = new subscriptions.LambdaSubscription(alarmAction);
+    this.topicAlarm.addSubscription(alarmSubscription);
+
+    // Unregister gitlab runners and remove alarms on instance termination or CFn stack deletion
     const unregisterRole = new iam.Role(this, 'GitlabRunnerUnregisterRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       description: 'For Gitlab Runner Unregistering Function Role',
+      managedPolicies: [
+        iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
+      ],
     });
-    unregisterRole.attachInlinePolicy(unregisterPolicy);
+    unregisterRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        resources: ['*'],
+        actions: [
+          'ssm:SendCommand',
+          'autoscaling:DescribeAutoScalingGroups',
+          'cloudwatch:DeleteAlarms',
+        ],
+      }),
+    );
 
-    // Lambda function to unregiser runners on terminating instance
     const unregisterFunction = new lambda.Function(this, 'GitlabRunnerUnregisterFunction', {
       code: lambda.Code.fromAsset(path.join(__dirname, '../assets/functions')),
       handler: 'autoscaling_events.unregister',
@@ -335,22 +410,27 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
       timeout: cdk.Duration.seconds(60),
       role: unregisterRole,
       logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        ALARMS: alarms,
+      },
     });
 
-    this.autoscalingGroup.addLifecycleHook('GitlabRunnerLifeCycleHook', {
+    this.autoscalingGroup.addLifecycleHook('GitlabRunnerLifeCycleHookTerminating', {
       lifecycleTransition: asg.LifecycleTransition.INSTANCE_TERMINATING,
       notificationTarget: new FunctionHook(unregisterFunction),
       defaultResult: asg.DefaultResult.CONTINUE,
       heartbeatTimeout: cdk.Duration.seconds(60),
     });
 
-    // Lambda function to unregiser runners on destroying stack
     const unregisterCustomResource = new lambda.Function(this, 'GitlabRunnerUnregisterCustomResource', {
       code: lambda.Code.fromAsset(path.join(__dirname, '../assets/functions')),
       handler: 'autoscaling_events.on_event',
       runtime: lambda.Runtime.PYTHON_3_8,
       role: unregisterRole,
       logRetention: logs.RetentionDays.ONE_DAY,
+      environment: {
+        ALARMS: alarms,
+      },
     });
 
     const unregisterProvider = new cr.Provider(this, 'GitlabRunnerUnregisterProvider', {

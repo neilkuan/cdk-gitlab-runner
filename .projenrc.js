@@ -32,6 +32,8 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-s3',
     '@aws-cdk/aws-s3-assets',
     '@aws-cdk/core',
+    '@aws-cdk/aws-sns',
+    '@aws-cdk/aws-sns-subscriptions',
     '@aws-cdk/custom-resources',
   ],
   python: {

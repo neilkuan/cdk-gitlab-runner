@@ -133,6 +133,16 @@
       "type": "peer"
     },
     {
+      "name": "@aws-cdk/aws-sns-subscriptions",
+      "version": "^1.82.0",
+      "type": "peer"
+    },
+    {
+      "name": "@aws-cdk/aws-sns",
+      "version": "^1.82.0",
+      "type": "peer"
+    },
+    {
       "name": "@aws-cdk/core",
       "version": "^1.82.0",
       "type": "peer"
@@ -184,6 +194,16 @@
     },
     {
       "name": "@aws-cdk/aws-s3",
+      "version": "^1.82.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-sns-subscriptions",
+      "version": "^1.82.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-cdk/aws-sns",
       "version": "^1.82.0",
       "type": "runtime"
     },

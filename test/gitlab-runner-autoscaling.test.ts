@@ -142,6 +142,33 @@ test('Can set EBS size', () => {
   });
 });
 
+test('Can set alarm settings', () => {
+  const app = new App();
+  const stack = new Stack(app, 'testing-stack');
+  const alarmUserDefined = [
+    {
+      AlarmName: 'TestAlarm',
+      MetricName: 'test_metric',
+      Threshold: 50,
+      Period: 300,
+    },
+  ];
+
+  new GitlabRunnerAutoscaling(stack, 'testing', {
+    gitlabToken: 'GITLAB_TOKEN',
+    alarms: alarmUserDefined,
+  });
+
+  expect(stack).toHaveResource('AWS::Lambda::Function', {
+    Handler: 'autoscaling_events.on_event',
+    Environment: {
+      Variables: {
+        ALARMS: JSON.stringify(alarmUserDefined),
+      },
+    },
+  });
+});
+
 test('Can overwrite props', () => {
   const app = new App();
   const stack = new Stack(app, 'testing-stack');
