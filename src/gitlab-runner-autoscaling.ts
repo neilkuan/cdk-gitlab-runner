@@ -391,7 +391,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
         iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
       ],
     });
-    unregisterRole.addToPolicy(
+    unregisterRole.addToPrincipalPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         resources: ['*'],
