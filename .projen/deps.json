@@ -2,7 +2,7 @@
   "dependencies": [
     {
       "name": "@aws-cdk/assert",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "build"
     },
     {
@@ -66,17 +66,12 @@
       "type": "build"
     },
     {
-      "name": "jsii-release",
-      "version": "^0.2.11",
-      "type": "build"
-    },
-    {
       "name": "json-schema",
       "type": "build"
     },
     {
       "name": "projen",
-      "version": "^0.15.14",
+      "version": "^0.16.1",
       "type": "build"
     },
     {
@@ -95,62 +90,62 @@
     },
     {
       "name": "@aws-cdk/aws-autoscaling-hooktargets",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-autoscaling",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-ec2",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-iam",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-lambda",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-logs",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-s3-assets",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-s3",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-sns-subscriptions",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/aws-sns",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
       "name": "@aws-cdk/custom-resources",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "peer"
     },
     {
@@ -160,62 +155,62 @@
     },
     {
       "name": "@aws-cdk/aws-autoscaling-hooktargets",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-autoscaling",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-ec2",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-iam",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-lambda",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-logs",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-s3-assets",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-s3",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-sns-subscriptions",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/aws-sns",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/core",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     },
     {
       "name": "@aws-cdk/custom-resources",
-      "version": "^1.87.1",
+      "version": "^1.88.0",
       "type": "runtime"
     }
   ],

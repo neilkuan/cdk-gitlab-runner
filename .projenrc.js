@@ -12,6 +12,7 @@ const project = new AwsCdkConstructLibrary({
   authorEmail: 'guan840912@gmail.com',
   keywords: ['aws', 'gitlab', 'runner'],
   dependabot: false,
+  defaultReleaseBranch: 'master',
   catalog: {
     twitter: 'neil_kuan',
     announce: false,
@@ -21,7 +22,7 @@ const project = new AwsCdkConstructLibrary({
   stability: 'experimental',
   // creates PRs for projen upgrades
   // projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
-  cdkVersion: '1.87.1',
+  cdkVersion: '1.88.0',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
