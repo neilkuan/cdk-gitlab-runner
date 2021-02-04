@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.77.16](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.77.15...v1.77.16) (2021-02-04)
+
 ### [1.77.15](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.77.14...v1.77.15) (2021-02-02)
 
 ### [1.77.14](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.77.13...v1.77.14) (2021-02-01)
