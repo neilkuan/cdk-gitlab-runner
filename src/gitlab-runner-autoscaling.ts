@@ -467,7 +467,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
   public createUserData(props: GitlabRunnerAutoscalingProps): string[] {
     return [
       'yum update -y',
-      'sleep 15 && yum install -y docker git amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
+      'sleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
       'systemctl restart docker && systemctl enable docker && systemctl start amazon-cloudwatch-agent && systemctl enable amazon-cloudwatch-agent',
       `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
       --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlabUrl} --registration-token ${props.gitlabToken} \
