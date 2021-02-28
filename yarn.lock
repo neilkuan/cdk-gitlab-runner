@@ -3096,9 +3096,9 @@ has-flag@^4.0.0:
   integrity sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==
 
 has-symbols@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/has-symbols/-/has-symbols-1.0.1.tgz#9f5214758a44196c406d9bd76cebf81ec2dd31e8"
-  integrity sha512-PLcsoqu++dmEIZB+6totNFKq/7Do+Z0u4oT0zKOJNl3lYK6vGwwu2hjHs+68OEZbTjiUE9bgOABXbP/GvrS0Kg==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/has-symbols/-/has-symbols-1.0.2.tgz#165d3070c00309752a1236a479331e3ac56f1423"
+  integrity sha512-chXa79rL/UC2KlX17jo3vRGz0azaWEx5tGqZg5pO3NUyEJVB17dMruQlzCCOfUvElghKcm5194+BCRvi2Rv/Gw==
 
 has-value@^0.3.1:
   version "0.3.1"
@@ -4087,9 +4087,9 @@ jsii-diff@^1.11.0:
     yargs "^16.2.0"
 
 jsii-docgen@^1.3.2:
-  version "1.8.56"
-  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-1.8.56.tgz#5cce16157171bf61d508fb7d925468abff55da80"
-  integrity sha512-x09iUWVE7LAOsTOCYQPcy9jf1jluXM+H7i3xuY9ogM7ulCHwZdcTkU7SbTk0+2mzanSzGOAC3/8fwPJpiIq/sw==
+  version "1.8.57"
+  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-1.8.57.tgz#3afe44662fa6cbdd57c2a444a793d39f4e096a9f"
+  integrity sha512-bE8t9Ck022gFH3bT8kmvC/EKczVzyzGKZI38el4BSYc6s74BXQsn6MV7GFwkvwbbGC80pkLxUeHO2RDWaBe3XA==
   dependencies:
     "@jsii/spec" "^1.16.0"
     fs-extra "^9.0.1"
