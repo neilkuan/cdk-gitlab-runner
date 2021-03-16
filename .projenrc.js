@@ -22,7 +22,7 @@ const project = new AwsCdkConstructLibrary({
   stability: 'experimental',
   // creates PRs for projen upgrades
   // projenUpgradeSecret: 'PROJEN_GITHUB_TOKEN',
-  cdkVersion: '1.90.0',
+  cdkVersion: '1.92.0',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
@@ -36,6 +36,9 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-sns',
     '@aws-cdk/aws-sns-subscriptions',
     '@aws-cdk/custom-resources',
+  ],
+  devDeps: [
+    'xmldom',
   ],
   python: {
     distName: 'cdk-gitlab-runner',
