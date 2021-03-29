@@ -20,7 +20,7 @@ const project = new AwsCdkConstructLibrary({
   },
   compat: true,
   stability: 'experimental',
-  cdkVersion: '1.94.1',
+  cdkVersion: '1.95.1',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
