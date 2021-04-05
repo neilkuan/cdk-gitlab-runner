@@ -20,7 +20,7 @@ const project = new AwsCdkConstructLibrary({
   },
   compat: true,
   stability: 'experimental',
-  cdkVersion: '1.95.1',
+  cdkVersion: '1.96.0',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
@@ -49,8 +49,6 @@ const project = new AwsCdkConstructLibrary({
 const automation = new Automation(project, {
   automationToken: AUTOMATION_TOKEN,
 });
-automation.autoApprove();
-automation.autoMerge();
 automation.projenYarnUpgrade();
 
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];
