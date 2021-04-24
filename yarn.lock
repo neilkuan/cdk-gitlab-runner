@@ -6022,9 +6022,9 @@ table@^5.2.3:
     string-width "^3.0.0"
 
 table@^6.1.0:
-  version "6.3.3"
-  resolved "https://registry.yarnpkg.com/table/-/table-6.3.3.tgz#62c3b8f6def131bf2fa2ab3badb040a9f74e705f"
-  integrity sha512-zAplNl1IDQIzlGbqfVg3/pS9bb7RaUgaNd0Qzwt/0oPlzEZZGYQIb+A1Gh8TBU3mzs2E5HfWWqT3Oj0oIup+pw==
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/table/-/table-6.5.1.tgz#930885a7430f15f8766b35cd1e36de40793db523"
+  integrity sha512-xGDXWTBJxahkzPQCsn1S9ESHEenU7TbMD5Iv4FeopXv/XwJyWatFjfbor+6ipI10/MNPXBYUamYukOrbPZ9L/w==
   dependencies:
     ajv "^8.0.1"
     lodash.clonedeep "^4.5.0"
@@ -6032,6 +6032,7 @@ table@^6.1.0:
     lodash.truncate "^4.4.2"
     slice-ansi "^4.0.0"
     string-width "^4.2.0"
+    strip-ansi "^6.0.0"
 
 terminal-link@^2.0.0:
   version "2.1.1"
