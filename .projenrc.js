@@ -8,7 +8,7 @@ const AUTOMATION_TOKEN = 'AUTOMATION_GITHUB_TOKEN';
 const project = new AwsCdkConstructLibrary({
   name: PROJECT_NAME,
   description: PROJECT_DESCRIPTION,
-  repository: 'https://github.com/guan840912/cdk-gitlab-runner.git',
+  repository: 'https://github.com/neilkuan/cdk-gitlab-runner.git',
   authorName: 'Neil Kuan',
   authorEmail: 'guan840912@gmail.com',
   keywords: ['aws', 'gitlab', 'runner'],

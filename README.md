@@ -1,6 +1,6 @@
 [![NPM version](https://badge.fury.io/js/cdk-gitlab-runner.svg)](https://badge.fury.io/js/cdk-gitlab-runner)
 [![PyPI version](https://badge.fury.io/py/cdk-gitlab-runner.svg)](https://badge.fury.io/py/cdk-gitlab-runner)
-![Release](https://github.com/guan840912/cdk-gitlab-runner/workflows/Release/badge.svg)
+![Release](https://github.com/neilkuan/cdk-gitlab-runner/workflows/Release/badge.svg)
 
 ![Downloads](https://img.shields.io/badge/-DOWNLOADS:-brightgreen?color=gray)
 ![npm](https://img.shields.io/npm/dt/cdk-gitlab-runner?label=npm&color=orange)
@@ -324,4 +324,4 @@ config.toml
 
 
 ## :clap:  Supporters
-[![Stargazers repo roster for @guan840912/cdk-gitlab-runner](https://reporoster.com/stars/guan840912/cdk-gitlab-runner)](https://github.com/guan840912/cdk-gitlab-runner/stargazers)
+[![Stargazers repo roster for @neilkuan/cdk-gitlab-runner](https://reporoster.com/stars/neilkuan/cdk-gitlab-runner)](https://github.com/neilkuan/cdk-gitlab-runner/stargazers)

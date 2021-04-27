@@ -3,7 +3,7 @@
   "description": "A Gitlab Runner JSII construct lib for AWS CDK",
   "repository": {
     "type": "git",
-    "url": "https://github.com/guan840912/cdk-gitlab-runner.git"
+    "url": "https://github.com/neilkuan/cdk-gitlab-runner.git"
   },
   "scripts": {
     "clobber": "npx projen clobber",
