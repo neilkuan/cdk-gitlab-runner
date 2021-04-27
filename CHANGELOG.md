@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.94.19](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.18...v1.94.19) (2021-04-21)
+
+### [1.94.18](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.17...v1.94.18) (2021-04-20)
+
+### [1.94.17](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.16...v1.94.17) (2021-04-19)
+
+### [1.94.16](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.15...v1.94.16) (2021-04-18)
+
+### [1.94.15](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.14...v1.94.15) (2021-04-17)
+
+### [1.94.14](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.13...v1.94.14) (2021-04-16)
+
+### [1.94.13](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.12...v1.94.13) (2021-04-15)
+
+### [1.94.12](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.11...v1.94.12) (2021-04-14)
+
+### [1.94.11](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.10...v1.94.11) (2021-04-13)
+
+### [1.94.10](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.9...v1.94.10) (2021-04-12)
+
+### [1.94.9](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.8...v1.94.9) (2021-04-11)
+
+### [1.94.8](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.7...v1.94.8) (2021-04-10)
+
+### [1.94.7](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.6...v1.94.7) (2021-04-09)
+
+### [1.94.6](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.5...v1.94.6) (2021-04-08)
+
+### [1.94.5](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.4...v1.94.5) (2021-04-07)
+
+### [1.94.4](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.3...v1.94.4) (2021-04-06)
+
 ### [1.94.3](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.2...v1.94.3) (2021-04-05)
 
 ### [1.94.2](https://github.com/guan840912/cdk-gitlab-runner/compare/v1.94.1...v1.94.2) (2021-03-29)
