@@ -16,7 +16,6 @@
 This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
 
 ## Note
-
 ### Default will help you generate below services:
 
 - VPC
