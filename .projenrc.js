@@ -1,5 +1,5 @@
-const { AwsCdkConstructLibrary } = require('projen');
 const { Automation } = require('projen-automate-it');
+const { AwsCdkConstructLibrary } = require('projen');
 
 const PROJECT_NAME = 'cdk-gitlab-runner';
 const PROJECT_DESCRIPTION = 'A Gitlab Runner JSII construct lib for AWS CDK';
