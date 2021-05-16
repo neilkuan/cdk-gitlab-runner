@@ -1,13 +1,13 @@
 import * as path from 'path';
-import { FunctionHook } from '@aws-cdk/aws-autoscaling-hooktargets';
 import * as asg from '@aws-cdk/aws-autoscaling';
+import { FunctionHook } from '@aws-cdk/aws-autoscaling-hooktargets';
 import * as ec2 from '@aws-cdk/aws-ec2';
 import * as iam from '@aws-cdk/aws-iam';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as logs from '@aws-cdk/aws-logs';
 import * as assets from '@aws-cdk/aws-s3-assets';
-import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
 import * as sns from '@aws-cdk/aws-sns';
+import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
 import * as cdk from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 import { DockerVolumes } from './gitlab-runner-interfaces';
