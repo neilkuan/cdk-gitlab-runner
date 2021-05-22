@@ -19,6 +19,7 @@ coverage
 dist
 image
 junit.xml
+tsconfig.tsbuildinfo
 venv
 yarn-error.log
 !.jsii
