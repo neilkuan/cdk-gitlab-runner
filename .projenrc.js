@@ -2,7 +2,6 @@ const { AwsCdkConstructLibrary } = require('projen');
 
 const PROJECT_NAME = 'cdk-gitlab-runner';
 const PROJECT_DESCRIPTION = 'A Gitlab Runner JSII construct lib for AWS CDK';
-const AUTOMATION_TOKEN = 'AUTOMATION_GITHUB_TOKEN';
 
 const project = new AwsCdkConstructLibrary({
   name: PROJECT_NAME,
@@ -34,11 +33,12 @@ const project = new AwsCdkConstructLibrary({
     '@aws-cdk/aws-sns-subscriptions',
     '@aws-cdk/custom-resources',
   ],
+  autoApproveOptions: {
+    secret: 'PROJEN_GITHUB_TOKEN',
+  },
   devDeps: [
     'xmldom',
-    'projen-automate-it',
   ],
-  bundledDeps: ['projen-automate-it'],
   python: {
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
