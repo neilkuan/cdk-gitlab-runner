@@ -51,7 +51,9 @@ const project = new AwsCdkConstructLibrary({
     module: 'cdk_gitlab_runner',
   },
 });
-
+project.package.addField('resolutions', {
+  'trim-newlines': '3.0.1',
+});
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];
 project.gitignore.exclude(...common_exclude);
 
