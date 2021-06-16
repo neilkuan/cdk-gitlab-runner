@@ -2097,9 +2097,9 @@ console-control-strings@^1.0.0, console-control-strings@~1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^3.3.69:
-  version "3.3.81"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.81.tgz#c7a83e384ce77d504fb18f247001c33666ff0a00"
-  integrity sha512-ZRzJYcSgjWgR1Uz7Kx2lB3r7KJ1Opx/Wb/KNcmGBGvQZ+UARjGivGmPiQgstmNyt7rnJ0m0DYkZY8ffJ6REe8w==
+  version "3.3.82"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.82.tgz#8ac46a925ffc98b52f5b7c8a041e3e8916418659"
+  integrity sha512-pOJAwmKf2yI8dF3fNK2akbl/xcq1xB3yhuu/ryDw7RESdrdUWbV7Bd013PI1brnXB3gNpUKsrKjXbnpfEZUrgA==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.12"
@@ -4610,10 +4610,10 @@ jsii-diff@^1.30.0:
     typescript "~3.9.9"
     yargs "^16.2.0"
 
-jsii-docgen@^1.8.97:
-  version "1.8.97"
-  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-1.8.97.tgz#009777b621b0b31639363d9f9a70cb3cc196c66f"
-  integrity sha512-vA6Yja3t+o/3iS+rkSCMPLg7gf9CxjuuA4F7fyqwE1ODqYbe5nv7YpUqRDGWge0eU6S4nVnwMiDBAAOSRc2D5w==
+jsii-docgen@^1.8.98:
+  version "1.8.98"
+  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-1.8.98.tgz#7f27d7b06280ce25b3eccf383170df63d7b00ab6"
+  integrity sha512-0n0BqC+5ExqAJsfi53CGrZ478zYM+Rg5UqdwrIQewc34uRT2ygN+zjECEL4MKEk+TSg3qs8sOKogCQ0z48jaHA==
   dependencies:
     "@jsii/spec" "^1.30.0"
     fs-extra "^9.1.0"
@@ -5462,9 +5462,9 @@ npm-normalize-package-bin@^1.0.1:
   integrity sha512-EPfafl6JL5/rU+ot6P3gRSCpPDW5VmIzX959Ob1+ySFUuuYHWHekXpwdUZcKP5C+DS4GEtdJluwBjnsNDl+fSA==
 
 npm-package-arg@^8.0.0, npm-package-arg@^8.0.1, npm-package-arg@^8.1.2:
-  version "8.1.4"
-  resolved "https://registry.yarnpkg.com/npm-package-arg/-/npm-package-arg-8.1.4.tgz#8001cdbc4363997b8ef6c6cf7aaf543c5805879d"
-  integrity sha512-xLokoCFqj/rPdr3LvcdDL6Kj6ipXGEDHD/QGpzwU6/pibYUOXmp5DBmg76yukFyx4ZDbrXNOTn+BPyd8TD4Jlw==
+  version "8.1.5"
+  resolved "https://registry.yarnpkg.com/npm-package-arg/-/npm-package-arg-8.1.5.tgz#3369b2d5fe8fdc674baa7f1786514ddc15466e44"
+  integrity sha512-LhgZrg0n0VgvzVdSm1oiZworPbTxYHUJCgtsJW8mGvlDpxTM1vSJc3m5QZeUkhAHIzbz3VCHd/R4osi1L1Tg/Q==
   dependencies:
     hosted-git-info "^4.0.1"
     semver "^7.3.4"
