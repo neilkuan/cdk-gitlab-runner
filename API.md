@@ -4,31 +4,31 @@
 
 Name|Description
 ----|-----------
-[GitlabContainerRunner](#cdk-gitlab-runner-gitlabcontainerrunner)|*No description*
-[GitlabRunnerAutoscaling](#cdk-gitlab-runner-gitlabrunnerautoscaling)|*No description*
+[GitlabContainerRunner](#cdk-gitlab-runner-gitlabcontainerrunner)|GitlabContainerRunner Construct for create a Gitlab Runner.
+[GitlabRunnerAutoscaling](#cdk-gitlab-runner-gitlabrunnerautoscaling)|GitlabRunnerAutoscaling Construct for create Autoscaling Gitlab Runner.
 
 
 **Structs**
 
 Name|Description
 ----|-----------
-[DockerVolumes](#cdk-gitlab-runner-dockervolumes)|*No description*
-[GitlabContainerRunnerProps](#cdk-gitlab-runner-gitlabcontainerrunnerprops)|*No description*
-[GitlabRunnerAutoscalingProps](#cdk-gitlab-runner-gitlabrunnerautoscalingprops)|*No description*
+[DockerVolumes](#cdk-gitlab-runner-dockervolumes)|Docker Volumes interface.
+[GitlabContainerRunnerProps](#cdk-gitlab-runner-gitlabcontainerrunnerprops)|GitlabContainerRunner Props.
+[GitlabRunnerAutoscalingProps](#cdk-gitlab-runner-gitlabrunnerautoscalingprops)|GitlabRunnerAutoscaling Props.
 
 
 **Enums**
 
 Name|Description
 ----|-----------
-[BlockDuration](#cdk-gitlab-runner-blockduration)|*No description*
-[InstanceInterruptionBehavior](#cdk-gitlab-runner-instanceinterruptionbehavior)|*No description*
+[BlockDuration](#cdk-gitlab-runner-blockduration)|BlockDuration enum.
+[InstanceInterruptionBehavior](#cdk-gitlab-runner-instanceinterruptionbehavior)|InstanceInterruptionBehavior enum.
 
 
 
 ## class GitlabContainerRunner 🔹 <a id="cdk-gitlab-runner-gitlabcontainerrunner"></a>
 
-
+GitlabContainerRunner Construct for create a Gitlab Runner.
 
 __Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
 __Extends__: [Construct](#aws-cdk-core-construct)
@@ -90,20 +90,20 @@ createUserData(props: GitlabContainerRunnerProps, bucketName: string): Array<str
 ```
 
 * **props** (<code>[GitlabContainerRunnerProps](#cdk-gitlab-runner-gitlabcontainerrunnerprops)</code>)  *No description*
-* **bucketName** (<code>string</code>)  *No description*
+* **bucketName** (<code>string</code>)  - the bucketName to put gitlab runner token.
 
 __Returns__:
 * <code>Array<string></code>
 
 #### expireAfter(duration)🔹 <a id="cdk-gitlab-runner-gitlabcontainerrunner-expireafter"></a>
 
-
+Add expire time function for spotfleet runner !!! .
 
 ```ts
 expireAfter(duration: Duration): void
 ```
 
-* **duration** (<code>[Duration](#aws-cdk-core-duration)</code>)  *No description*
+* **duration** (<code>[Duration](#aws-cdk-core-duration)</code>)  - Block duration.
 
 
 
@@ -112,7 +112,7 @@ expireAfter(duration: Duration): void
 
 ## class GitlabRunnerAutoscaling 🔹 <a id="cdk-gitlab-runner-gitlabrunnerautoscaling"></a>
 
-
+GitlabRunnerAutoscaling Construct for create Autoscaling Gitlab Runner.
 
 __Implements__: [IConstruct](#constructs-iconstruct), [IConstruct](#aws-cdk-core-iconstruct), [IConstruct](#constructs-iconstruct), [IDependable](#aws-cdk-core-idependable)
 __Extends__: [Construct](#aws-cdk-core-construct)
@@ -194,7 +194,7 @@ __Returns__:
 ## struct DockerVolumes 🔹 <a id="cdk-gitlab-runner-dockervolumes"></a>
 
 
-
+Docker Volumes interface.
 
 
 
@@ -208,7 +208,7 @@ Name | Type | Description
 ## struct GitlabContainerRunnerProps 🔹 <a id="cdk-gitlab-runner-gitlabcontainerrunnerprops"></a>
 
 
-
+GitlabContainerRunner Props.
 
 
 
@@ -238,7 +238,7 @@ Name | Type | Description
 ## struct GitlabRunnerAutoscalingProps 🔹 <a id="cdk-gitlab-runner-gitlabrunnerautoscalingprops"></a>
 
 
-
+GitlabRunnerAutoscaling Props.
 
 
 
@@ -264,40 +264,40 @@ Name | Type | Description
 
 ## enum BlockDuration 🔹 <a id="cdk-gitlab-runner-blockduration"></a>
 
-
+BlockDuration enum.
 
 Name | Description
 -----|-----
-**ONE_HOUR** 🔹|
-**TWO_HOURS** 🔹|
-**THREE_HOURS** 🔹|
-**FOUR_HOURS** 🔹|
-**FIVE_HOURS** 🔹|
-**SIX_HOURS** 🔹|
-**SEVEN_HOURS** 🔹|
-**EIGHT_HOURS** 🔹|
-**NINE_HOURS** 🔹|
-**TEN_HOURS** 🔹|
-**ELEVEN_HOURS** 🔹|
-**TWELVE_HOURS** 🔹|
-**THIRTEEN_HOURS** 🔹|
-**FOURTEEN_HOURS** 🔹|
-**FIFTEEN_HOURS** 🔹|
-**SIXTEEN_HOURS** 🔹|
-**SEVENTEEN_HOURS** 🔹|
-**EIGHTTEEN_HOURS** 🔹|
-**NINETEEN_HOURS** 🔹|
-**TWENTY_HOURS** 🔹|
+**ONE_HOUR** 🔹|one hours.
+**TWO_HOURS** 🔹|two hours.
+**THREE_HOURS** 🔹|three hours.
+**FOUR_HOURS** 🔹|four hours.
+**FIVE_HOURS** 🔹|five hours.
+**SIX_HOURS** 🔹|six hours.
+**SEVEN_HOURS** 🔹|seven hours.
+**EIGHT_HOURS** 🔹|eight hours.
+**NINE_HOURS** 🔹|nine hours.
+**TEN_HOURS** 🔹|ten hours.
+**ELEVEN_HOURS** 🔹|eleven hours.
+**TWELVE_HOURS** 🔹|twelve hours.
+**THIRTEEN_HOURS** 🔹|thirteen hours.
+**FOURTEEN_HOURS** 🔹|fourteen hours.
+**FIFTEEN_HOURS** 🔹|fifteen hours.
+**SIXTEEN_HOURS** 🔹|sixteen hours.
+**SEVENTEEN_HOURS** 🔹|seventeen hours.
+**EIGHTTEEN_HOURS** 🔹|eightteen hours.
+**NINETEEN_HOURS** 🔹|nineteen hours.
+**TWENTY_HOURS** 🔹|twenty hours.
 
 
 ## enum InstanceInterruptionBehavior 🔹 <a id="cdk-gitlab-runner-instanceinterruptionbehavior"></a>
 
-
+InstanceInterruptionBehavior enum.
 
 Name | Description
 -----|-----
-**HIBERNATE** 🔹|
-**STOP** 🔹|
-**TERMINATE** 🔹|
+**HIBERNATE** 🔹|hibernate.
+**STOP** 🔹|stop.
+**TERMINATE** 🔹|terminate.
 
 

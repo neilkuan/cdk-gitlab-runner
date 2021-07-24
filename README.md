@@ -12,8 +12,19 @@
 ![](https://img.shields.io/badge/spotfleet-runner-green=?style=plastic&logo=appveyor)
 
 # Welcome to `cdk-gitlab-runner`
+Use AWS CDK to create gitlab runner, and use [gitlab runner](https://gitlab.com/gitlab-org/gitlab-runner) to help you execute your Gitlab Pipeline Job.
+> GitLab Runner is the open source project that is used to run your CI/CD jobs and send the results back to GitLab. [(source repo)](https://gitlab.com/gitlab-org/gitlab-runner)
 
-This repository template helps you create gitlab runner on your aws account via AWS CDK one line.
+## Why
+Gitlab provides [400 minutes per month for each free user](https://about.gitlab.com/pricing/), hosted Gitlab Runner to execute your gitlab pipeline job.That's pretty good and users don't need to manage gitlab runner. If it is just a simple ci job for test 400, it may be enough.
+But what if you want to deploy to your AWS production environment through pipeline job?
+Is there any security consideration for using the hosted gitlab runner?!
+
+But creating Gitlab Runner is not that simple, so I created this OSS so that you can quickly create Gitlab Runner and delete your Gitlab Runner via AWS CDK.
+It will be used with AWS IAM Role, so you don't need to put AKSK in Gitlab environment variables.
+
+![](./image/cdk-gitlab-runner.png)
+
 
 ## Note
 ### Default will help you generate below services:
@@ -29,7 +40,7 @@ This repository template helps you create gitlab runner on your aws account via 
 Group > Settings > CI/CD
 ![group](image/group_runner_page.png)
 
-### In Group
+### In Project
 
 Project > Settings > CI/CD > Runners
 ![project](image/project_runner_page.png)
@@ -202,7 +213,7 @@ new GitlabRunnerAutoscaling(stack, 'testing', {
 ### Support Spotfleet Gitlab Runner
 
 > 2020/08/27 , you can use spotfleet instance be your gitlab runner,
-> after create spotfleet instance will auto output instance id .thank [@pahud](https://github.com/pahud/cdk-spot-one) again ~~~
+> after create spotfleet instance will auto output instance id.
 
 ```typescript
 import { GitlabContainerRunner, BlockDuration } from 'cdk-gitlab-runner';
@@ -232,38 +243,6 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
       containerPath: '/tmp/cahce',
     },
   ],
-});
-```
-> 2020/11/19, support runner auto unregister runner when cdk app destroy.
-
-# Note
-
-![](https://img.shields.io/badge/version-1.47.1-green=?style=plastic&logo=appveyor) vs ![](https://img.shields.io/badge/version-1.49.1-green=?style=plastic&logo=appveyor)
-
-> About change instance type
-
-This is before ![](https://img.shields.io/badge/version-1.47.1-green=?style) ( included ![](https://img.shields.io/badge/version-1.47.1-green=?style) )
-
-```typescript
-import { InstanceType, InstanceClass, InstanceSize } from '@aws-cdk/aws-ec2';
-import { GitlabContainerRunner } from 'cdk-gitlab-runner';
-
-// If want change instance type to t3.large .
-new GitlabContainerRunner(this, 'runner-instance', {
-  gitlabtoken: '$GITLABTOKEN',
-  ec2type: InstanceType.of(InstanceClass.T3, InstanceSize.LARGE),
-});
-```
-
-This is ![](https://img.shields.io/badge/version-1.49.1-green=?style)
-
-```typescript
-import { GitlabContainerRunner } from 'cdk-gitlab-runner';
-
-// If want change instance type to t3.large .
-new GitlabContainerRunner(this, 'runner-instance', {
-  gitlabtoken: '$GITLABTOKEN',
-  ec2type: 't3.large',
 });
 ```
 

@@ -42,6 +42,9 @@ import {
 import * as cr from '@aws-cdk/custom-resources';
 
 import { DockerVolumes } from './gitlab-runner-interfaces';
+/**
+ * GitlabContainerRunner Props.
+ */
 export interface GitlabContainerRunnerProps {
   /**
    * Gitlab token for the Register Runner .
@@ -263,35 +266,113 @@ export interface GitlabContainerRunnerProps {
   readonly dockerVolumes?: DockerVolumes[];
 }
 
+/**
+ * BlockDuration enum.
+ */
 export enum BlockDuration {
+  /**
+   * one hours.
+   */
   ONE_HOUR = 60,
+  /**
+   * two hours.
+   */
   TWO_HOURS = 120,
+  /**
+   * three hours.
+   */
   THREE_HOURS = 180,
+  /**
+   * four hours.
+   */
   FOUR_HOURS = 240,
+  /**
+   * five hours.
+   */
   FIVE_HOURS = 300,
+  /**
+   * six hours.
+   */
   SIX_HOURS = 360,
+  /**
+   * seven hours.
+   */
   SEVEN_HOURS = 420,
+  /**
+   * eight hours.
+   */
   EIGHT_HOURS = 480,
+  /**
+   * nine hours.
+   */
   NINE_HOURS = 540,
+  /**
+   * ten hours.
+   */
   TEN_HOURS = 600,
+  /**
+   * eleven hours.
+   */
   ELEVEN_HOURS = 660,
+  /**
+   * twelve hours.
+   */
   TWELVE_HOURS = 720,
+  /**
+   * thirteen hours.
+   */
   THIRTEEN_HOURS = 780,
+  /**
+   * fourteen hours.
+   */
   FOURTEEN_HOURS = 840,
+  /**
+   * fifteen hours.
+   */
   FIFTEEN_HOURS = 900,
+  /**
+   * sixteen hours.
+   */
   SIXTEEN_HOURS = 960,
+  /**
+   * seventeen hours.
+   */
   SEVENTEEN_HOURS = 1020,
+  /**
+   * eightteen hours.
+   */
   EIGHTTEEN_HOURS = 1080,
+  /**
+   * nineteen hours.
+   */
   NINETEEN_HOURS = 1140,
+  /**
+   * twenty hours.
+   */
   TWENTY_HOURS = 1200,
 }
 
+/**
+ * InstanceInterruptionBehavior enum.
+ */
 export enum InstanceInterruptionBehavior {
+  /**
+   * hibernate
+   */
   HIBERNATE = 'hibernate',
+  /**
+   * stop
+   */
   STOP = 'stop',
+  /**
+   * terminate
+   */
   TERMINATE = 'terminate',
 }
 
+/**
+ * GitlabContainerRunner Construct for create a Gitlab Runner.
+ */
 export class GitlabContainerRunner extends Construct {
   /**
    * The IAM role assumed by the Runner instance .
@@ -342,6 +423,7 @@ export class GitlabContainerRunner extends Construct {
 
     const runnerBucket = new Bucket(this, 'runnerBucket', {
       removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
     });
     const shell = UserData.forLinux();
     shell.addCommands(...this.createUserData(runnerProps, runnerBucket.bucketName));
@@ -565,7 +647,9 @@ export class GitlabContainerRunner extends Construct {
   }
 
   /**
-   * @default - !!! only support spotfleet runner !!! .
+   * Add expire time function for spotfleet runner !!! .
+   *
+   * @param duration - Block duration.
    */
   public expireAfter(duration: Duration) {
     const date = new Date();
@@ -586,7 +670,11 @@ export class GitlabContainerRunner extends Construct {
     }
     return tempString;
   }
-
+  /**
+   * @param props
+   * @param bucketName - the bucketName to put gitlab runner token.
+   * @returns Array.
+   */
   public createUserData(props: GitlabContainerRunnerProps, bucketName: string): string[] {
     return [
       'yum update -y ',

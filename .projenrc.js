@@ -1,7 +1,7 @@
 const { AwsCdkConstructLibrary, DependenciesUpgradeMechanism } = require('projen');
 
 const PROJECT_NAME = 'cdk-gitlab-runner';
-const PROJECT_DESCRIPTION = 'A Gitlab Runner JSII construct lib for AWS CDK';
+const PROJECT_DESCRIPTION = 'Use AWS CDK to create a gitlab runner, and use gitlab runner to help you execute your Gitlab pipeline job.';
 
 const project = new AwsCdkConstructLibrary({
   name: PROJECT_NAME,
@@ -17,7 +17,7 @@ const project = new AwsCdkConstructLibrary({
   },
   compat: true,
   stability: 'experimental',
-  cdkVersion: '1.107.0',
+  cdkVersion: '1.115.0',
   cdkDependencies: [
     '@aws-cdk/aws-iam',
     '@aws-cdk/aws-ec2',
@@ -34,6 +34,7 @@ const project = new AwsCdkConstructLibrary({
   ],
   autoDetectBin: false,
   depsUpgrade: DependenciesUpgradeMechanism.githubWorkflow({
+    ignoreProjen: false,
     workflowOptions: {
       labels: ['auto-approve'],
       secret: 'AUTOMATION_GITHUB_TOKEN',

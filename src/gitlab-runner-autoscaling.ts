@@ -12,6 +12,9 @@ import * as cdk from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 import { DockerVolumes } from './gitlab-runner-interfaces';
 
+/**
+ * GitlabRunnerAutoscaling Props.
+ */
 export interface GitlabRunnerAutoscalingProps {
   /**
    * Gitlab token.
@@ -205,6 +208,9 @@ export interface GitlabRunnerAutoscalingProps {
   readonly alarms?: object[];
 }
 
+/**
+ * GitlabRunnerAutoscaling Construct for create Autoscaling Gitlab Runner.
+ */
 export class GitlabRunnerAutoscaling extends cdk.Construct {
   /**
    * The IAM role assumed by the Runner instance.
@@ -463,7 +469,10 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
     }
     return tempString;
   }
-
+  /**
+   * @param props
+   * @returns Array.
+   */
   public createUserData(props: GitlabRunnerAutoscalingProps): string[] {
     return [
       'yum update -y',

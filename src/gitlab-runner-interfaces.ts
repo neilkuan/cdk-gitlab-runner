@@ -1,3 +1,6 @@
+/**
+ * Docker Volumes interface.
+ */
 export interface DockerVolumes {
   /**
    * EC2 Runner Host Path
