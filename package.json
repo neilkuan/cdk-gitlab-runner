@@ -149,7 +149,7 @@
   },
   "awscdkio": {
     "twitter": "neil_kuan",
-    "announce": true
+    "announce": false
   },
   "resolutions": {
     "trim-newlines": "3.0.1"

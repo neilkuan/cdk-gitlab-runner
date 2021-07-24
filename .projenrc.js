@@ -13,7 +13,7 @@ const project = new AwsCdkConstructLibrary({
   defaultReleaseBranch: 'master',
   catalog: {
     twitter: 'neil_kuan',
-    announce: true,
+    announce: false,
   },
   compat: true,
   stability: 'experimental',
