@@ -48,7 +48,7 @@ const project = new AwsCdkConstructLibrary({
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
   },
-  deps: [
+  devDeps: [
     'xmldom@^0.6.0',
   ],
 });
