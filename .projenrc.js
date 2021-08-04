@@ -44,9 +44,6 @@ const project = new AwsCdkConstructLibrary({
     secret: 'GITHUB_TOKEN',
     allowedUsernames: ['neilkuan'],
   },
-  devDeps: [
-    'xmldom',
-  ],
   python: {
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
