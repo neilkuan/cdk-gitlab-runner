@@ -48,9 +48,6 @@ const project = new AwsCdkConstructLibrary({
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
   },
-  devDeps: [
-    'xmldom@^0.6.0',
-  ],
 });
 project.package.addField('resolutions', {
   xmldom: 'github:xmldom/xmldom#0.7.0',

@@ -90,11 +90,6 @@
       "type": "build"
     },
     {
-      "name": "xmldom",
-      "version": "^0.6.0",
-      "type": "build"
-    },
-    {
       "name": "@aws-cdk/aws-autoscaling-hooktargets",
       "version": "^1.115.0",
       "type": "peer"
