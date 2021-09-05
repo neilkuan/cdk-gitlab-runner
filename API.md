@@ -6,7 +6,7 @@
 
 GitlabContainerRunner Construct for create a Gitlab Runner.
 
-#### Initializer <a name="cdk-gitlab-runner.GitlabContainerRunner.Initializer"></a>
+#### Initializers <a name="cdk-gitlab-runner.GitlabContainerRunner.Initializer"></a>
 
 ```typescript
 import { GitlabContainerRunner } from 'cdk-gitlab-runner'
@@ -124,7 +124,7 @@ The EC2 runner's vpc.
 
 GitlabRunnerAutoscaling Construct for create Autoscaling Gitlab Runner.
 
-#### Initializer <a name="cdk-gitlab-runner.GitlabRunnerAutoscaling.Initializer"></a>
+#### Initializers <a name="cdk-gitlab-runner.GitlabRunnerAutoscaling.Initializer"></a>
 
 ```typescript
 import { GitlabRunnerAutoscaling } from 'cdk-gitlab-runner'
