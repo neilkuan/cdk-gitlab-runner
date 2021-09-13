@@ -24,10 +24,6 @@ jobs:
         run: |-
           git config user.name "Automation"
           git config user.email "github-actions@github.com"
-      - name: Setup Node.js
-        uses: actions/setup-node@v2.2.0
-        with:
-          node-version: 12.19.0
       - name: Install dependencies
         run: yarn install --check-files --frozen-lockfile
       - name: release
@@ -43,7 +39,7 @@ jobs:
           name: dist
           path: dist
     container:
-      image: jsii/superchain
+      image: jsii/superchain:node14
   release_github:
     name: Publish to GitHub Releases
     needs: release
@@ -86,7 +82,7 @@ jobs:
           NPM_REGISTRY: registry.npmjs.org
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     container:
-      image: jsii/superchain
+      image: jsii/superchain:node14
   release_pypi:
     name: Publish to PyPI
     needs: release
@@ -106,4 +102,4 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
     container:
-      image: jsii/superchain
+      image: jsii/superchain:node14
