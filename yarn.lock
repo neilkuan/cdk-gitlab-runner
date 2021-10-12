@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@aws-cdk/assert@^1.122.0":
+"@aws-cdk/assert@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/assert/-/assert-1.127.0.tgz#7a3756def9ed8b4d298079bdb4e3be05aa2524c1"
   integrity sha512-sZDURrPbLaS+Fadul1MX5Xy/l2K5QvbS7poomnwD1Ejs+1chgksVWBqRehjjAmDTIy1zNb4K+8qm9oFtdw3VmQ==
@@ -41,7 +41,7 @@
     "@aws-cdk/core" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-autoscaling-hooktargets@^1.122.0":
+"@aws-cdk/aws-autoscaling-hooktargets@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-autoscaling-hooktargets/-/aws-autoscaling-hooktargets-1.127.0.tgz#31121a1d07689a28f75799fc60ea27526d16a0a5"
   integrity sha512-XGGz2PefhsLtidtztl6lQ3lUyGEqCCSfH3CheADlyCR8NHU7E+Wt32910fZ0iZWeyUsPBw2ncys+F2CzoQ7z1Q==
@@ -56,7 +56,7 @@
     "@aws-cdk/core" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-autoscaling@1.127.0", "@aws-cdk/aws-autoscaling@^1.122.0":
+"@aws-cdk/aws-autoscaling@1.127.0", "@aws-cdk/aws-autoscaling@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-autoscaling/-/aws-autoscaling-1.127.0.tgz#1dc6aa56f253154eac39f010ff729d8379ca0029"
   integrity sha512-FdqnsqbPCZy2/CRKipN7NwmWY1I/isE7EcSr+cm54beQGt7MhmdTGO8oqWdnmGYnMZHuNATDeH+dOm+08thu8w==
@@ -122,7 +122,7 @@
     "@aws-cdk/core" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-ec2@1.127.0", "@aws-cdk/aws-ec2@^1.122.0":
+"@aws-cdk/aws-ec2@1.127.0", "@aws-cdk/aws-ec2@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-ec2/-/aws-ec2-1.127.0.tgz#6cfa1c030be921e897fba7a17423239a0e0049ca"
   integrity sha512-IEedoIggElQykS6shFTHyQedG8dXVPoyX6xOQTgvfgMJti1gtstFc85ZABRQhLqNWrJJR80zI04LhDy8denUjw==
@@ -212,7 +212,7 @@
     "@aws-cdk/core" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-iam@1.127.0", "@aws-cdk/aws-iam@^1.122.0":
+"@aws-cdk/aws-iam@1.127.0", "@aws-cdk/aws-iam@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-iam/-/aws-iam-1.127.0.tgz#04f47e1cd6d71bf05975e400f9bbf100db57388b"
   integrity sha512-JPbf69uj3LmE9nM2Y1vVGO6zMIu9mWGKq3k21PFGLbxExvRiSYrmYFt1qqDNIcSgOubN6kQa8dD4R5j8QPlpDg==
@@ -232,7 +232,7 @@
     "@aws-cdk/cx-api" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-lambda@1.127.0", "@aws-cdk/aws-lambda@^1.122.0":
+"@aws-cdk/aws-lambda@1.127.0", "@aws-cdk/aws-lambda@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda/-/aws-lambda-1.127.0.tgz#a65ecbec841676df96e266dab23909d573c378cd"
   integrity sha512-OPYaBYDqPyuqOY9Q/UWMiNSGu3envS5Gn6qEc0O6sW7s1GKgVNNbPBn+LDeeIbp+inwdCNOSFQRy/hTIfQctVg==
@@ -257,7 +257,7 @@
     "@aws-cdk/region-info" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-logs@1.127.0", "@aws-cdk/aws-logs@^1.122.0":
+"@aws-cdk/aws-logs@1.127.0", "@aws-cdk/aws-logs@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-logs/-/aws-logs-1.127.0.tgz#36bfc63bcc88a29a8e0ba8715cb7335ae07d181c"
   integrity sha512-dkL8HMMI8AriOsk/iTVrBcnzu7zy9g7n9GmM//vGPk8b+3bED13UcZppiHkm89tAwGijjjaMfW+CdDFq76AoiQ==
@@ -282,7 +282,7 @@
     "@aws-cdk/custom-resources" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-s3-assets@1.127.0", "@aws-cdk/aws-s3-assets@^1.122.0":
+"@aws-cdk/aws-s3-assets@1.127.0", "@aws-cdk/aws-s3-assets@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-s3-assets/-/aws-s3-assets-1.127.0.tgz#23afcdccfcf9da69c4073e2ea3ce837120a8d857"
   integrity sha512-vKXpwP5Tl3YmxN15Ksl3Lw6EQ2RLCJHd463azpFEtjRnph1Q/qA6UaXSzxZ9KxQ+Ahf69Hm5kVizOIOgQADJ7g==
@@ -295,7 +295,7 @@
     "@aws-cdk/cx-api" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-s3@1.127.0", "@aws-cdk/aws-s3@^1.122.0":
+"@aws-cdk/aws-s3@1.127.0", "@aws-cdk/aws-s3@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-s3/-/aws-s3-1.127.0.tgz#5a12e50b246a628a59260f415e7fa2d8f9bd9ba9"
   integrity sha512-PbmbY52MaN12H76U8K3ytdHTlC1uFa3aC9RyQ8hZR1RMThxXEzrrn8SznoPyLIQyaaXDiI0ptKyo3nDvMM43tQ==
@@ -315,7 +315,7 @@
     "@aws-cdk/core" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-sns-subscriptions@1.127.0", "@aws-cdk/aws-sns-subscriptions@^1.122.0":
+"@aws-cdk/aws-sns-subscriptions@1.127.0", "@aws-cdk/aws-sns-subscriptions@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-sns-subscriptions/-/aws-sns-subscriptions-1.127.0.tgz#234227e156fd208c8bee7079117f297c209af839"
   integrity sha512-UQMVfvV5YwbuI4KJB7GeELrVlyFnBpnGmehjYJUbf30Q3IBJDe1eOX2nb821hMB6UXRUzD7Jl328YnG75tOrPg==
@@ -328,7 +328,7 @@
     "@aws-cdk/core" "1.127.0"
     constructs "^3.3.69"
 
-"@aws-cdk/aws-sns@1.127.0", "@aws-cdk/aws-sns@^1.122.0":
+"@aws-cdk/aws-sns@1.127.0", "@aws-cdk/aws-sns@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/aws-sns/-/aws-sns-1.127.0.tgz#c3e8a7ec688ccfba94288349a272244f53c84567"
   integrity sha512-y57656L2DT5J3P+xkdGt3bFFDfAJ3oVA2em0jNGFRt1P81snvArGMvCR86AFqY6o5bWi6sFupmtr6Y6JvNKPPw==
@@ -392,7 +392,7 @@
     string-width "^4.2.3"
     table "^6.7.2"
 
-"@aws-cdk/core@1.127.0", "@aws-cdk/core@^1.122.0":
+"@aws-cdk/core@1.127.0", "@aws-cdk/core@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/core/-/core-1.127.0.tgz#175a1b8de80c4abc560de142d5c82a29cf106fd4"
   integrity sha512-1Q+KogP+wsHIj9xItA6RVBAwF9gDcdXfGl2qks1TRJu9ekhswSY5cd6LfW4rxGg7JrrwKLipZRvVoOeG5hQNag==
@@ -406,7 +406,7 @@
     ignore "^5.1.8"
     minimatch "^3.0.4"
 
-"@aws-cdk/custom-resources@1.127.0", "@aws-cdk/custom-resources@^1.122.0":
+"@aws-cdk/custom-resources@1.127.0", "@aws-cdk/custom-resources@^1.127.0":
   version "1.127.0"
   resolved "https://registry.yarnpkg.com/@aws-cdk/custom-resources/-/custom-resources-1.127.0.tgz#cd7737c2f692ca0badbabaf4f316393e8fa97b57"
   integrity sha512-NnwO4ckomEABdVXFc3K+v2xwcKQO0RgSJ/PwN7dtSLA71rb9Cd/jy82uDiDGAtk5SPrxlQsVujntL8R/I6UozQ==
@@ -5475,10 +5475,10 @@ progress@^2.0.0, progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@0.28.33:
-  version "0.28.33"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.28.33.tgz#3f42f7ac46b5be9885d1e36b3b3b518ef36d6d4e"
-  integrity sha512-BhUBzLWy2lOdxCPnuNw8fb2idaxWWz0R4osBKcoIP3QA2j+YoK1+pzxlo+cFuVY07QZjD+P5GO6KcPnd7+rUWA==
+projen@^0.30.0:
+  version "0.30.0"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.30.0.tgz#b039728fb38fd8bf6a3ecc1cbbd73ebd50584fdc"
+  integrity sha512-jL7klOQXgAYNqqhkznfeAbZUF21OpVvbcZnGA8fXEVuzrQQ9NKxwxzslMyyTJEuMlQbj2DLRJEbtz/lGLmQ2Tw==
   dependencies:
     "@iarna/toml" "^2.2.5"
     chalk "^4.1.2"
