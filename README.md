@@ -239,8 +239,8 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
   ec2type: 't3.large',
   dockerVolumes: [
     {
-      hostPath: '/tmp/cahce',
-      containerPath: '/tmp/cahce',
+      hostPath: '/tmp/cache',
+      containerPath: '/tmp/cache',
     },
   ],
 });
