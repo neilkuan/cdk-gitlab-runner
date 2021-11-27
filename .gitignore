@@ -37,6 +37,7 @@ junit.xml
 !/.github/workflows/build.yml
 /dist/changelog.md
 /dist/version.txt
+!/.github/workflows/release.yml
 !/.mergify.yml
 !/.github/pull_request_template.md
 !/test/
@@ -53,5 +54,4 @@ cdk.context.json
 yarn-error.log
 coverage
 venv
-!/.github/workflows/release.yml
 !/.github/workflows/upgrade-master.yml
