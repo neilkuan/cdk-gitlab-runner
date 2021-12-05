@@ -540,7 +540,7 @@ export class GitlabContainerRunner extends Construct {
           ],
           iamFleetRole: spotFleetRole.roleArn,
           targetCapacity: 1,
-          validUntil: Lazy.stringValue({ produce: () => this.validUntil }),
+          validUntil: Lazy.string({ produce: () => this.validUntil }),
           terminateInstancesWithExpiration: true,
         },
       });
