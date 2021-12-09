@@ -48,6 +48,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
   },
+  workflowNodeVersion: '^14.17.0',
+  bundledDeps: [
+    '@aws-cdk/assert',
+  ],
 });
 project.package.addField('resolutions', {
   'xmldom': 'github:xmldom/xmldom#0.7.0',
