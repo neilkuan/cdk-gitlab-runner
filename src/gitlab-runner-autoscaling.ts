@@ -1,15 +1,16 @@
 import * as path from 'path';
-import * as asg from '@aws-cdk/aws-autoscaling';
-import { FunctionHook } from '@aws-cdk/aws-autoscaling-hooktargets';
-import * as ec2 from '@aws-cdk/aws-ec2';
-import * as iam from '@aws-cdk/aws-iam';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as logs from '@aws-cdk/aws-logs';
-import * as assets from '@aws-cdk/aws-s3-assets';
-import * as sns from '@aws-cdk/aws-sns';
-import * as subscriptions from '@aws-cdk/aws-sns-subscriptions';
-import * as cdk from '@aws-cdk/core';
-import * as cr from '@aws-cdk/custom-resources';
+import * as cdk from 'aws-cdk-lib';
+import * as asg from 'aws-cdk-lib/aws-autoscaling';
+import { FunctionHook } from 'aws-cdk-lib/aws-autoscaling-hooktargets';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as assets from 'aws-cdk-lib/aws-s3-assets';
+import * as sns from 'aws-cdk-lib/aws-sns';
+import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
+import * as cr from 'aws-cdk-lib/custom-resources';
+import { Construct } from 'constructs';
 import { DockerVolumes } from './gitlab-runner-interfaces';
 
 /**
@@ -211,7 +212,7 @@ export interface GitlabRunnerAutoscalingProps {
 /**
  * GitlabRunnerAutoscaling Construct for create Autoscaling Gitlab Runner.
  */
-export class GitlabRunnerAutoscaling extends cdk.Construct {
+export class GitlabRunnerAutoscaling extends Construct {
   /**
    * The IAM role assumed by the Runner instance.
    */
@@ -238,7 +239,7 @@ export class GitlabRunnerAutoscaling extends cdk.Construct {
   public readonly topicAlarm: sns.ITopic;
 
 
-  constructor(scope: cdk.Construct, id: string, props: GitlabRunnerAutoscalingProps) {
+  constructor(scope: Construct, id: string, props: GitlabRunnerAutoscalingProps) {
     super(scope, id);
     const defaultProps = {
       instanceType: 't3.micro',

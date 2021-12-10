@@ -1,5 +1,15 @@
 import * as path from 'path';
 import {
+  CfnOutput,
+  Fn,
+  Stack,
+  Duration,
+  Lazy,
+  CustomResource,
+  Token,
+  RemovalPolicy,
+} from 'aws-cdk-lib';
+import {
   Instance,
   InstanceType,
   MachineImage,
@@ -16,7 +26,7 @@ import {
   CfnSpotFleet,
   ISecurityGroup,
   SubnetSelection,
-} from '@aws-cdk/aws-ec2';
+} from 'aws-cdk-lib/aws-ec2';
 import {
   IRole,
   Role,
@@ -24,22 +34,12 @@ import {
   ManagedPolicy,
   CfnInstanceProfile,
   PolicyStatement,
-} from '@aws-cdk/aws-iam';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as logs from '@aws-cdk/aws-logs';
-import { Bucket } from '@aws-cdk/aws-s3';
-import {
-  Construct,
-  CfnOutput,
-  Fn,
-  Stack,
-  Duration,
-  Lazy,
-  CustomResource,
-  Token,
-  RemovalPolicy,
-} from '@aws-cdk/core';
-import * as cr from '@aws-cdk/custom-resources';
+} from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
+import * as cr from 'aws-cdk-lib/custom-resources';
+import { Construct } from 'constructs';
 
 import { DockerVolumes } from './gitlab-runner-interfaces';
 /**

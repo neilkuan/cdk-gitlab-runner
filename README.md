@@ -110,7 +110,7 @@ If you want add runner other IAM Policy like s3-readonly-access.
 ```typescript
 // If you want add runner other IAM Policy like s3-readonly-access.
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
-import { ManagedPolicy } from '@aws-cdk/aws-iam';
+import { ManagedPolicy } from 'aws-cdk-lib/aws-iam';
 
 const runner = new GitlabContainerRunner(this, 'runner-instance-add-policy', {
   gitlabtoken: '$GITLABTOKEN',
@@ -128,7 +128,7 @@ If you want add runner other SG Ingress .
 ```typescript
 // If you want add runner other SG Ingress .
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
-import { Port, Peer } from '@aws-cdk/aws-ec2';
+import { Port, Peer } from 'aws-cdk-lib/aws-ec2';
 
 const runner = new GitlabContainerRunner(this, 'runner-add-SG-ingress', {
   gitlabtoken: 'GITLABTOKEN',
@@ -148,8 +148,8 @@ runner.defaultRunnerSG.connections.allowFrom(
 
 ```typescript
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
-import { Port, Peer, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
-import { ManagedPolicy } from '@aws-cdk/aws-iam';
+import { Port, Peer, Vpc, SubnetType } from 'aws-cdk-lib/aws-ec2';
+import { ManagedPolicy } from 'aws-cdk-lib/aws-iam';
 
 const newvpc = new Vpc(stack, 'VPC', {
   cidr: '10.1.0.0/16',
@@ -177,8 +177,8 @@ const runner = new GitlabContainerRunner(this, 'testing', {
 
 ```typescript
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
-import { Port, Peer } from '@aws-cdk/aws-ec2';
-import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { Port, Peer } from 'aws-cdk-lib/aws-ec2';
+import { ManagedPolicy, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 const role = new Role(this, 'runner-role', {
   assumedBy: new ServicePrincipal('ec2.amazonaws.com'),

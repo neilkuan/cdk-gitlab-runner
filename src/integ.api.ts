@@ -1,6 +1,6 @@
-import { Port, Vpc } from '@aws-cdk/aws-ec2';
-import { ManagedPolicy, Role, ServicePrincipal } from '@aws-cdk/aws-iam';
-import { App, Stack, CfnOutput } from '@aws-cdk/core';
+import { Port, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { ManagedPolicy, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { App, Stack, CfnOutput } from 'aws-cdk-lib/core';
 import { GitlabContainerRunner } from './index';
 const env = {
   region: process.env.CDK_DEFAULT_REGION,

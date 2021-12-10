@@ -16,7 +16,7 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
 
 ##### `scope`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunner.parameter.scope"></a>
 
-- *Type:* [`@aws-cdk/core.Construct`](#@aws-cdk/core.Construct)
+- *Type:* [`constructs.Construct`](#constructs.Construct)
 
 ---
 
@@ -62,7 +62,7 @@ public expireAfter(duration: Duration)
 
 ###### `duration`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunner.parameter.duration"></a>
 
-- *Type:* [`@aws-cdk/core.Duration`](#@aws-cdk/core.Duration)
+- *Type:* [`aws-cdk-lib.Duration`](#aws-cdk-lib.Duration)
 
 Block duration.
 
@@ -77,7 +77,7 @@ Block duration.
 public readonly defaultRunnerSG: ISecurityGroup;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.ISecurityGroup`](#@aws-cdk/aws-ec2.ISecurityGroup)
+- *Type:* [`aws-cdk-lib.aws_ec2.ISecurityGroup`](#aws-cdk-lib.aws_ec2.ISecurityGroup)
 
 The EC2 runner's default SecurityGroup.
 
@@ -89,7 +89,7 @@ The EC2 runner's default SecurityGroup.
 public readonly runnerEc2: IInstance;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.IInstance`](#@aws-cdk/aws-ec2.IInstance)
+- *Type:* [`aws-cdk-lib.aws_ec2.IInstance`](#aws-cdk-lib.aws_ec2.IInstance)
 
 This represents a Runner EC2 instance , !!! only support On-demand runner instance !!!
 
@@ -101,7 +101,7 @@ This represents a Runner EC2 instance , !!! only support On-demand runner instan
 public readonly runnerRole: IRole;
 ```
 
-- *Type:* [`@aws-cdk/aws-iam.IRole`](#@aws-cdk/aws-iam.IRole)
+- *Type:* [`aws-cdk-lib.aws_iam.IRole`](#aws-cdk-lib.aws_iam.IRole)
 
 The IAM role assumed by the Runner instance .
 
@@ -137,7 +137,7 @@ SpotFleetRequestId for this spot fleet , !!! only support spotfleet runner !!!
 public readonly vpc: IVpc;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.IVpc`](#@aws-cdk/aws-ec2.IVpc)
+- *Type:* [`aws-cdk-lib.aws_ec2.IVpc`](#aws-cdk-lib.aws_ec2.IVpc)
 
 The EC2 runner's vpc.
 
@@ -158,7 +158,7 @@ new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAut
 
 ##### `scope`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabRunnerAutoscaling.parameter.scope"></a>
 
-- *Type:* [`@aws-cdk/core.Construct`](#@aws-cdk/core.Construct)
+- *Type:* [`constructs.Construct`](#constructs.Construct)
 
 ---
 
@@ -197,7 +197,7 @@ public createUserData(props: GitlabRunnerAutoscalingProps)
 public readonly autoscalingGroup: AutoScalingGroup;
 ```
 
-- *Type:* [`@aws-cdk/aws-autoscaling.AutoScalingGroup`](#@aws-cdk/aws-autoscaling.AutoScalingGroup)
+- *Type:* [`aws-cdk-lib.aws_autoscaling.AutoScalingGroup`](#aws-cdk-lib.aws_autoscaling.AutoScalingGroup)
 
 This represents a Runner Auto Scaling Group.
 
@@ -209,7 +209,7 @@ This represents a Runner Auto Scaling Group.
 public readonly instanceRole: IRole;
 ```
 
-- *Type:* [`@aws-cdk/aws-iam.IRole`](#@aws-cdk/aws-iam.IRole)
+- *Type:* [`aws-cdk-lib.aws_iam.IRole`](#aws-cdk-lib.aws_iam.IRole)
 
 The IAM role assumed by the Runner instance.
 
@@ -221,7 +221,7 @@ The IAM role assumed by the Runner instance.
 public readonly securityGroup: ISecurityGroup;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.ISecurityGroup`](#@aws-cdk/aws-ec2.ISecurityGroup)
+- *Type:* [`aws-cdk-lib.aws_ec2.ISecurityGroup`](#aws-cdk-lib.aws_ec2.ISecurityGroup)
 
 The EC2 runner's default SecurityGroup.
 
@@ -233,7 +233,7 @@ The EC2 runner's default SecurityGroup.
 public readonly topicAlarm: ITopic;
 ```
 
-- *Type:* [`@aws-cdk/aws-sns.ITopic`](#@aws-cdk/aws-sns.ITopic)
+- *Type:* [`aws-cdk-lib.aws_sns.ITopic`](#aws-cdk-lib.aws_sns.ITopic)
 
 The SNS topic to suscribe alarms for EC2 runner's metrics.
 
@@ -245,7 +245,7 @@ The SNS topic to suscribe alarms for EC2 runner's metrics.
 public readonly vpc: IVpc;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.IVpc`](#@aws-cdk/aws-ec2.IVpc)
+- *Type:* [`aws-cdk-lib.aws_ec2.IVpc`](#aws-cdk-lib.aws_ec2.IVpc)
 
 The EC2 runner's VPC.
 
@@ -362,7 +362,7 @@ Gitlab Runner instance EBS size .
 public readonly ec2iamrole: IRole;
 ```
 
-- *Type:* [`@aws-cdk/aws-iam.IRole`](#@aws-cdk/aws-iam.IRole)
+- *Type:* [`aws-cdk-lib.aws_iam.IRole`](#aws-cdk-lib.aws_iam.IRole)
 - *Default:* new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
 
 IAM role for the Gitlab Runner Instance .
@@ -440,7 +440,7 @@ SSH key name.
 public readonly selfvpc: IVpc;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.IVpc`](#@aws-cdk/aws-ec2.IVpc)
+- *Type:* [`aws-cdk-lib.aws_ec2.IVpc`](#aws-cdk-lib.aws_ec2.IVpc)
 - *Default:* new VPC will be created , 1 Vpc , 2 Public Subnet .
 
 VPC for the Gitlab Runner .
@@ -537,7 +537,7 @@ the time when the spot fleet allocation expires.
 public readonly vpcSubnet: SubnetSelection;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.SubnetSelection`](#@aws-cdk/aws-ec2.SubnetSelection)
+- *Type:* [`aws-cdk-lib.aws_ec2.SubnetSelection`](#aws-cdk-lib.aws_ec2.SubnetSelection)
 - *Default:* public subnet
 
 VPC subnet for the spot fleet.
@@ -659,7 +659,7 @@ Gitlab Runner register url .
 public readonly instanceRole: IRole;
 ```
 
-- *Type:* [`@aws-cdk/aws-iam.IRole`](#@aws-cdk/aws-iam.IRole)
+- *Type:* [`aws-cdk-lib.aws_iam.IRole`](#aws-cdk-lib.aws_iam.IRole)
 - *Default:* new Role for Gitlab Runner Instance , attach AmazonSSMManagedInstanceCore Policy .
 
 IAM role for the Gitlab Runner Instance .
@@ -737,7 +737,7 @@ tags for the runner.
 public readonly vpc: IVpc;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.IVpc`](#@aws-cdk/aws-ec2.IVpc)
+- *Type:* [`aws-cdk-lib.aws_ec2.IVpc`](#aws-cdk-lib.aws_ec2.IVpc)
 - *Default:* A new VPC will be created.
 
 VPC for the Gitlab Runner .
@@ -750,7 +750,7 @@ VPC for the Gitlab Runner .
 public readonly vpcSubnet: SubnetSelection;
 ```
 
-- *Type:* [`@aws-cdk/aws-ec2.SubnetSelection`](#@aws-cdk/aws-ec2.SubnetSelection)
+- *Type:* [`aws-cdk-lib.aws_ec2.SubnetSelection`](#aws-cdk-lib.aws_ec2.SubnetSelection)
 - *Default:* private subnet
 
 VPC subnet.
