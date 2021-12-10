@@ -49,6 +49,18 @@ Project > Settings > CI/CD > Runners
 
 Replace your gitlab runner token in `$GITLABTOKEN`
 
+## Install
+Use the npm dist tag to opt in CDKv1 or CDKv2:
+```bash
+// for CDKv2
+npm install cdk-spot-one
+or
+npm install cdk-spot-one@latest
+
+// for CDKv1
+npm install cdk-spot-one@cdkv1 
+```
+
 ### Instance Type
 
 ```typescript

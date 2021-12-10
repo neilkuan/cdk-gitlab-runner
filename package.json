@@ -18,6 +18,7 @@
     "post-compile": "npx projen post-compile",
     "pre-compile": "npx projen pre-compile",
     "release": "npx projen release",
+    "release:cdkv1": "npx projen release:cdkv1",
     "test": "npx projen test",
     "test:update": "npx projen test:update",
     "test:watch": "npx projen test:watch",
@@ -32,11 +33,12 @@
     "organization": false
   },
   "devDependencies": {
-    "@aws-cdk/assertions": "^1.134.0",
     "@types/jest": "^27.0.3",
     "@types/node": "^14.17.0",
     "@typescript-eslint/eslint-plugin": "^5",
     "@typescript-eslint/parser": "^5",
+    "aws-cdk-lib": "2.1.0",
+    "constructs": "10.0.5",
     "eslint": "^8",
     "eslint-import-resolver-node": "^0.3.6",
     "eslint-import-resolver-typescript": "^2.5.0",
@@ -55,34 +57,11 @@
     "typescript": "^4.5.3"
   },
   "peerDependencies": {
-    "@aws-cdk/aws-autoscaling": "^1.134.0",
-    "@aws-cdk/aws-autoscaling-hooktargets": "^1.134.0",
-    "@aws-cdk/aws-ec2": "^1.134.0",
-    "@aws-cdk/aws-iam": "^1.134.0",
-    "@aws-cdk/aws-lambda": "^1.134.0",
-    "@aws-cdk/aws-logs": "^1.134.0",
-    "@aws-cdk/aws-s3": "^1.134.0",
-    "@aws-cdk/aws-s3-assets": "^1.134.0",
-    "@aws-cdk/aws-sns": "^1.134.0",
-    "@aws-cdk/aws-sns-subscriptions": "^1.134.0",
-    "@aws-cdk/core": "^1.134.0",
-    "@aws-cdk/custom-resources": "^1.134.0",
-    "constructs": "^3.2.27"
+    "aws-cdk-lib": "^2.1.0",
+    "constructs": "^10.0.5"
   },
   "dependencies": {
-    "@aws-cdk/assert": "^1.134.0",
-    "@aws-cdk/aws-autoscaling": "^1.134.0",
-    "@aws-cdk/aws-autoscaling-hooktargets": "^1.134.0",
-    "@aws-cdk/aws-ec2": "^1.134.0",
-    "@aws-cdk/aws-iam": "^1.134.0",
-    "@aws-cdk/aws-lambda": "^1.134.0",
-    "@aws-cdk/aws-logs": "^1.134.0",
-    "@aws-cdk/aws-s3": "^1.134.0",
-    "@aws-cdk/aws-s3-assets": "^1.134.0",
-    "@aws-cdk/aws-sns": "^1.134.0",
-    "@aws-cdk/aws-sns-subscriptions": "^1.134.0",
-    "@aws-cdk/core": "^1.134.0",
-    "@aws-cdk/custom-resources": "^1.134.0"
+    "@aws-cdk/assert": "^1.134.0"
   },
   "bundledDependencies": [
     "@aws-cdk/assert"
