@@ -17,7 +17,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   compat: true,
   stability: 'experimental',
-  cdkVersion: '2.1.0',
+  cdkVersion: '1.134.0',
   /**
    * we default release the main branch(cdkv2) with major version 2.
    */
@@ -29,20 +29,20 @@ const project = new awscdk.AwsCdkConstructLibrary({
   releaseBranches: {
     cdkv1: { npmDistTag: 'cdkv1', majorVersion: 1 },
   },
-  // cdkDependencies: [
-  //   '@aws-cdk/aws-iam',
-  //   '@aws-cdk/aws-ec2',
-  //   '@aws-cdk/aws-autoscaling',
-  //   '@aws-cdk/aws-autoscaling-hooktargets',
-  //   '@aws-cdk/aws-lambda',
-  //   '@aws-cdk/aws-logs',
-  //   '@aws-cdk/aws-s3',
-  //   '@aws-cdk/aws-s3-assets',
-  //   '@aws-cdk/core',
-  //   '@aws-cdk/aws-sns',
-  //   '@aws-cdk/aws-sns-subscriptions',
-  //   '@aws-cdk/custom-resources',
-  // ],
+  cdkDependencies: [
+    '@aws-cdk/aws-iam',
+    '@aws-cdk/aws-ec2',
+    '@aws-cdk/aws-autoscaling',
+    '@aws-cdk/aws-autoscaling-hooktargets',
+    '@aws-cdk/aws-lambda',
+    '@aws-cdk/aws-logs',
+    '@aws-cdk/aws-s3',
+    '@aws-cdk/aws-s3-assets',
+    '@aws-cdk/core',
+    '@aws-cdk/aws-sns',
+    '@aws-cdk/aws-sns-subscriptions',
+    '@aws-cdk/custom-resources',
+  ],
   autoDetectBin: false,
   depsUpgradeOptions: {
     ignoreProjen: false,
