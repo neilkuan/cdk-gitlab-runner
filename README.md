@@ -61,6 +61,8 @@ npm install cdk-spot-one@latest
 npm install cdk-spot-one@cdkv1 
 ```
 
+## 💡💡💡 please click [here](https://github.com/neilkuan/cdk-gitlab-runner/tree/cdkv1#readme), if you are using aws-cdk v1.x.x version.💡💡💡
+
 ### Instance Type
 
 ```typescript
