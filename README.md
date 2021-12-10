@@ -53,12 +53,12 @@ Replace your gitlab runner token in `$GITLABTOKEN`
 Use the npm dist tag to opt in CDKv1 or CDKv2:
 ```bash
 // for CDKv2
-npm install cdk-spot-one
+npm install cdk-gitlab-runner
 or
-npm install cdk-spot-one@latest
+npm install cdk-gitlab-runner@latest
 
 // for CDKv1
-npm install cdk-spot-one@cdkv1 
+npm install cdk-gitlab-runner@cdkv1 
 ```
 
 ## 💡💡💡 please click [here](https://github.com/neilkuan/cdk-gitlab-runner/tree/cdkv1#readme), if you are using aws-cdk v1.x.x version.💡💡💡
