@@ -1,3 +1,4 @@
+import * as assertions from '@aws-cdk/assertions';
 import { Peer, Port, Vpc, SubnetType } from '@aws-cdk/aws-ec2';
 import { Role, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { App, Stack, Duration } from '@aws-cdk/core';
@@ -6,7 +7,6 @@ import {
   InstanceInterruptionBehavior,
   BlockDuration,
 } from '../src/index';
-import '@aws-cdk/assert/jest';
 
 const defaultProps = {
   gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
@@ -20,9 +20,9 @@ test('Create the Runner', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
   new GitlabContainerRunner(stack, 'testing', { gitlabtoken: 'GITLAB_TOKEN' });
-  expect(stack).toHaveResource('AWS::EC2::Instance');
-  expect(stack).toHaveResource('AWS::IAM::Role');
-  expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
+  assertions.Template.fromStack(stack).findResources('AWS::EC2::Instance');
+  assertions.Template.fromStack(stack).findResources('AWS::IAM::Role');
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::SecurityGroup', {
     SecurityGroupEgress: [
       {
         CidrIp: '0.0.0.0/0',
@@ -40,8 +40,8 @@ test('Testing runner tag change ', () => {
     gitlabtoken: 'GITLAB_TOKEN',
     tags: ['aa', 'bb', 'cc'],
   });
-  expect(stack).toHaveResource('AWS::EC2::Instance');
-  expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
+  assertions.Template.fromStack(stack).findResources('AWS::EC2::Instance');
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::SecurityGroup', {
     SecurityGroupEgress: [
       {
         CidrIp: '0.0.0.0/0',
@@ -59,10 +59,10 @@ test('Testing Runner Instance Type Change ', () => {
     gitlabtoken: 'GITLAB_TOKEN',
     ec2type: 't2.micro',
   });
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
-  expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::SecurityGroup', {
     SecurityGroupEgress: [
       {
         CidrIp: '0.0.0.0/0',
@@ -82,13 +82,13 @@ test('Runner Can Add Ingress ', () => {
     tags: ['aa', 'bb', 'cc'],
   });
   runner.runnerEc2.connections.allowFrom(Peer.ipv4('1.2.3.4/8'), Port.tcp(80));
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
-  expect(stack).toHaveResource('AWS::EC2::VPC', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::VPC', {
     CidrBlock: '10.0.0.0/16',
   });
-  expect(stack).toHaveResource('AWS::EC2::SecurityGroup', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::SecurityGroup', {
     SecurityGroupIngress: [
       {
         CidrIp: '0.0.0.0/0',
@@ -128,10 +128,10 @@ test('Runner Can Use Self VPC ', () => {
     ec2type: 't2.micro',
     selfvpc: newvpc,
   });
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
-  expect(stack).toHaveResource('AWS::EC2::VPC', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::VPC', {
     CidrBlock: '10.1.0.0/16',
   });
 });
@@ -149,10 +149,10 @@ test('Runner Can Use Self Role ', () => {
     ec2type: 't2.micro',
     ec2iamrole: role,
   });
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
     InstanceType: 't2.micro',
   });
-  expect(stack).toHaveResource('AWS::IAM::Role', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::IAM::Role', {
     RoleName: 'TestRole',
   });
 });
@@ -174,7 +174,7 @@ test('Can Use Coustom Gitlab Url', () => {
     },
   });
 
-  expect(stack).toHaveResource('AWS::EC2::Instance');
+  assertions.Template.fromStack(stack).findResources('AWS::EC2::Instance');
 });
 
 test('Can Use Coustom EBS Size', () => {
@@ -184,7 +184,7 @@ test('Can Use Coustom EBS Size', () => {
     gitlabtoken: 'GITLAB_TOKEN',
     ebsSize: 50,
   });
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
     BlockDeviceMappings: [
       {
         DeviceName: '/dev/xvda',
@@ -210,7 +210,7 @@ test('Can Use Spotfleet Runner', () => {
     },
   });
   testspot.expireAfter(Duration.hours(6));
-  expect(stack).toHaveResource('AWS::EC2::SpotFleet');
+  assertions.Template.fromStack(stack).findResources('AWS::EC2::SpotFleet');
 });
 
 test('Can Use Spotfleet Runner None ', () => {
@@ -230,7 +230,7 @@ test('Can Use Spotfleet Runner None ', () => {
     },
   });
   testspot.expireAfter(Duration.hours(6));
-  expect(stack).toHaveResource('AWS::EC2::SpotFleet');
+  assertions.Template.fromStack(stack).findResources('AWS::EC2::SpotFleet');
 });
 
 test('User data with additional docker volumes', () => {
@@ -247,7 +247,7 @@ test('User data with additional docker volumes', () => {
   };
   const runner = new GitlabContainerRunner(stack, 'testing', props);
 
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
     UserData: {
       'Fn::Base64': {
         'Fn::Join': [
@@ -272,7 +272,7 @@ test('User data with the default docker volume', () => {
   };
   const runner = new GitlabContainerRunner(stack, 'testing', props);
 
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
     UserData: {
       'Fn::Base64': {
         'Fn::Join': [
@@ -298,7 +298,7 @@ test('Use dockerhub.io container image', () => {
   };
   const runner = new GitlabContainerRunner(stack, 'testing', props);
 
-  expect(stack).toHaveResource('AWS::EC2::Instance', {
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
     UserData: {
       'Fn::Base64': {
         'Fn::Join': [
