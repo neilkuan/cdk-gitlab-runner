@@ -60,12 +60,7 @@
     "aws-cdk-lib": "^2.1.0",
     "constructs": "^10.0.5"
   },
-  "dependencies": {
-    "@aws-cdk/assert": "^1.134.0"
-  },
-  "bundledDependencies": [
-    "@aws-cdk/assert"
-  ],
+  "bundledDependencies": [],
   "keywords": [
     "aws",
     "cdk",

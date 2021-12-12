@@ -98,11 +98,6 @@
       "type": "build"
     },
     {
-      "name": "@aws-cdk/assert",
-      "version": "^1.134.0",
-      "type": "bundled"
-    },
-    {
       "name": "aws-cdk-lib",
       "version": "^2.1.0",
       "type": "peer"
