@@ -1791,9 +1791,9 @@ camelcase@^6.2.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001312:
-  version "1.0.30001312"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001312.tgz#e11eba4b87e24d22697dae05455d5aea28550d5f"
-  integrity sha512-Wiz1Psk2MEK0pX3rUzWaunLTZzqS2JYZFzNKqAiJGiuxIjRPLgV6+VDPOg6lQOUxmDwhTlh198JsTTi8Hzw6aQ==
+  version "1.0.30001313"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001313.tgz#a380b079db91621e1b7120895874e2fd62ed2e2f"
+  integrity sha512-rI1UN0koZUiKINjysQDuRi2VeSCce3bYJNmDcj3PIKREiAmjakugBul1QSkg/fPrlULYl6oWfGg3PbgOSY9X4Q==
 
 case@^1.6.3:
   version "1.6.3"
@@ -1992,9 +1992,9 @@ console-control-strings@^1.1.0:
   integrity sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
 
 constructs@^3.3.69:
-  version "3.3.233"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.233.tgz#a983bcc59af4f09f37750e17a11bb7adc60e07a8"
-  integrity sha512-3OhabZaGOxRfCXezb9EmIhW6rtxmZN3McvpineSgtabgzrqioAKaG0wDMufy2qqQa5WH+Yml3cPxe7XFNHyLog==
+  version "3.3.234"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.3.234.tgz#21fc96bdf6a06d52620c2dfff90f56a3783952a4"
+  integrity sha512-u6SX0mT98lVZoFuHX3H2xsJPt8gEGRg1E5vvr3I8RFR6VMKShDZw25AhpxokghVaCeIVFzqNV/8Ao9WcpX9HRA==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -5249,10 +5249,10 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.52.53:
-  version "0.52.53"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.52.53.tgz#6c2c3f6470b1d1e7bbeac0ab01d940a8b206b31e"
-  integrity sha512-p2CsdMVKQq7iZ0yHXGHk7ZiZg9pbjasbua6PpvXktGdZZ+KFwSJPUBXTe+jRmynF79NeBxgtPBeOZ66Nrzjm9A==
+projen@^0.52.55:
+  version "0.52.55"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.52.55.tgz#c080966478ccbc0663de7fb5e1ea0df1454fd0a3"
+  integrity sha512-SWi8NIVA6oXU4luSof9Zy48opsCW1RZ0c0T1unscKRzFt/N1TyamlKyBwqajSKMpwIH8BpAzwwMpLoaTs0DdxA==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
