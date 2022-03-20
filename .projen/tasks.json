@@ -31,7 +31,8 @@
         "OUTFILE": "package.json",
         "CHANGELOG": "dist/changelog.md",
         "BUMPFILE": "dist/version.txt",
-        "RELEASETAG": "dist/releasetag.txt"
+        "RELEASETAG": "dist/releasetag.txt",
+        "RELEASE_TAG_PREFIX": ""
       },
       "steps": [
         {
@@ -134,10 +135,7 @@
       "description": "Creates the distribution package",
       "steps": [
         {
-          "exec": "mkdir -p dist"
-        },
-        {
-          "exec": "rsync -a . dist --exclude .git --exclude node_modules"
+          "exec": "if [ ! -z ${CI} ]; then mkdir -p dist && rsync -a . dist --exclude .git --exclude node_modules; else npx projen package-all; fi"
         }
       ]
     },
@@ -158,10 +156,7 @@
       "description": "Create js language bindings",
       "steps": [
         {
-          "exec": "jsii_version=$(node -p \"JSON.parse(fs.readFileSync('.jsii')).jsiiVersion.split(' ')[0]\")"
-        },
-        {
-          "exec": "npx jsii-pacmak@$jsii_version -v --target js"
+          "exec": "jsii-pacmak -v --target js"
         }
       ]
     },
@@ -170,10 +165,7 @@
       "description": "Create python language bindings",
       "steps": [
         {
-          "exec": "jsii_version=$(node -p \"JSON.parse(fs.readFileSync('.jsii')).jsiiVersion.split(' ')[0]\")"
-        },
-        {
-          "exec": "npx jsii-pacmak@$jsii_version -v --target python"
+          "exec": "jsii-pacmak -v --target python"
         }
       ]
     },
@@ -281,7 +273,8 @@
         "OUTFILE": "package.json",
         "CHANGELOG": "dist/changelog.md",
         "BUMPFILE": "dist/version.txt",
-        "RELEASETAG": "dist/releasetag.txt"
+        "RELEASETAG": "dist/releasetag.txt",
+        "RELEASE_TAG_PREFIX": ""
       },
       "steps": [
         {
