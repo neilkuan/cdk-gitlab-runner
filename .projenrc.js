@@ -50,6 +50,7 @@ project.package.addField('resolutions', {
   'xmldom': 'github:xmldom/xmldom#0.7.0',
   'ansi-regex': '^5.0.1',
   '@babel/core': '7.16.12',
+  'minimist': '^1.2.5',
 });
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];
 project.gitignore.exclude(...common_exclude);
