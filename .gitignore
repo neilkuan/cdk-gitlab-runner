@@ -40,6 +40,8 @@ junit.xml
 !/.github/workflows/release.yml
 !/.github/workflows/release-cdkv1.yml
 !/.mergify.yml
+!/.github/workflows/upgrade-master.yml
+!/.github/workflows/upgrade-cdkv1.yml
 !/.github/pull_request_template.md
 !/test/
 !/tsconfig.dev.json
@@ -55,5 +57,3 @@ cdk.context.json
 yarn-error.log
 coverage
 venv
-!/.github/workflows/upgrade-master.yml
-!/.github/workflows/upgrade-cdkv1.yml
