@@ -82,6 +82,7 @@
     },
     {
       "name": "ts-jest",
+      "version": "^27",
       "type": "build"
     },
     {
