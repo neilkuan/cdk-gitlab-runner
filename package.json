@@ -133,7 +133,8 @@
     "xmldom": "github:xmldom/xmldom#0.7.0",
     "ansi-regex": "^5.0.1",
     "@babel/core": "7.16.12",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "@types/prettier": "2.6.0"
   },
   "awscdkio": {
     "twitter": "neil_kuan",
