@@ -62,13 +62,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
     module: 'cdk_gitlab_runner',
   },
   workflowNodeVersion: '^14.17.0',
-  typescriptVersion: '4.6',
+  typescriptVersion: '3.9.10',
 });
 project.package.addField('resolutions', {
   'xmldom': 'github:xmldom/xmldom#0.7.0',
   'ansi-regex': '^5.0.1',
   '@babel/core': '7.16.12',
   '@types/prettier': '2.6.0',
+  'got': '11.8.5',
 });
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];
 project.gitignore.exclude(...common_exclude);
