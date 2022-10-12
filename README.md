@@ -310,7 +310,6 @@ root# docker ps -a
 
 root# cd /home/ec2-user/.gitlab-runner/ && ls
 config.toml
-
 ```
 
 
