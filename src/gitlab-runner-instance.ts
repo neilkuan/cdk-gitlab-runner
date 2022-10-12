@@ -7,7 +7,6 @@ import {
   Lazy,
   CustomResource,
   Token,
-  RemovalPolicy,
 } from 'aws-cdk-lib';
 import {
   Instance,
@@ -37,7 +36,7 @@ import {
 } from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 
@@ -409,6 +408,7 @@ export class GitlabContainerRunner extends Construct {
    */
   readonly spotFleetInstanceId!: string;
 
+  private cfnSpotFleet?: CfnSpotFleet;
   constructor(scope: Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
     const spotFleetId = id;
@@ -421,12 +421,12 @@ export class GitlabContainerRunner extends Construct {
     };
     const runnerProps = { ...defaultProps, ...props };
 
-    const runnerBucket = new Bucket(this, 'runnerBucket', {
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+    const tokenParameterStore = new ssm.StringParameter(this, 'GitlabTokenParameter', {
+      stringValue: '',
     });
+
     const shell = UserData.forLinux();
-    shell.addCommands(...this.createUserData(runnerProps, runnerBucket.bucketName));
+    shell.addCommands(...this.createUserData(runnerProps, tokenParameterStore.parameterArn));
 
     this.runnerRole =
       runnerProps.ec2iamrole ??
@@ -438,7 +438,8 @@ export class GitlabContainerRunner extends Construct {
     const instanceProfile = new CfnInstanceProfile(this, 'InstanceProfile', {
       roles: [this.runnerRole.roleName],
     });
-    runnerBucket.grantWrite(this.runnerRole);
+    tokenParameterStore.grantWrite(this.runnerRole);
+    tokenParameterStore.grantRead(this.runnerRole);
     this.vpc =
       runnerProps.selfvpc ??
       new Vpc(this, 'VPC', {
@@ -527,7 +528,7 @@ export class GitlabContainerRunner extends Construct {
           subnetId: s.subnetId,
         }));
 
-      const cfnSpotFleet = new CfnSpotFleet(this, id, {
+      this.cfnSpotFleet = new CfnSpotFleet(this, id, {
         spotFleetRequestConfigData: {
           launchTemplateConfigs: [
             {
@@ -572,22 +573,22 @@ export class GitlabContainerRunner extends Construct {
         }),
       );
 
-      const fleetInstances = new CustomResource(this, 'GetInstanceId', {
+      const fleetInstancesId = new CustomResource(this, 'GetInstanceId', {
         serviceToken: myProvider.serviceToken,
         properties: {
-          SpotFleetRequestId: cfnSpotFleet.ref,
+          SpotFleetRequestId: this.cfnSpotFleet.ref,
         },
       });
 
-      fleetInstances.node.addDependency(cfnSpotFleet);
+      fleetInstancesId.node.addDependency(this.cfnSpotFleet);
       this.spotFleetInstanceId = Token.asString(
-        fleetInstances.getAtt('InstanceId'),
+        fleetInstancesId.getAtt('InstanceId'),
       );
       this.spotFleetRequestId = Token.asString(
-        fleetInstances.getAtt('SpotInstanceRequestId'),
+        fleetInstancesId.getAtt('SpotInstanceRequestId'),
       );
       new CfnOutput(this, 'InstanceId', { value: this.spotFleetInstanceId });
-      new CfnOutput(this, 'SpotFleetId', { value: cfnSpotFleet.ref });
+      new CfnOutput(this, 'SpotFleetId', { value: this.cfnSpotFleet.ref });
     } else {
       this.runnerEc2 = new Instance(this, 'GitlabRunner', {
         instanceType: new InstanceType(runnerProps.ec2type),
@@ -630,13 +631,16 @@ export class GitlabContainerRunner extends Construct {
       resourceType: 'Custom::unregisterRunnerProvider',
       serviceToken: unregisterRunnerProvider.serviceToken,
       properties: {
-        BucketName: runnerBucket.bucketName,
+        TokenParameterStoreName: tokenParameterStore.parameterName,
         GitlabUrl: runnerProps.gitlaburl,
       },
     });
 
-    runnerBucket.grantReadWrite(unregisterRunnerOnEvent);
-    unregisterRunnerCR.node.addDependency(runnerBucket);
+    tokenParameterStore.grantRead(unregisterRunnerOnEvent);
+    unregisterRunnerCR.node.addDependency(tokenParameterStore);
+    if (this.cfnSpotFleet) {
+      unregisterRunnerCR.node.addDependency(this.cfnSpotFleet);
+    }
     this.runnerRole.addManagedPolicy(
       ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
     );
@@ -672,10 +676,10 @@ export class GitlabContainerRunner extends Construct {
   }
   /**
    * @param props
-   * @param bucketName - the bucketName to put gitlab runner token.
+   * @param tokenParameterStoreName - the tokenParameterStoreName to put gitlab runner token.
    * @returns Array.
    */
-  public createUserData(props: GitlabContainerRunnerProps, bucketName: string): string[] {
+  public createUserData(props: GitlabContainerRunnerProps, tokenParameterStoreName: string): string[] {
     return [
       'yum update -y ',
       'sleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
@@ -686,7 +690,8 @@ export class GitlabContainerRunner extends Construct {
       --executor docker --docker-image "alpine:latest" --description "Docker Runner" \
       --tag-list "${props.tags?.join(',')}" --docker-privileged`,
       `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
-      `TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '"' -f 2) && echo '{"token": "TOKEN"}' > /tmp/runnertoken.txt && sed -i s/TOKEN/$TOKEN/g /tmp/runnertoken.txt && aws s3 cp /tmp/runnertoken.txt s3://${bucketName}`,
+      'TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d \'"\' -f 2)',
+      `aws ssm put-parameter --name ${tokenParameterStoreName} --value "$TOKEN" --overwrite`,
     ];
   }
 }

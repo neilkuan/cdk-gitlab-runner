@@ -1,6 +1,6 @@
+import { App, Stack, CfnOutput } from 'aws-cdk-lib';
 import * as asg from 'aws-cdk-lib/aws-autoscaling';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import { App, Stack, CfnOutput } from 'aws-cdk-lib/core';
 import { GitlabRunnerAutoscaling } from './gitlab-runner-autoscaling';
 
 const env = {

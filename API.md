@@ -37,7 +37,7 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
 ##### `createUserData` <a name="cdk-gitlab-runner.GitlabContainerRunner.createUserData"></a>
 
 ```typescript
-public createUserData(props: GitlabContainerRunnerProps, bucketName: string)
+public createUserData(props: GitlabContainerRunnerProps, tokenParameterStoreName: string)
 ```
 
 ###### `props`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunner.parameter.props"></a>
@@ -46,11 +46,11 @@ public createUserData(props: GitlabContainerRunnerProps, bucketName: string)
 
 ---
 
-###### `bucketName`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunner.parameter.bucketName"></a>
+###### `tokenParameterStoreName`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunner.parameter.tokenParameterStoreName"></a>
 
 - *Type:* `string`
 
-the bucketName to put gitlab runner token.
+the tokenParameterStoreName to put gitlab runner token.
 
 ---
 

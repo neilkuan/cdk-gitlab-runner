@@ -1,6 +1,6 @@
+import { App, Stack, CfnOutput } from 'aws-cdk-lib';
 import { Port, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { ManagedPolicy, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
-import { App, Stack, CfnOutput } from 'aws-cdk-lib/core';
 import { GitlabContainerRunner } from './index';
 const env = {
   region: process.env.CDK_DEFAULT_REGION,
@@ -23,6 +23,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
   ec2iamrole: role,
   ebsSize: 100,
   selfvpc: vpc,
+  spotFleet: true,
   dockerVolumes: [
     {
       hostPath: '/tmp/cahce',
