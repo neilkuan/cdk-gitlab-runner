@@ -25,6 +25,7 @@ def on_create(event):
     while True:
         result = ec2.describe_spot_fleet_instances(
             SpotFleetRequestId=spotfleet_request_id)
+        print(result)
         if 'ActiveInstances' in result and len(result['ActiveInstances']) > 0:
             data = {
                 'InstanceId': result['ActiveInstances'][0]['InstanceId'],
@@ -56,6 +57,7 @@ def is_complete(event, context):
     spot_fleet_request_id = props['SpotFleetRequestId']
     result = ec2.describe_spot_fleet_instances(
         SpotFleetRequestId=spot_fleet_request_id)
+    print(result)
     is_ready = 'ActiveInstances' in result and len(
         result['ActiveInstances']) > 0
     return {'IsComplete': is_ready}

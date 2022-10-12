@@ -235,7 +235,6 @@ import { GitlabContainerRunner, BlockDuration } from 'cdk-gitlab-runner';
 const runner = new GitlabContainerRunner(stack, 'testing', {
   gitlabtoken: 'GITLAB_TOKEN',
   ec2type: 't3.large',
-  blockDuration: BlockDuration.ONE_HOUR,
   spotFleet: true,
 });
 // configure the expiration after 1 hours
