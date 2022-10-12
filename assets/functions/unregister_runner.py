@@ -59,13 +59,17 @@ def on_delete(event):
       token = tokenResp.get('Parameter').get('Value')
       
       prepayload = {'token': str(token)}
-      print("encode prepayload to payload")
+      print(prepayload)
+
+      print("encode prepayload to payload ")
       payload = urllib.parse.urlencode(prepayload).encode('utf8')
+      print(payload)
       req = urllib.request.Request(slash_or_not_slash(props['GitlabUrl'])+'api/v4/runners',data=payload ,method='DELETE' )
       print("run unregister runner")
       with urllib.request.urlopen(req) as res:
           print (res.read())
     except:
+      print('run unregister runner Fail!!! Please unregister runner by yourself')
       pass
     
     output = {'Status': 'deleted'}

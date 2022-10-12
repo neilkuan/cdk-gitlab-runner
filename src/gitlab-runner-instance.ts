@@ -204,13 +204,6 @@ export interface GitlabContainerRunnerProps {
   readonly keyName?: string;
 
   /**
-   * Reservce the Spot Runner instance as spot block with defined duration
-   *
-   * @default - BlockDuration.ONE_HOUR , !!! only support spotfleet runner !!! .
-   */
-  readonly blockDuration?: BlockDuration;
-
-  /**
    * The behavior when a Spot Runner Instance is interrupted
    *
    * @default - InstanceInterruptionBehavior.TERMINATE , !!! only support spotfleet runner !!! .
@@ -263,92 +256,6 @@ export interface GitlabContainerRunnerProps {
    * ],
    */
   readonly dockerVolumes?: DockerVolumes[];
-}
-
-/**
- * BlockDuration enum.
- */
-export enum BlockDuration {
-  /**
-   * one hours.
-   */
-  ONE_HOUR = 60,
-  /**
-   * two hours.
-   */
-  TWO_HOURS = 120,
-  /**
-   * three hours.
-   */
-  THREE_HOURS = 180,
-  /**
-   * four hours.
-   */
-  FOUR_HOURS = 240,
-  /**
-   * five hours.
-   */
-  FIVE_HOURS = 300,
-  /**
-   * six hours.
-   */
-  SIX_HOURS = 360,
-  /**
-   * seven hours.
-   */
-  SEVEN_HOURS = 420,
-  /**
-   * eight hours.
-   */
-  EIGHT_HOURS = 480,
-  /**
-   * nine hours.
-   */
-  NINE_HOURS = 540,
-  /**
-   * ten hours.
-   */
-  TEN_HOURS = 600,
-  /**
-   * eleven hours.
-   */
-  ELEVEN_HOURS = 660,
-  /**
-   * twelve hours.
-   */
-  TWELVE_HOURS = 720,
-  /**
-   * thirteen hours.
-   */
-  THIRTEEN_HOURS = 780,
-  /**
-   * fourteen hours.
-   */
-  FOURTEEN_HOURS = 840,
-  /**
-   * fifteen hours.
-   */
-  FIFTEEN_HOURS = 900,
-  /**
-   * sixteen hours.
-   */
-  SIXTEEN_HOURS = 960,
-  /**
-   * seventeen hours.
-   */
-  SEVENTEEN_HOURS = 1020,
-  /**
-   * eightteen hours.
-   */
-  EIGHTTEEN_HOURS = 1080,
-  /**
-   * nineteen hours.
-   */
-  NINETEEN_HOURS = 1140,
-  /**
-   * twenty hours.
-   */
-  TWENTY_HOURS = 1200,
 }
 
 /**
@@ -422,11 +329,11 @@ export class GitlabContainerRunner extends Construct {
     const runnerProps = { ...defaultProps, ...props };
 
     const tokenParameterStore = new ssm.StringParameter(this, 'GitlabTokenParameter', {
-      stringValue: '',
+      stringValue: 'GITLAB_TOKEN',
     });
 
     const shell = UserData.forLinux();
-    shell.addCommands(...this.createUserData(runnerProps, tokenParameterStore.parameterArn));
+    shell.addCommands(...this.createUserData(runnerProps, tokenParameterStore.parameterName));
 
     this.runnerRole =
       runnerProps.ec2iamrole ??
@@ -438,7 +345,10 @@ export class GitlabContainerRunner extends Construct {
     const instanceProfile = new CfnInstanceProfile(this, 'InstanceProfile', {
       roles: [this.runnerRole.roleName],
     });
-    tokenParameterStore.grantWrite(this.runnerRole);
+    this.runnerRole.addToPrincipalPolicy(new PolicyStatement({
+      actions: ['ssm:PutParameter'],
+      resources: ['*'],
+    }));
     tokenParameterStore.grantRead(this.runnerRole);
     this.vpc =
       runnerProps.selfvpc ??
@@ -494,8 +404,6 @@ export class GitlabContainerRunner extends Construct {
           instanceMarketOptions: {
             marketType: 'spot',
             spotOptions: {
-              blockDurationMinutes:
-                runnerProps.blockDuration ?? BlockDuration.ONE_HOUR,
               instanceInterruptionBehavior:
                 runnerProps.instanceInterruptionBehavior ??
                 InstanceInterruptionBehavior.TERMINATE,
@@ -690,8 +598,8 @@ export class GitlabContainerRunner extends Construct {
       --executor docker --docker-image "alpine:latest" --description "Docker Runner" \
       --tag-list "${props.tags?.join(',')}" --docker-privileged`,
       `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
-      'TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d \'"\' -f 2)',
-      `aws ssm put-parameter --name ${tokenParameterStoreName} --value "$TOKEN" --overwrite`,
+      'TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | awk \'{print $3}\'| tr -d \'"\')',
+      `aws ssm put-parameter --name ${tokenParameterStoreName} --value $TOKEN --overwrite --region ${Stack.of(this).region}`,
     ];
   }
 }

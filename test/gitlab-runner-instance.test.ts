@@ -5,7 +5,6 @@ import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import {
   GitlabContainerRunner,
   InstanceInterruptionBehavior,
-  BlockDuration,
 } from '../src/index';
 
 
@@ -197,7 +196,6 @@ test('Can Use Spotfleet Runner', () => {
     spotFleet: true,
     instanceInterruptionBehavior: InstanceInterruptionBehavior.HIBERNATE,
     ebsSize: 100,
-    blockDuration: BlockDuration.SIXTEEN_HOURS,
     vpcSubnet: {
       subnetType: SubnetType.PUBLIC,
     },
@@ -246,23 +244,14 @@ test('User data with additional docker volumes', () => {
         'Fn::Join': [
           '',
           [
-            "#!/bin/bash\nyum update -y \nsleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register public.ecr.aws/gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --docker-volumes \"/tmp/cahce:/tmp/cahce\"       --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\"       --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner public.ecr.aws/gitlab/gitlab-runner:alpine\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '\"' -f 2)\naws ssm put-parameter --name arn:",
-            {
-              Ref: 'AWS::Partition',
-            },
-            ':ssm:',
-            {
-              Ref: 'AWS::Region',
-            },
-            ':',
-            {
-              Ref: 'AWS::AccountId',
-            },
-            ':parameter/',
+            '#!/bin/bash\nyum update -y \nsleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register public.ecr.aws/gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\" --docker-volumes \"/tmp/cahce:/tmp/cahce\"       --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\"       --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner public.ecr.aws/gitlab/gitlab-runner:alpine\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | awk \'{print $3}\'| tr -d \'"\')\naws ssm put-parameter --name ',
             {
               Ref: 'testingGitlabTokenParameterD6C98250',
             },
-            ' --value "$TOKEN" --overwrite',
+            ' --value $TOKEN --overwrite --region ',
+            {
+              Ref: 'AWS::Region',
+            },
           ],
         ],
       },
@@ -283,23 +272,14 @@ test('User data with the default docker volume', () => {
         'Fn::Join': [
           '',
           [
-            "#!/bin/bash\nyum update -y \nsleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register public.ecr.aws/gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\"       --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\"       --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner public.ecr.aws/gitlab/gitlab-runner:alpine\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '\"' -f 2)\naws ssm put-parameter --name arn:",
-            {
-              Ref: 'AWS::Partition',
-            },
-            ':ssm:',
-            {
-              Ref: 'AWS::Region',
-            },
-            ':',
-            {
-              Ref: 'AWS::AccountId',
-            },
-            ':parameter/',
+            "#!/bin/bash\nyum update -y \nsleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register public.ecr.aws/gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\"       --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\"       --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner public.ecr.aws/gitlab/gitlab-runner:alpine\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | awk '{print $3}'| tr -d '\"')\naws ssm put-parameter --name ",
             {
               Ref: 'testingGitlabTokenParameterD6C98250',
             },
-            ' --value "$TOKEN" --overwrite',
+            ' --value $TOKEN --overwrite --region ',
+            {
+              Ref: 'AWS::Region',
+            },
           ],
         ],
       },
@@ -321,23 +301,14 @@ test('Use dockerhub.io container image', () => {
         'Fn::Join': [
           '',
           [
-            "#!/bin/bash\nyum update -y \nsleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\"       --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\"       --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | cut -d '\"' -f 2)\naws ssm put-parameter --name arn:",
-            {
-              Ref: 'AWS::Partition',
-            },
-            ':ssm:',
-            {
-              Ref: 'AWS::Region',
-            },
-            ':',
-            {
-              Ref: 'AWS::AccountId',
-            },
-            ':parameter/',
+            "#!/bin/bash\nyum update -y \nsleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register gitlab/gitlab-runner:alpine register --non-interactive --url https://gitlab.com/ --registration-token GITLAB_TOKEN       --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\"       --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\"       --tag-list \"gitlab,awscdk,runner\" --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner gitlab/gitlab-runner:alpine\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | awk '{print $3}'| tr -d '\"')\naws ssm put-parameter --name ",
             {
               Ref: 'testingGitlabTokenParameterD6C98250',
             },
-            ' --value "$TOKEN" --overwrite',
+            ' --value $TOKEN --overwrite --region ',
+            {
+              Ref: 'AWS::Region',
+            },
           ],
         ],
       },
