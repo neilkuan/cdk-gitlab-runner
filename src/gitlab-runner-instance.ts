@@ -345,10 +345,7 @@ export class GitlabContainerRunner extends Construct {
     const instanceProfile = new CfnInstanceProfile(this, 'InstanceProfile', {
       roles: [this.runnerRole.roleName],
     });
-    this.runnerRole.addToPrincipalPolicy(new PolicyStatement({
-      actions: ['ssm:PutParameter'],
-      resources: ['*'],
-    }));
+    tokenParameterStore.grantWrite(this.runnerRole);
     tokenParameterStore.grantRead(this.runnerRole);
     this.vpc =
       runnerProps.selfvpc ??
@@ -546,9 +543,6 @@ export class GitlabContainerRunner extends Construct {
 
     tokenParameterStore.grantRead(unregisterRunnerOnEvent);
     unregisterRunnerCR.node.addDependency(tokenParameterStore);
-    if (this.cfnSpotFleet) {
-      unregisterRunnerCR.node.addDependency(this.cfnSpotFleet);
-    }
     this.runnerRole.addManagedPolicy(
       ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore'),
     );
