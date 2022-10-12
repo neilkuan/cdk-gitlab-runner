@@ -37,7 +37,7 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
 ##### `createUserData` <a name="cdk-gitlab-runner.GitlabContainerRunner.createUserData"></a>
 
 ```typescript
-public createUserData(props: GitlabContainerRunnerProps, bucketName: string)
+public createUserData(props: GitlabContainerRunnerProps, tokenParameterStoreName: string)
 ```
 
 ###### `props`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunner.parameter.props"></a>
@@ -46,11 +46,11 @@ public createUserData(props: GitlabContainerRunnerProps, bucketName: string)
 
 ---
 
-###### `bucketName`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunner.parameter.bucketName"></a>
+###### `tokenParameterStoreName`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunner.parameter.tokenParameterStoreName"></a>
 
 - *Type:* `string`
 
-the bucketName to put gitlab runner token.
+the tokenParameterStoreName to put gitlab runner token.
 
 ---
 
@@ -312,19 +312,6 @@ public readonly gitlabtoken: string;
 - *Default:* You must to give the token !!!
 
 Gitlab token for the Register Runner .
-
----
-
-##### `blockDuration`<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.blockDuration"></a>
-
-```typescript
-public readonly blockDuration: BlockDuration;
-```
-
-- *Type:* [`cdk-gitlab-runner.BlockDuration`](#cdk-gitlab-runner.BlockDuration)
-- *Default:* BlockDuration.ONE_HOUR , !!! only support spotfleet runner !!! .
-
-Reservce the Spot Runner instance as spot block with defined duration.
 
 ---
 
@@ -760,150 +747,6 @@ VPC subnet.
 
 
 ## Enums <a name="Enums"></a>
-
-### BlockDuration <a name="BlockDuration"></a>
-
-BlockDuration enum.
-
-#### `ONE_HOUR` <a name="cdk-gitlab-runner.BlockDuration.ONE_HOUR"></a>
-
-one hours.
-
----
-
-
-#### `TWO_HOURS` <a name="cdk-gitlab-runner.BlockDuration.TWO_HOURS"></a>
-
-two hours.
-
----
-
-
-#### `THREE_HOURS` <a name="cdk-gitlab-runner.BlockDuration.THREE_HOURS"></a>
-
-three hours.
-
----
-
-
-#### `FOUR_HOURS` <a name="cdk-gitlab-runner.BlockDuration.FOUR_HOURS"></a>
-
-four hours.
-
----
-
-
-#### `FIVE_HOURS` <a name="cdk-gitlab-runner.BlockDuration.FIVE_HOURS"></a>
-
-five hours.
-
----
-
-
-#### `SIX_HOURS` <a name="cdk-gitlab-runner.BlockDuration.SIX_HOURS"></a>
-
-six hours.
-
----
-
-
-#### `SEVEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.SEVEN_HOURS"></a>
-
-seven hours.
-
----
-
-
-#### `EIGHT_HOURS` <a name="cdk-gitlab-runner.BlockDuration.EIGHT_HOURS"></a>
-
-eight hours.
-
----
-
-
-#### `NINE_HOURS` <a name="cdk-gitlab-runner.BlockDuration.NINE_HOURS"></a>
-
-nine hours.
-
----
-
-
-#### `TEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.TEN_HOURS"></a>
-
-ten hours.
-
----
-
-
-#### `ELEVEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.ELEVEN_HOURS"></a>
-
-eleven hours.
-
----
-
-
-#### `TWELVE_HOURS` <a name="cdk-gitlab-runner.BlockDuration.TWELVE_HOURS"></a>
-
-twelve hours.
-
----
-
-
-#### `THIRTEEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.THIRTEEN_HOURS"></a>
-
-thirteen hours.
-
----
-
-
-#### `FOURTEEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.FOURTEEN_HOURS"></a>
-
-fourteen hours.
-
----
-
-
-#### `FIFTEEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.FIFTEEN_HOURS"></a>
-
-fifteen hours.
-
----
-
-
-#### `SIXTEEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.SIXTEEN_HOURS"></a>
-
-sixteen hours.
-
----
-
-
-#### `SEVENTEEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.SEVENTEEN_HOURS"></a>
-
-seventeen hours.
-
----
-
-
-#### `EIGHTTEEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.EIGHTTEEN_HOURS"></a>
-
-eightteen hours.
-
----
-
-
-#### `NINETEEN_HOURS` <a name="cdk-gitlab-runner.BlockDuration.NINETEEN_HOURS"></a>
-
-nineteen hours.
-
----
-
-
-#### `TWENTY_HOURS` <a name="cdk-gitlab-runner.BlockDuration.TWENTY_HOURS"></a>
-
-twenty hours.
-
----
-
 
 ### InstanceInterruptionBehavior <a name="InstanceInterruptionBehavior"></a>
 

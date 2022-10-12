@@ -1,3 +1,4 @@
+from cmath import exp
 import boto3
 import urllib.request
 import urllib.parse
@@ -7,12 +8,6 @@ import json
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-
-
-def check_token():
-    with open('/tmp/runnertoken.txt', 'r') as token_file:
-        token = token_file.read()
-        return token
 
 def slash_or_not_slash(url):
     try: 
@@ -55,27 +50,28 @@ def on_update(event):
 
 
 def on_delete(event):
-    print("[INFO]", "Delete Event")
-    props = event["ResourceProperties"]
-    print("update resource with props %s" % (props))
-    s3 = boto3.client('s3')
-    s3.download_file(props['BucketName'], 'runnertoken.txt', '/tmp/runnertoken.txt')
-    print("load runner file to json")
-    tokenfile = json.loads(check_token())
-    print("runner token to prepayload")
-    prepayload = {'token': str(tokenfile['token'])}
-    print("encode prepayload to payload")
-    payload = urllib.parse.urlencode(prepayload).encode('utf8')
-    req = urllib.request.Request(slash_or_not_slash(props['GitlabUrl'])+'api/v4/runners',data=payload ,method='DELETE' )
-    print("run unregister runner")
-    with urllib.request.urlopen(req) as res:
-        print (res.read())
-    print("remove object in Bucket")
-    s3 = boto3.resource('s3')
-    bucket = s3.Bucket(props['BucketName'])
-    # see - https://boto3.amazonaws.com/v1/documentation/api/latest/guide/migrations3.html
-    for key in bucket.objects.all():
-        key.delete()
+    try:
+      print("[INFO]", "Delete Event")
+      props = event["ResourceProperties"]
+      print("update resource with props %s" % (props))
+      ssm = boto3.client('ssm')
+      tokenResp = ssm.get_parameter(Name=props.get('TokenParameterStoreName'))
+      token = tokenResp.get('Parameter').get('Value')
+      
+      prepayload = {'token': str(token)}
+      print(prepayload)
+
+      print("encode prepayload to payload ")
+      payload = urllib.parse.urlencode(prepayload).encode('utf8')
+      print(payload)
+      req = urllib.request.Request(slash_or_not_slash(props['GitlabUrl'])+'api/v4/runners',data=payload ,method='DELETE' )
+      print("run unregister runner")
+      with urllib.request.urlopen(req) as res:
+          print (res.read())
+    except:
+      print('run unregister runner Fail!!! Please unregister runner by yourself')
+      pass
+    
     output = {'Status': 'deleted'}
     return output
 

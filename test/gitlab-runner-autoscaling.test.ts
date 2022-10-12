@@ -1,5 +1,5 @@
+import { App, Stack } from 'aws-cdk-lib';
 import * as assertions from 'aws-cdk-lib/assertions';
-import { App, Stack } from 'aws-cdk-lib/core';
 import { GitlabRunnerAutoscaling } from '../src/index';
 
 test('Can set autoscaling capacities', () => {
