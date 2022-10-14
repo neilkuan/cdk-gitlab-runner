@@ -17,7 +17,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   compat: true,
   stability: 'experimental',
-  cdkVersion: '1.134.0',
+  cdkVersion: '1.176.0',
   /**
    * we default release the main branch(cdkv2) with major version 2.
    */
@@ -61,7 +61,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
   },
-  workflowNodeVersion: '^14.17.0',
+  workflowNodeVersion: '^16',
   typescriptVersion: '3.9.10',
 });
 project.package.addField('resolutions', {

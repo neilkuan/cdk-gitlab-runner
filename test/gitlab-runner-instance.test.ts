@@ -170,7 +170,7 @@ test('Can Use Coustom Gitlab Url', () => {
     gitlaburl: 'https://gitlab.my.com/',
     selfvpc: newvpc,
     vpcSubnet: {
-      subnetType: SubnetType.PRIVATE,
+      subnetType: SubnetType.PRIVATE_WITH_NAT,
     },
   });
 
@@ -226,7 +226,7 @@ test('Can Use Spotfleet Runner None ', () => {
     spotFleet: true,
     selfvpc: newvpc,
     vpcSubnet: {
-      subnetType: SubnetType.PRIVATE,
+      subnetType: SubnetType.PRIVATE_WITH_NAT,
     },
   });
   testspot.expireAfter(Duration.hours(6));
