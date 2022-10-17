@@ -197,6 +197,26 @@ export interface GitlabContainerRunnerProps {
   readonly spotFleet?: boolean;
 
   /**
+   * Gitlab Runner concurrent job configuration.
+   *
+   * @example
+   * const runner = new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN',concurrentJobs: 3});
+   *
+   * @default - concurrentJobs=1
+   */
+  readonly concurrentJobs?: number;
+
+  /**
+   * Gitlab Runner description.
+   *
+   * @example
+   * const runner = new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN',runnerDescription: 'Simple GitLab Runner'});
+   *
+   * @default - runnerDescription='Docker Runner'
+   */
+  readonly runnerDescription?: string;
+
+  /**
    * SSH key name
    *
    * @default - no ssh key will be assigned , !!! only support spotfleet runner !!! .
@@ -325,6 +345,8 @@ export class GitlabContainerRunner extends Construct {
       gitlaburl: 'https://gitlab.com/',
       ec2type: 't3.micro',
       tags: ['gitlab', 'awscdk', 'runner'],
+      concurrentJobs: 1,
+      runnerDescription: 'Docker Runner',
     };
     const runnerProps = { ...defaultProps, ...props };
 
@@ -589,9 +611,10 @@ export class GitlabContainerRunner extends Construct {
       `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
       --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlaburl} --registration-token ${props.gitlabtoken} \
       --docker-pull-policy if-not-present ${this.dockerVolumesList(props?.dockerVolumes)} \
-      --executor docker --docker-image "alpine:latest" --description "Docker Runner" \
+      --executor docker --docker-image "alpine:latest" --description "${props.runnerDescription}" \
       --tag-list "${props.tags?.join(',')}" --docker-privileged`,
       `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
+      `sed -i 's/concurrent = .*/concurrent = ${props.concurrentJobs}/g' /home/ec2-user/.gitlab-runner/config.toml`,
       'TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | awk \'{print $3}\'| tr -d \'"\')',
       `aws ssm put-parameter --name ${tokenParameterStoreName} --value $TOKEN --overwrite --region ${Stack.of(this).region}`,
     ];

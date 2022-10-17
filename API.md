@@ -315,6 +315,19 @@ Gitlab token for the Register Runner .
 
 ---
 
+##### `concurrentJobs`<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.concurrentJobs"></a>
+
+```typescript
+public readonly concurrentJobs: number;
+```
+
+- *Type:* `number`
+- *Default:* concurrentJobs=1
+
+Gitlab Runner concurrent job configuration.
+
+---
+
 ##### `dockerVolumes`<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.dockerVolumes"></a>
 
 ```typescript
@@ -418,6 +431,19 @@ public readonly keyName: string;
 - *Default:* no ssh key will be assigned , !!! only support spotfleet runner !!! .
 
 SSH key name.
+
+---
+
+##### `runnerDescription`<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.runnerDescription"></a>
+
+```typescript
+public readonly runnerDescription: string;
+```
+
+- *Type:* `string`
+- *Default:* runnerDescription='Docker Runner'
+
+Gitlab Runner description.
 
 ---
 
@@ -562,14 +588,9 @@ public readonly alarms: object[];
 ```
 
 - *Type:* `object`[]
-- *Default:* [{
-AlarmName: 'GitlabRunnerDiskUsage',
-MetricName: 'disk_used_percent',
-}]
+- *Default:* [{AlarmName: 'GitlabRunnerDiskUsage',MetricName: 'disk_used_percent',}]
 
-Parameters of put_metric_alarm function.
-
-https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.put_metric_alarm
+Parameters of put_metric_alarm function  https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.put_metric_alarm.
 
 ---
 
