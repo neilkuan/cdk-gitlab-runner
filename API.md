@@ -588,9 +588,14 @@ public readonly alarms: object[];
 ```
 
 - *Type:* `object`[]
-- *Default:* [{AlarmName: 'GitlabRunnerDiskUsage',MetricName: 'disk_used_percent',}]
+- *Default:* [{
+AlarmName: 'GitlabRunnerDiskUsage',
+MetricName: 'disk_used_percent',
+}]
 
-Parameters of put_metric_alarm function  https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.put_metric_alarm.
+Parameters of put_metric_alarm function.
+
+https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/cloudwatch.html#CloudWatch.Client.put_metric_alarm
 
 ---
 
