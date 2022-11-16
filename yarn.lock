@@ -2134,9 +2134,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^3.3.69:
-  version "3.4.155"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.155.tgz#fa683f37d704cb1255b13dd8f5a8bda5f1486bf8"
-  integrity sha512-T1wzP+6ppBAq1aBzw8HWX6XNvvkDy76/3JaQVGK/71w0w1/TRZVSzHHMXVQ2dOlO5ZzVjRRs+6yX1IIV22OSeA==
+  version "3.4.156"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.156.tgz#7783217e8654d6e35cf0c90ad1d988950f1011e8"
+  integrity sha512-xMvRDaUnkO3y2uBZbXt4ZztdLkSum3a0DNUjn3jRIpx+DIdllMZt08zt4jKWMl0xV8eeNzOQryB1PpEMettf1A==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -4033,9 +4033,9 @@ jest-mock@^27.5.1:
     "@types/node" "*"
 
 jest-pnp-resolver@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.2.tgz#b704ac0ae028a89108a4d040b3f919dfddc8e33c"
-  integrity sha512-olV41bKSMm8BdnuMsewT4jqlZ8+3TCARAXjZGT9jcoSnrfUnRCqnMoF9XEeoWjbzObpqF9dRhHQj0Xb9QdF6/w==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.3.tgz#930b1546164d4ad5937d5540e711d4d38d4cad2e"
+  integrity sha512-+3NpwQEnRoIBtx4fyhblQDPgJI0H1IEIkX7ShLUjPGA7TtUTvI1oiKi3SR4oBR0hQhQR80l4WAe5RrXBwWMA8w==
 
 jest-regex-util@^27.5.1:
   version "27.5.1"
@@ -5429,10 +5429,10 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.65.22:
-  version "0.65.22"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.65.22.tgz#f558c4a00083c77fa90c5444b91ae30080706e29"
-  integrity sha512-ZigysLJlMD0T3uMQkHDtsLcC+immJA9X4O4tk8PLf0tpu1BHW99FxLvEW53MSVzlQlcjF+0WSeIQmRt1aluyOQ==
+projen@^0.65.23:
+  version "0.65.23"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.65.23.tgz#4db68aeb22bc55d39855d134b3386c17f67cc131"
+  integrity sha512-oUK+bxSAL4BGQ9D/FCxEgvoml8bbNY4Jucckw/mHgAe32YaeX6YIgmZ+87ZAxZ2EkAW2FXn9PogGQzp/StDvOg==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
