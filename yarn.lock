@@ -1964,9 +1964,9 @@ chownr@^2.0.0:
   integrity sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==
 
 ci-info@^3.2.0:
-  version "3.6.2"
-  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.6.2.tgz#362ea15378f1c39378ba786affbc1c9ef015ecfd"
-  integrity sha512-lVZdhvbEudris15CLytp2u6Y0p5EKfztae9Fqa189MfNmln9F33XuH69v5fvNfiRN5/0eAUz2yJL3mo+nhaRKg==
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-3.7.0.tgz#6d01b3696c59915b6ce057e4aa4adfc2fa25f5ef"
+  integrity sha512-2CpRNYmImPx+RXKLq6jko/L07phmS9I02TyqkcNU20GCF/GgaWvc58hPtjxDX8lPpkdwc9sNh72V9k00S7ezog==
 
 cjs-module-lexer@^1.0.0:
   version "1.2.2"
@@ -2134,9 +2134,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^3.3.69:
-  version "3.4.164"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.164.tgz#34a1faa52f9bd58cdcfb5e2a211c1eff8bf4678b"
-  integrity sha512-VPEZwAQ7Rark2Nf5pRLSDQZQ7tCLmQq6Eh1fKN0N0hMPamQgi1lSZUr5ZHG8OVU1dFB0mT6N+AwuAc9fLRQa+A==
+  version "3.4.165"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.165.tgz#d4a169c70ef2c3a6a2a679a99efa60230497fe2a"
+  integrity sha512-mrWNDHhEZ4sCdLqWmCefmN6fLi77+V859pRlTFJfqGrdpFqgwNrAhmbU7/+MZ1JepnhM81hb8tT7nfSeSmiS9g==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -5429,10 +5429,10 @@ progress@^2.0.3:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-projen@^0.65.33:
-  version "0.65.33"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.65.33.tgz#f2bbcfb85d3601660e36ee8899aaaf96b94b6da5"
-  integrity sha512-i7t7E5kyztGoCXR2BSWRYnREJ7vd1vMeREx7/BH8wZnOm5DF0HSZx/rk2X+bysJfWvPU92iu6kkGTQCGAgLlvw==
+projen@^0.65.34:
+  version "0.65.34"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.65.34.tgz#3999bf4b20420d20ae469c125c00044facbf52ad"
+  integrity sha512-nQKiFCf4W6mx5I5iRBsRruB+5CmC1P4iQr9xbqyggT5y0XC+X4XMmmxzF96P7XeailiQQdaV7tCzLsrLFyOnIw==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
