@@ -2134,9 +2134,9 @@ console-control-strings@^1.1.0:
   integrity sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==
 
 constructs@^3.3.69:
-  version "3.4.167"
-  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.167.tgz#43a3f227f1445647a2560be1ff5e6e80610f7b12"
-  integrity sha512-CCn4m3tsZQi5faDsxxZr8TdNPkNDIuFEVK0+WrOw9V5m7XfHoVrpWyO8QiKAmdkARqz6ihbfkAPH14C5ZA20yA==
+  version "3.4.168"
+  resolved "https://registry.yarnpkg.com/constructs/-/constructs-3.4.168.tgz#b1b31d7094f389c9867eff196685e8d44ad37c9f"
+  integrity sha512-045GX6x+NW6+c/sFTnN9rOmUYJP1x7YqWiZKfCNrhvsI+1KUVgFDlXgBsIoJ7qOJCgGpPoYE/hSF0eB7pD6I9w==
 
 conventional-changelog-angular@^5.0.12:
   version "5.0.13"
@@ -3473,9 +3473,9 @@ ignore-walk@^6.0.0:
     minimatch "^5.0.1"
 
 ignore@^5.2.0:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
-  integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.1.tgz#c2b1f76cb999ede1502f3a226a9310fdfe88d46c"
+  integrity sha512-d2qQLzTJ9WxQftPAuEQpSPmKqzxePjzVbpAVv62AQ64NTL+wR4JkrVqR/LqFsFEUsHDAiId52mJteHDFuDkElA==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1:
   version "3.3.0"
