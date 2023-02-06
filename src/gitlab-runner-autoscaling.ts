@@ -31,7 +31,7 @@ export interface GitlabRunnerAutoscalingProps {
    * @example
    * new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', gitlabRunnerImage: 'gitlab/gitlab-runner:alpine' });
    *
-   * @default public.ecr.aws/gitlab/gitlab-runner:alpine
+   * @default public.ecr.aws/gitlab/gitlab-runner:latest
    *
    */
   readonly gitlabRunnerImage?: string;
@@ -245,7 +245,7 @@ export class GitlabRunnerAutoscaling extends Construct {
       instanceType: 't3.micro',
       tags: ['gitlab', 'awscdk', 'runner'],
       gitlabUrl: 'https://gitlab.com/',
-      gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
+      gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:latest',
       alarms: [
         {
           AlarmName: 'GitlabRunnerDiskUsage',
