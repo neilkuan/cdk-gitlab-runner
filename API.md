@@ -389,7 +389,7 @@ public readonly gitlabRunnerImage: string;
 ```
 
 - *Type:* `string`
-- *Default:* public.ecr.aws/gitlab/gitlab-runner:alpine
+- *Default:* public.ecr.aws/gitlab/gitlab-runner:latest
 
 Image URL of Gitlab Runner.
 
@@ -634,7 +634,7 @@ public readonly gitlabRunnerImage: string;
 ```
 
 - *Type:* `string`
-- *Default:* public.ecr.aws/gitlab/gitlab-runner:alpine
+- *Default:* public.ecr.aws/gitlab/gitlab-runner:latest
 
 Image URL of Gitlab Runner.
 
