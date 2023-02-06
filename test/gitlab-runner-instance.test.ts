@@ -9,7 +9,7 @@ import {
 } from '../src/index';
 
 const defaultProps = {
-  gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:alpine',
+  gitlabRunnerImage: 'public.ecr.aws/gitlab/gitlab-runner:latest',
   gitlaburl: 'https://gitlab.com/',
   ec2type: 't3.micro',
   tags: ['gitlab', 'awscdk', 'runner'],
