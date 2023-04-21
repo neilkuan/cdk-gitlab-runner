@@ -1,6 +1,6 @@
 import { App, Stack, Duration } from 'aws-cdk-lib';
 import * as assertions from 'aws-cdk-lib/assertions';
-import { Peer, Port, Vpc, SubnetType } from 'aws-cdk-lib/aws-ec2';
+import { Peer, Port, Vpc, SubnetType, IpAddresses } from 'aws-cdk-lib/aws-ec2';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import {
   GitlabContainerRunner,
@@ -104,7 +104,7 @@ test('Runner Can Use Self VPC ', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
   const newvpc = new Vpc(stack, 'NEWVPC', {
-    cidr: '10.1.0.0/16',
+    ipAddresses: IpAddresses.cidr('10.1.0.0/16'),
     maxAzs: 2,
     subnetConfiguration: [
       {
@@ -153,7 +153,7 @@ test('Can Use Coustom Gitlab Url', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-stack');
   const newvpc = new Vpc(stack, 'NEWVPC', {
-    cidr: '10.1.0.0/16',
+    ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
     maxAzs: 2,
     natGateways: 1,
   });
@@ -162,7 +162,7 @@ test('Can Use Coustom Gitlab Url', () => {
     gitlaburl: 'https://gitlab.my.com/',
     selfvpc: newvpc,
     vpcSubnet: {
-      subnetType: SubnetType.PRIVATE,
+      subnetType: SubnetType.PRIVATE_WITH_EGRESS,
     },
   });
 
@@ -208,7 +208,7 @@ test('Can Use Spotfleet Runner None ', () => {
   const mockApp = new App();
   const stack = new Stack(mockApp, 'testing-spotfleet');
   const newvpc = new Vpc(stack, 'NEWVPC', {
-    cidr: '10.1.0.0/16',
+    ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
     maxAzs: 2,
     natGateways: 1,
   });
@@ -217,7 +217,7 @@ test('Can Use Spotfleet Runner None ', () => {
     spotFleet: true,
     selfvpc: newvpc,
     vpcSubnet: {
-      subnetType: SubnetType.PRIVATE,
+      subnetType: SubnetType.PRIVATE_WITH_EGRESS,
     },
   });
   testspot.expireAfter(Duration.hours(6));
