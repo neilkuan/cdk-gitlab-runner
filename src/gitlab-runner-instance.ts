@@ -14,7 +14,6 @@ import {
   MachineImage,
   UserData,
   BlockDeviceVolume,
-  AmazonLinuxGeneration,
   SubnetType,
   Vpc,
   IVpc,
@@ -25,6 +24,7 @@ import {
   CfnSpotFleet,
   ISecurityGroup,
   SubnetSelection,
+  IpAddresses,
 } from 'aws-cdk-lib/aws-ec2';
 import {
   IRole,
@@ -83,7 +83,7 @@ export interface GitlabContainerRunnerProps {
    *
    * @example
    * const newvpc = new Vpc(stack, 'NEWVPC', {
-   *   cidr: '10.1.0.0/16',
+   *   ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
    *   maxAzs: 2,
    *   subnetConfiguration: [{
    *     cidrMask: 26,
@@ -372,7 +372,7 @@ export class GitlabContainerRunner extends Construct {
     this.vpc =
       runnerProps.selfvpc ??
       new Vpc(this, 'VPC', {
-        cidr: '10.0.0.0/16',
+        ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
         maxAzs: 2,
         subnetConfiguration: [
           {
@@ -391,9 +391,7 @@ export class GitlabContainerRunner extends Construct {
     if (spotOrOnDemand) {
       //throw new Error('yes new spotfleet');
 
-      const imageId = MachineImage.latestAmazonLinux({
-        generation: AmazonLinuxGeneration.AMAZON_LINUX_2,
-      }).getImage(this).imageId;
+      const imageId = MachineImage.latestAmazonLinux2().getImage(this).imageId;
       const lt = new CfnLaunchTemplate(this, 'LaunchTemplate', {
         launchTemplateData: {
           imageId,
@@ -524,9 +522,7 @@ export class GitlabContainerRunner extends Construct {
         vpcSubnets: runnerProps.vpcSubnet ?? {
           subnetType: SubnetType.PUBLIC,
         },
-        machineImage: MachineImage.latestAmazonLinux({
-          generation: AmazonLinuxGeneration.AMAZON_LINUX_2,
-        }),
+        machineImage: MachineImage.latestAmazonLinux2(),
         role: this.runnerRole,
         userData: shell,
         securityGroup: this.defaultRunnerSG,

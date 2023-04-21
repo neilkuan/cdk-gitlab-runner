@@ -764,7 +764,7 @@ public readonly vpcSubnet: SubnetSelection;
 ```
 
 - *Type:* [`aws-cdk-lib.aws_ec2.SubnetSelection`](#aws-cdk-lib.aws_ec2.SubnetSelection)
-- *Default:* private subnet
+- *Default:* SubnetType.PRIVATE subnet
 
 VPC subnet.
 

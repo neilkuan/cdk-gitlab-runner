@@ -46,7 +46,7 @@ test('Can set User Data', () => {
         },
       },
       ImageId: {
-        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
+        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
       },
       InstanceMarketOptions: {},
       InstanceType: 't3.micro',
@@ -107,7 +107,7 @@ test('Can set Docker Volumes', () => {
         },
       },
       ImageId: {
-        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
+        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
       },
       InstanceMarketOptions: {},
       InstanceType: 't3.micro',
@@ -165,7 +165,7 @@ test('Can launch as spot instance', () => {
         },
       },
       ImageId: {
-        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
+        Ref: 'SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter',
       },
       InstanceMarketOptions: {},
       InstanceType: 't3.micro',

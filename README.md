@@ -154,7 +154,7 @@ import { Port, Peer, Vpc, SubnetType } from 'aws-cdk-lib/aws-ec2';
 import { ManagedPolicy } from 'aws-cdk-lib/aws-iam';
 
 const newvpc = new Vpc(stack, 'VPC', {
-  cidr: '10.1.0.0/16',
+  ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
   maxAzs: 2,
   subnetConfiguration: [
     {

@@ -52,7 +52,7 @@ export interface GitlabRunnerAutoscalingProps {
    *
    * @example
    * const newVpc = new Vpc(stack, 'NewVPC', {
-   *   cidr: '10.1.0.0/16',
+   *   ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
    *   maxAzs: 2,
    *   subnetConfiguration: [{
    *     cidrMask: 26,
@@ -174,7 +174,7 @@ export interface GitlabRunnerAutoscalingProps {
    *   },
    * });
    *
-   * @default - private subnet
+   * @default - SubnetType.PRIVATE subnet
    */
   readonly vpcSubnet?: ec2.SubnetSelection;
 
@@ -289,9 +289,7 @@ export class GitlabRunnerAutoscaling extends Construct {
     });
     const lt = new ec2.CfnLaunchTemplate(this, 'GitlabRunnerLaunchTemplate', {
       launchTemplateData: {
-        imageId: ec2.MachineImage.latestAmazonLinux({
-          generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
-        }).getImage(this).imageId,
+        imageId: ec2.MachineImage.latestAmazonLinux2().getImage(this).imageId,
         instanceType: runnerProps.instanceType,
         instanceMarketOptions: {
           marketType: runnerProps.spotInstance ? 'spot' : undefined,
@@ -322,9 +320,7 @@ export class GitlabRunnerAutoscaling extends Construct {
       autoScalingGroupName: `Gitlab Runners (${runnerProps.instanceType})`,
       vpc: this.vpc,
       vpcSubnets: runnerProps.vpcSubnet,
-      machineImage: ec2.MachineImage.latestAmazonLinux({
-        generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2,
-      }),
+      machineImage: ec2.MachineImage.latestAmazonLinux2(),
       minCapacity: runnerProps.minCapacity,
       maxCapacity: runnerProps.maxCapacity,
       desiredCapacity: runnerProps.desiredCapacity,
