@@ -44,7 +44,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
   },
-  workflowNodeVersion: '^14.17.0',
+  workflowNodeVersion: '^16.16.0',
   typescriptVersion: '^4.9',
 });
 
