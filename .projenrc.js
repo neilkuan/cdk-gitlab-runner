@@ -61,7 +61,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
   },
-  workflowNodeVersion: '^16',
+  workflowNodeVersion: '^16.16',
   typescriptVersion: '^4.9',
 });
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];
