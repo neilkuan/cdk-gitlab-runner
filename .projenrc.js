@@ -17,7 +17,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   compat: true,
   stability: 'experimental',
-  cdkVersion: '2.76.0',
+  cdkVersion: '2.86.0',
   /**
    * we default release the main branch(cdkv2) with major version 2.
    */
@@ -46,6 +46,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   workflowNodeVersion: '^16.16.0',
   typescriptVersion: '^4.9',
+  jsiiVersion: '~5.0.7',
 });
 
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];
