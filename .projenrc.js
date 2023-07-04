@@ -17,7 +17,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   compat: true,
   stability: 'experimental',
-  cdkVersion: '1.176.0',
+  cdkVersion: '1.204.0',
   /**
    * we default release the main branch(cdkv2) with major version 2.
    */
