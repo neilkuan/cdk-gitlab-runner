@@ -1,6 +1,6 @@
 [![NPM version](https://badge.fury.io/js/cdk-gitlab-runner.svg)](https://badge.fury.io/js/cdk-gitlab-runner)
 [![PyPI version](https://badge.fury.io/py/cdk-gitlab-runner.svg)](https://badge.fury.io/py/cdk-gitlab-runner)
-[![release](https://github.com/neilkuan/cdk-gitlab-runner/actions/workflows/release.yml/badge.svg)](https://github.com/neilkuan/cdk-gitlab-runner/actions/workflows/release.yml)
+[![release-cdkv1](https://github.com/neilkuan/cdk-gitlab-runner/actions/workflows/release-cdkv1.yml/badge.svg)](https://github.com/neilkuan/cdk-gitlab-runner/actions/workflows/release-cdkv1.yml)
 
 ![Downloads](https://img.shields.io/badge/-DOWNLOADS:-brightgreen?color=gray)
 ![npm](https://img.shields.io/npm/dt/cdk-gitlab-runner?label=npm&color=orange)
