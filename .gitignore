@@ -43,7 +43,6 @@ junit.xml
 !/.github/workflows/upgrade-master.yml
 !/.github/workflows/upgrade-cdkv1.yml
 !/.github/pull_request_template.md
-!/.npmrc
 !/test/
 !/tsconfig.dev.json
 !/src/
