@@ -87,6 +87,10 @@
       "type": "build"
     },
     {
+      "name": "compare-versions",
+      "type": "bundled"
+    },
+    {
       "name": "aws-cdk-lib",
       "version": "^2.86.0",
       "type": "peer"
