@@ -33,6 +33,7 @@ const runner = new GitlabRunnerAutoscaling(stack, 'TestRunnerAutoscaling', {
       Threshold: 50,
     },
   ],
+  gitlabRunnerVersion: '15.10',
 });
 
 /**

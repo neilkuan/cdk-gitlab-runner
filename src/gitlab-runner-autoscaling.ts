@@ -10,6 +10,8 @@ import * as assets from 'aws-cdk-lib/aws-s3-assets';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as subscriptions from 'aws-cdk-lib/aws-sns-subscriptions';
 import * as cr from 'aws-cdk-lib/custom-resources';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { compare } from 'compare-versions';
 import { Construct } from 'constructs';
 import { DockerVolumes } from './gitlab-runner-interfaces';
 
@@ -17,6 +19,11 @@ import { DockerVolumes } from './gitlab-runner-interfaces';
  * GitlabRunnerAutoscaling Props.
  */
 export interface GitlabRunnerAutoscalingProps {
+  /**
+   * Gitlab Runner version
+   * Please give me gitlab runner version.
+   */
+  readonly gitlabRunnerVersion: string;
   /**
    * Gitlab token.
    *
@@ -254,7 +261,9 @@ export class GitlabRunnerAutoscaling extends Construct {
       ],
     };
     const runnerProps = { ...defaultProps, ...props };
-
+    if (compare(props.gitlabRunnerVersion, '15.10', '>=') && props.gitlabToken.includes('glrt-') === false) {
+      throw new Error('If gitlabRunnerVersion >= 15.10, gitlabtoken please give glrt-xxxxxxx @see https://docs.gitlab.com/ee/ci/runners/new_creation_workflow.html');
+    }
     const asset = new assets.Asset(this, 'GitlabRunnerUserDataAsset', {
       path: path.join(__dirname, '../assets/userdata/amazon-cloudwatch-agent.json'),
     });
@@ -476,10 +485,10 @@ export class GitlabRunnerAutoscaling extends Construct {
       'sleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
       'systemctl restart docker && systemctl enable docker && systemctl start amazon-cloudwatch-agent && systemctl enable amazon-cloudwatch-agent',
       `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
-      --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlabUrl} --registration-token ${props.gitlabToken} \
+      --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlabUrl} ${compare(props.gitlabRunnerVersion, '15.10', '>=') ? '--token' : '--registration-token'} ${props.gitlabToken} \
       --docker-pull-policy if-not-present ${this.dockerVolumesList(props?.dockerVolumes)} \
       --executor docker --docker-image "alpine:latest" --description "A Runner on EC2 Instance (${props.instanceType})" \
-      --tag-list "${props.tags?.join(',')}" --docker-privileged`,
+      ${compare(props.gitlabRunnerVersion, '15.10', '>=') ? undefined : `--tag-list "${props.tags?.join(',')}" `} --docker-privileged`,
       `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
     ];
   }

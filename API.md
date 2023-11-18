@@ -302,6 +302,18 @@ import { GitlabContainerRunnerProps } from 'cdk-gitlab-runner'
 const gitlabContainerRunnerProps: GitlabContainerRunnerProps = { ... }
 ```
 
+##### `gitlabRunnerVersion`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.gitlabRunnerVersion"></a>
+
+```typescript
+public readonly gitlabRunnerVersion: string;
+```
+
+- *Type:* `string`
+
+Gitlab Runner version Please give me gitlab runner version.
+
+---
+
 ##### `gitlabtoken`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.gitlabtoken"></a>
 
 ```typescript
@@ -389,7 +401,7 @@ public readonly gitlabRunnerImage: string;
 ```
 
 - *Type:* `string`
-- *Default:* public.ecr.aws/gitlab/gitlab-runner:latest
+- *Default:* public.ecr.aws/gitlab/gitlab-runner:latest !!! <--- latest now > 16.0 Gitlab Runner version
 
 Image URL of Gitlab Runner.
 
@@ -473,51 +485,6 @@ Gitlab Runner instance Use Spot Fleet or not ?!.
 
 ---
 
-##### ~~`tag1`~~<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.tag1"></a>
-
-- *Deprecated:* - use tags ['runner', 'gitlab', 'awscdk']
-
-```typescript
-public readonly tag1: string;
-```
-
-- *Type:* `string`
-- *Default:* tag1: gitlab .
-
-Gitlab Runner register tag1  .
-
----
-
-##### ~~`tag2`~~<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.tag2"></a>
-
-- *Deprecated:* - use tags ['runner', 'gitlab', 'awscdk']
-
-```typescript
-public readonly tag2: string;
-```
-
-- *Type:* `string`
-- *Default:* tag2: awscdk .
-
-Gitlab Runner register tag2  .
-
----
-
-##### ~~`tag3`~~<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.tag3"></a>
-
-- *Deprecated:* - use tags ['runner', 'gitlab', 'awscdk']
-
-```typescript
-public readonly tag3: string;
-```
-
-- *Type:* `string`
-- *Default:* tag3: runner .
-
-Gitlab Runner register tag3  .
-
----
-
 ##### `tags`<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.tags"></a>
 
 ```typescript
@@ -527,7 +494,9 @@ public readonly tags: string[];
 - *Type:* `string`[]
 - *Default:* ['runner', 'gitlab', 'awscdk']
 
-tags for the runner.
+tags for the runner Unsupported Gitlab Runner 15.10 and later.
+
+>  - https://docs.gitlab.com/ee/ci/runners/new_creation_workflow.html
 
 ---
 
@@ -568,6 +537,18 @@ import { GitlabRunnerAutoscalingProps } from 'cdk-gitlab-runner'
 
 const gitlabRunnerAutoscalingProps: GitlabRunnerAutoscalingProps = { ... }
 ```
+
+##### `gitlabRunnerVersion`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.gitlabRunnerVersion"></a>
+
+```typescript
+public readonly gitlabRunnerVersion: string;
+```
+
+- *Type:* `string`
+
+Gitlab Runner version Please give me gitlab runner version.
+
+---
 
 ##### `gitlabToken`<sup>Required</sup> <a name="cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.gitlabToken"></a>
 
