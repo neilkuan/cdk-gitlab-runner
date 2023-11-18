@@ -18,7 +18,7 @@ const vpc = Vpc.fromLookup(stack, 'defaultVpc', {
   isDefault: true,
 });
 const runner = new GitlabContainerRunner(stack, 'testing', {
-  gitlabtoken: stack.node.tryGetContext('GITLAB_TOKEN') ?? 'GITLAB_TOKEN',
+  gitlabtoken: stack.node.tryGetContext('GITLAB_TOKEN') ?? 'glrt-GITLAB_TOKEN',
   ec2type: 't3.large',
   ec2iamrole: role,
   ebsSize: 100,
@@ -30,6 +30,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
       containerPath: '/tmp/cahce',
     },
   ],
+  gitlabRunnerVersion: '15.10',
 });
 
 //runner.expireAfter(Duration.hours(1));

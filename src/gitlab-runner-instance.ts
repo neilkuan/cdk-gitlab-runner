@@ -7,6 +7,7 @@ import {
   Lazy,
   CustomResource,
   Token,
+  Annotations,
 } from 'aws-cdk-lib';
 import {
   Instance,
@@ -38,6 +39,8 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
 import * as cr from 'aws-cdk-lib/custom-resources';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { compare } from 'compare-versions';
 import { Construct } from 'constructs';
 
 import { DockerVolumes } from './gitlab-runner-interfaces';
@@ -45,6 +48,11 @@ import { DockerVolumes } from './gitlab-runner-interfaces';
  * GitlabContainerRunner Props.
  */
 export interface GitlabContainerRunnerProps {
+  /**
+   * Gitlab Runner version
+   * Please give me gitlab runner version.
+   */
+  readonly gitlabRunnerVersion: string;
   /**
    * Gitlab token for the Register Runner .
    *
@@ -62,7 +70,7 @@ export interface GitlabContainerRunnerProps {
    * @example
    * new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', gitlabRunnerImage: 'gitlab/gitlab-runner:alpine' });
    *
-   * @default public.ecr.aws/gitlab/gitlab-runner:latest
+   * @default public.ecr.aws/gitlab/gitlab-runner:latest !!! <--- latest now > 16.0 Gitlab Runner version
    *
    */
   readonly gitlabRunnerImage?: string;
@@ -116,49 +124,10 @@ export interface GitlabContainerRunnerProps {
    *
    */
   readonly ec2iamrole?: IRole;
-
-  /**
-   * Gitlab Runner register tag1  .
-   *
-   * @example
-   * new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN', tag1: 'aa' });
-   *
-   * @deprecated - use tags ['runner', 'gitlab', 'awscdk']
-   *
-   * @default - tag1: gitlab .
-   *
-   */
-  readonly tag1?: string;
-
-  /**
-   * Gitlab Runner register tag2  .
-   *
-   * @example
-   * new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN', tag2: 'bb' });
-   *
-   * @deprecated - use tags ['runner', 'gitlab', 'awscdk']
-   *
-   * @default - tag2: awscdk .
-   *
-   */
-  readonly tag2?: string;
-
-  /**
-   * Gitlab Runner register tag3  .
-   *
-   * @example
-   * new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN', tag3: 'cc' });
-   *
-   * @deprecated - use tags ['runner', 'gitlab', 'awscdk']
-   *
-   * @default - tag3: runner .
-   *
-   */
-  readonly tag3?: string;
-
   /**
    * tags for the runner
-   *
+   * Unsupported Gitlab Runner 15.10 and later
+   * @see - https://docs.gitlab.com/ee/ci/runners/new_creation_workflow.html
    * @default - ['runner', 'gitlab', 'awscdk']
    */
   readonly tags?: string[];
@@ -338,6 +307,10 @@ export class GitlabContainerRunner extends Construct {
   private cfnSpotFleet?: CfnSpotFleet;
   constructor(scope: Construct, id: string, props: GitlabContainerRunnerProps) {
     super(scope, id);
+    if (!props.gitlabRunnerImage) {
+      Annotations.of(this).addWarning('Default Gitlab Runner Image use public.ecr.aws/gitlab/gitlab-runner:latest GitlabRunner Version Maybe > 16.0');
+    }
+
     const spotFleetId = id;
 
     const defaultProps = {
@@ -348,7 +321,11 @@ export class GitlabContainerRunner extends Construct {
       concurrentJobs: 1,
       runnerDescription: 'Docker Runner',
     };
+
     const runnerProps = { ...defaultProps, ...props };
+    if (compare(props.gitlabRunnerVersion, '15.10', '>=') && props.gitlabtoken.includes('glrt-') === false) {
+      throw new Error('If gitlabRunnerVersion >= 15.10, gitlabtoken please give glrt-xxxxxxx @see https://docs.gitlab.com/ee/ci/runners/new_creation_workflow.html');
+    }
 
     const tokenParameterStore = new ssm.StringParameter(this, 'GitlabTokenParameter', {
       stringValue: 'GITLAB_TOKEN',
@@ -389,7 +366,7 @@ export class GitlabContainerRunner extends Construct {
     this.defaultRunnerSG.connections.allowFromAnyIpv4(Port.tcp(22));
     const spotOrOnDemand = runnerProps.spotFleet ?? false;
     if (spotOrOnDemand) {
-      //throw new Error('yes new spotfleet');
+      //--token Error('yes new spotfleet');
 
       const imageId = MachineImage.latestAmazonLinux2().getImage(this).imageId;
       const lt = new CfnLaunchTemplate(this, 'LaunchTemplate', {
@@ -605,13 +582,13 @@ export class GitlabContainerRunner extends Construct {
       'sleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock',
       'systemctl restart docker && systemctl enable docker',
       `docker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock \
-      --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlaburl} --registration-token ${props.gitlabtoken} \
+      --name gitlab-runner-register ${props.gitlabRunnerImage} register --non-interactive --url ${props.gitlaburl} ${compare(props.gitlabRunnerVersion, '15.10', '>=') ? '--token' : '--registration-token'} ${props.gitlabtoken} \
       --docker-pull-policy if-not-present ${this.dockerVolumesList(props?.dockerVolumes)} \
       --executor docker --docker-image "alpine:latest" --description "${props.runnerDescription}" \
-      --tag-list "${props.tags?.join(',')}" --docker-privileged`,
+      ${compare(props.gitlabRunnerVersion, '15.10', '>=') ? undefined :`--tag-list "${props.tags?.join(',')}" `} --docker-privileged`,
       `sleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner ${props.gitlabRunnerImage}`,
       `sed -i 's/concurrent = .*/concurrent = ${props.concurrentJobs}/g' /home/ec2-user/.gitlab-runner/config.toml`,
-      'TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep token | awk \'{print $3}\'| tr -d \'"\')',
+      'TOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep \'token \' | awk \'{print $3}\'| tr -d \'"\')',
       `aws ssm put-parameter --name ${tokenParameterStoreName} --value $TOKEN --overwrite --region ${Stack.of(this).region}`,
     ];
   }

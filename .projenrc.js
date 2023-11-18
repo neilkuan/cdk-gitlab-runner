@@ -47,6 +47,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   workflowNodeVersion: '^16.16.0',
   typescriptVersion: '^4.9',
   jsiiVersion: '~5.0.7',
+  deps: [
+    'compare-versions',
+  ],
 });
 
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];

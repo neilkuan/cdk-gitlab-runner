@@ -35,15 +35,37 @@ It will be used with AWS IAM Role, so you don't need to put AKSK in Gitlab envir
 
 ## Before start you need gitlab runner token in your `gitlab project` or `gitlab group`
 
-### In Group
-
+## In Group before Gitlab 15.10
+This registration process is only supported in GitLab Runner 15.10 or later
+This registration process is not supported in GitLab Runner 15.9 or earlier and only available as an experimental feature in GitLab Runner 15.10 and 15.11. You should upgrade to GitLab Runner 16.0 or later to use a stable version of this registration process. [Check this issue](https://github.com/neilkuan/cdk-gitlab-runner/issues/1796)
+ 
 Group > Settings > CI/CD
 ![group](image/group_runner_page.png)
 
-### In Project
+## In Group after Gitlab 15.10
+This registration process is only supported in GitLab Runner 15.10 or later
+This registration process is not supported in GitLab Runner 15.9 or earlier and only available as an experimental feature in GitLab Runner 15.10 and 15.11. You should upgrade to GitLab Runner 16.0 or later to use a stable version of this registration process. [Check this issue](https://github.com/neilkuan/cdk-gitlab-runner/issues/1796)
+ 
+Group > Build > Runners
+![group](image/gitlab-runner-new-register.png)
+![group](image/gitlab-runner-new-register-1.png)
+![group](image/gitlab-runner-new-register-2.png)
+![group](image/gitlab-runner-new-register-3.jpg)
+
+
+### In Project before Gitlab 15.10
+This registration process is only supported in GitLab Runner 15.10 or later
+This registration process is not supported in GitLab Runner 15.9 or earlier and only available as an experimental feature in GitLab Runner 15.10 and 15.11. You should upgrade to GitLab Runner 16.0 or later to use a stable version of this registration process. [Check this issue](https://github.com/neilkuan/cdk-gitlab-runner/issues/1796)
 
 Project > Settings > CI/CD > Runners
 ![project](image/project_runner_page.png)
+
+### In Project after Gitlab 15.10
+This registration process is only supported in GitLab Runner 15.10 or later
+This registration process is not supported in GitLab Runner 15.9 or earlier and only available as an experimental feature in GitLab Runner 15.10 and 15.11. You should upgrade to GitLab Runner 16.0 or later to use a stable version of this registration process. [Check this issue](https://github.com/neilkuan/cdk-gitlab-runner/issues/1796)
+
+Project > Settings > CI/CD > Runners
+![project](image/gitlab-runner-new-register-project.png)
 
 ## Usage
 
@@ -69,12 +91,12 @@ npm install cdk-gitlab-runner@cdkv1
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 
 // If want change instance type to t3.large .
-new GitlabContainerRunner(this, 'runner-instance', { gitlabtoken: '$GITLABTOKEN', ec2type:'t3.large' });
+new GitlabContainerRunner(this, 'runner-instance', { gitlabtoken: 'glrt-GITLABTOKEN', ec2type:'t3.large',gitlabRunnerVersion: '15.10' });
 // OR
 // Just create a gitlab runner , by default instance type is t3.micro .
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 
-new GitlabContainerRunner(this, 'runner-instance', { gitlabtoken: '$GITLABTOKEN' });})
+new GitlabContainerRunner(this, 'runner-instance', { gitlabtoken: 'glrt-GITLABTOKEN', gitlabRunnerVersion: '15.10' });
 ```
 
 ### Gitlab Server Customize Url .
@@ -86,21 +108,23 @@ If you want change what you want tag name .
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 
 new GitlabContainerRunner(this, 'runner-instance-change-tag', {
-  gitlabtoken: '$GITLABTOKEN',
+  gitlabtoken: 'glrt-GITLABTOKEN',
   gitlaburl: 'https://gitlab.my.com/',
+  gitlabRunnerVersion: '15.10'
 });
 ```
 
 ### Tags
 
 If you want change what you want tag name .
-
+!!! Not support Gitlab Runner 15.10 and later !!!
 ```typescript
 // If you want change  what  you want tag name .
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 
 new GitlabContainerRunner(this, 'runner-instance-change-tag', {
-  gitlabtoken: '$GITLABTOKEN',
+  gitlabtoken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   tags: ['aa', 'bb', 'cc'],
 });
 ```
@@ -115,7 +139,8 @@ import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { ManagedPolicy } from 'aws-cdk-lib/aws-iam';
 
 const runner = new GitlabContainerRunner(this, 'runner-instance-add-policy', {
-  gitlabtoken: '$GITLABTOKEN',
+  gitlabtoken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   tags: ['aa', 'bb', 'cc'],
 });
 runner.runnerRole.addManagedPolicy(
@@ -133,7 +158,8 @@ import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 import { Port, Peer } from 'aws-cdk-lib/aws-ec2';
 
 const runner = new GitlabContainerRunner(this, 'runner-add-SG-ingress', {
-  gitlabtoken: 'GITLABTOKEN',
+  gitlabtoken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   tags: ['aa', 'bb', 'cc'],
 });
 
@@ -167,7 +193,8 @@ const newvpc = new Vpc(stack, 'VPC', {
 });
 
 const runner = new GitlabContainerRunner(this, 'testing', {
-  gitlabtoken: '$GITLABTOKEN',
+  gitlabtoken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   ec2type: 't3.small',
   selfvpc: newvpc,
 });
@@ -189,7 +216,8 @@ const role = new Role(this, 'runner-role', {
 });
 
 const runner = new GitlabContainerRunner(stack, 'testing', {
-  gitlabtoken: '$GITLAB_TOKEN',
+  gitlabtoken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   ec2iamrole: role,
 });
 runner.runnerRole.addManagedPolicy(
@@ -205,7 +233,8 @@ runner.runnerRole.addManagedPolicy(
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
 
 new GitlabContainerRunner(stack, 'testing', {
-  gitlabtoken: '$GITLAB_TOKEN',
+  gitlabtoken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   ebsSize: 50,
 });
 ```
@@ -218,7 +247,8 @@ new GitlabContainerRunner(stack, 'testing', {
 import { GitlabRunnerAutoscaling } from 'cdk-gitlab-runner';
 
 new GitlabRunnerAutoscaling(stack, 'testing', {
-  gitlabToken: '$GITLAB_TOKEN',
+  gitlabToken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   minCapacity: 2,
   maxCapacity: 2,
 });
@@ -233,7 +263,8 @@ new GitlabRunnerAutoscaling(stack, 'testing', {
 import { GitlabContainerRunner, BlockDuration } from 'cdk-gitlab-runner';
 
 const runner = new GitlabContainerRunner(stack, 'testing', {
-  gitlabtoken: 'GITLAB_TOKEN',
+  gitlabToken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   ec2type: 't3.large',
   spotFleet: true,
 });
@@ -248,7 +279,8 @@ runner.expireAfter(Duration.hours(1));
 import { GitlabContainerRunner, BlockDuration } from 'cdk-gitlab-runner';
 
 const runner = new GitlabContainerRunner(stack, 'testing', {
-  gitlabtoken: 'GITLAB_TOKEN',
+  gitlabToken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
   ec2type: 't3.large',
   dockerVolumes: [
     {
@@ -264,7 +296,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
 ![runner](image/group_runner2.png)
 
 #### you can use tag `gitlab` , `runner` , `awscdk` ,
-
+> !!!!! Not Support Gitlab Runner after 15.10 and later
 ## Example _`gitlab-ci.yaml`_
 
 [gitlab docs see more ...](https://docs.gitlab.com/ee/ci/yaml/README.html)
