@@ -57,4 +57,6 @@ const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'covera
 project.gitignore.exclude(...common_exclude);
 
 project.npmignore.exclude(...common_exclude, 'image');
+
+project.package.addDevDeps(...['jest@^29', '@types/jest@^29', 'ts-jest@^29']);
 project.synth();
