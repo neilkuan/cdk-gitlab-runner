@@ -23,7 +23,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
   ec2iamrole: role,
   ebsSize: 100,
   selfvpc: vpc,
-  spotFleet: true,
+  // spotFleet: true,
   dockerVolumes: [
     {
       hostPath: '/tmp/cahce',
@@ -31,6 +31,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
     },
   ],
   gitlabRunnerVersion: '15.10',
+  enabledIMDSv2: true,
 });
 
 //runner.expireAfter(Duration.hours(1));

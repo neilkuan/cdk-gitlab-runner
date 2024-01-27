@@ -394,6 +394,21 @@ Runner default EC2 instance type.
 
 ---
 
+##### `enabledIMDSv2`<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.enabledIMDSv2"></a>
+
+```typescript
+public readonly enabledIMDSv2: boolean;
+```
+
+- *Type:* `boolean`
+- *Default:* false
+
+Enabled IMDSv2.
+
+more detail see https://docs.aws.amazon.com/zh_tw/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html
+
+---
+
 ##### `gitlabRunnerImage`<sup>Optional</sup> <a name="cdk-gitlab-runner.GitlabContainerRunnerProps.property.gitlabRunnerImage"></a>
 
 ```typescript
