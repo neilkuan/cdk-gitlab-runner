@@ -86,13 +86,6 @@ test('Runner Can Add Ingress ', () => {
   assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::SecurityGroup', {
     SecurityGroupIngress: [
       {
-        CidrIp: '0.0.0.0/0',
-        Description: 'from 0.0.0.0/0:22',
-        FromPort: 22,
-        IpProtocol: 'tcp',
-        ToPort: 22,
-      },
-      {
         CidrIp: '1.2.3.4/8',
         Description: 'from 1.2.3.4/8:80',
         FromPort: 80,
@@ -429,4 +422,56 @@ test('Test gitlabRunnerVersion 15.10 use not glrt-xxxxx gitlabToken', () => {
   expect(() => {
     new GitlabContainerRunner(stack, 'testing', props);
   }).toThrow('If gitlabRunnerVersion >= 15.10, gitlabtoken please give glrt-xxxxxxx @see https://docs.gitlab.com/ee/ci/runners/new_creation_workflow.html');
+});
+
+test('Enabled IMDSv2', () => {
+  const mockApp = new App();
+  const stack = new Stack(mockApp, 'testing-spotfleet');
+  const props = {
+    gitlabtoken: 'glrt-GITLAB_TOKEN',
+    concurrentJobs: 5,
+    gitlabRunnerVersion: '15.10',
+    enabledIMDSv2: true,
+  };
+  new GitlabContainerRunner(stack, 'testing', props);
+
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::LaunchTemplate',
+    assertions.Match.objectLike({
+      LaunchTemplateData: {
+        MetadataOptions: {
+          HttpPutResponseHopLimit: 2,
+          HttpTokens: 'required',
+        },
+      },
+    }));
+  assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
+    LaunchTemplate: {
+      LaunchTemplateId: {
+        Ref: 'testingTemplate00432C5D',
+      },
+      Version: {
+        'Fn::GetAtt': [
+          'testingTemplate00432C5D',
+          'LatestVersionNumber',
+        ],
+      },
+    },
+    UserData: {
+      'Fn::Base64': {
+        'Fn::Join': [
+          '',
+          [
+            "#!/bin/bash\nyum update -y \nsleep 15 && amazon-linux-extras install docker && yum install -y amazon-cloudwatch-agent && systemctl start docker && usermod -aG docker ec2-user && chmod 777 /var/run/docker.sock\nsystemctl restart docker && systemctl enable docker\ndocker run -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock       --name gitlab-runner-register public.ecr.aws/gitlab/gitlab-runner:latest register --non-interactive --url https://gitlab.com/ --token glrt-GITLAB_TOKEN       --docker-pull-policy if-not-present --docker-volumes \"/var/run/docker.sock:/var/run/docker.sock\"       --executor docker --docker-image \"alpine:latest\" --description \"Docker Runner\"       undefined --docker-privileged\nsleep 2 && docker run --restart always -d -v /home/ec2-user/.gitlab-runner:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock --name gitlab-runner public.ecr.aws/gitlab/gitlab-runner:latest\nsed -i 's/concurrent = .*/concurrent = 5/g' /home/ec2-user/.gitlab-runner/config.toml\nTOKEN=$(cat /home/ec2-user/.gitlab-runner/config.toml | grep 'token ' | awk '{print $3}'| tr -d '\"')\naws ssm put-parameter --name ",
+            {
+              Ref: 'testingGitlabTokenParameterD6C98250',
+            },
+            ' --value $TOKEN --overwrite --region ',
+            {
+              Ref: 'AWS::Region',
+            },
+          ],
+        ],
+      },
+    },
+  });
 });

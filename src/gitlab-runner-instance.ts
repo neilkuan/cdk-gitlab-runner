@@ -20,12 +20,14 @@ import {
   IVpc,
   IInstance,
   SecurityGroup,
-  Port,
   CfnLaunchTemplate,
   CfnSpotFleet,
   ISecurityGroup,
   SubnetSelection,
   IpAddresses,
+  CfnInstance,
+  LaunchTemplate,
+  LaunchTemplateHttpTokens,
 } from 'aws-cdk-lib/aws-ec2';
 import {
   IRole,
@@ -245,6 +247,16 @@ export interface GitlabContainerRunnerProps {
    * ],
    */
   readonly dockerVolumes?: DockerVolumes[];
+
+  /**
+   * Enabled IMDSv2.
+   *
+   * more detail see https://docs.aws.amazon.com/zh_tw/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html
+   *
+   * @default - false
+   *
+   */
+  readonly enabledIMDSv2?: boolean;
 }
 
 /**
@@ -341,9 +353,6 @@ export class GitlabContainerRunner extends Construct {
         description: 'For Gitlab EC2 Runner Role',
       });
     this.validUntil = runnerProps.validUntil;
-    const instanceProfile = new CfnInstanceProfile(this, 'InstanceProfile', {
-      roles: [this.runnerRole.roleName],
-    });
     tokenParameterStore.grantWrite(this.runnerRole);
     tokenParameterStore.grantRead(this.runnerRole);
     this.vpc =
@@ -363,10 +372,13 @@ export class GitlabContainerRunner extends Construct {
     this.defaultRunnerSG = new SecurityGroup(this, 'SpotFleetSg', {
       vpc: this.vpc,
     });
-    this.defaultRunnerSG.connections.allowFromAnyIpv4(Port.tcp(22));
     const spotOrOnDemand = runnerProps.spotFleet ?? false;
     if (spotOrOnDemand) {
       //--token Error('yes new spotfleet');
+
+      const instanceProfile = new CfnInstanceProfile(this, 'InstanceProfile', {
+        roles: [this.runnerRole.roleName],
+      });
 
       const imageId = MachineImage.latestAmazonLinux2().getImage(this).imageId;
       const lt = new CfnLaunchTemplate(this, 'LaunchTemplate', {
@@ -409,6 +421,10 @@ export class GitlabContainerRunner extends Construct {
           iamInstanceProfile: {
             arn: instanceProfile.attrArn,
           },
+          metadataOptions: runnerProps.enabledIMDSv2 ? {
+            httpTokens: 'required',
+            httpPutResponseHopLimit: 2,
+          } : undefined,
         },
       });
 
@@ -510,6 +526,17 @@ export class GitlabContainerRunner extends Construct {
           },
         ],
       });
+      if (runnerProps.enabledIMDSv2) {
+        const template = new LaunchTemplate(this, 'Template', {
+          httpTokens: LaunchTemplateHttpTokens.REQUIRED,
+          httpPutResponseHopLimit: 2,
+        });
+        const cfnInstance = this.runnerEc2.node.defaultChild as CfnInstance;
+        cfnInstance.launchTemplate = {
+          launchTemplateId: template.launchTemplateId,
+          version: template.latestVersionNumber,
+        };
+      }
       new CfnOutput(this, 'Runner-Instance-ID', {
         value: this.runnerEc2.instanceId,
       });
