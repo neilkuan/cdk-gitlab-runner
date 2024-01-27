@@ -335,8 +335,14 @@ export class GitlabContainerRunner extends Construct {
     };
 
     const runnerProps = { ...defaultProps, ...props };
-    if (compare(props.gitlabRunnerVersion, '15.10', '>=') && props.gitlabtoken.includes('glrt-') === false) {
-      throw new Error('If gitlabRunnerVersion >= 15.10, gitlabtoken please give glrt-xxxxxxx @see https://docs.gitlab.com/ee/ci/runners/new_creation_workflow.html');
+    if (Token.isUnresolved(props.gitlabtoken)) {
+      Annotations.of(this).addWarning(`
+      Your Gitlab Token pass by AWS Systems Manager Parameter Store or AWS Secret Manager can not check gitlab token. 
+      @see https://docs.gitlab.com/ee/ci/runners/new_creation_workflow.html`);
+    } else {
+      if (compare(props.gitlabRunnerVersion, '15.10', '>=') && props.gitlabtoken.includes('glrt-') === false) {
+        throw new Error('If gitlabRunnerVersion >= 15.10, gitlabtoken please give glrt-xxxxxxx @see https://docs.gitlab.com/ee/ci/runners/new_creation_workflow.html');
+      }
     }
 
     const tokenParameterStore = new ssm.StringParameter(this, 'GitlabTokenParameter', {
