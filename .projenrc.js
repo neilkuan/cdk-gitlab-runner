@@ -43,9 +43,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@aws-cdk/aws-sns-subscriptions',
     '@aws-cdk/custom-resources',
   ],
-  devDeps: [
-    '@types/node',
-  ],
   autoDetectBin: false,
   depsUpgradeOptions: {
     ignoreProjen: false,
@@ -61,8 +58,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
   },
-  workflowNodeVersion: '^16.16',
-  typescriptVersion: '^4.9',
+  devDeps: [
+    'ts-jest@29.1.2',
+    'jsii-rosetta@5.0.x',
+  ],
+  minNodeVersion: '20.10.0',
+  workflowNodeVersion: '20.10.0',
+  typescriptVersion: '^5',
+  jsiiVersion: '5.3.x',
 });
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];
 project.gitignore.exclude(...common_exclude);
