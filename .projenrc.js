@@ -17,7 +17,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   compat: true,
   stability: 'experimental',
-  cdkVersion: '2.86.0',
+  cdkVersion: '2.126.0',
   /**
    * we default release the main branch(cdkv2) with major version 2.
    */
@@ -51,6 +51,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'compare-versions',
   ],
   bundledDeps: ['compare-versions'],
+  minNodeVersion: '20.10.0',
+  workflowNodeVersion: '20.10.0',
+  typescriptVersion: '^5',
+  jsiiVersion: '5.3.x',
 });
 
 const common_exclude = ['cdk.out', 'cdk.context.json', 'yarn-error.log', 'coverage', 'venv'];
@@ -58,5 +62,5 @@ project.gitignore.exclude(...common_exclude);
 
 project.npmignore.exclude(...common_exclude, 'image');
 
-project.package.addDevDeps(...['jest@^29', '@types/jest@^29', 'ts-jest@^29']);
+project.package.addDevDeps(...['jest@^29', '@types/jest@^29', 'ts-jest@^29', 'jsii-rosetta@5.0.x']);
 project.synth();

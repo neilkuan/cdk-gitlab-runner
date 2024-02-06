@@ -7,7 +7,7 @@
     },
     {
       "name": "@types/node",
-      "version": "^18",
+      "version": "^20",
       "type": "build"
     },
     {
@@ -57,12 +57,12 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.0.7",
+      "version": "5.0.x",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.0.7",
+      "version": "5.3.x",
       "type": "build"
     },
     {
@@ -81,7 +81,7 @@
     },
     {
       "name": "typescript",
-      "version": "^4.9",
+      "version": "^5",
       "type": "build"
     },
     {
@@ -90,7 +90,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.86.0",
+      "version": "^2.126.0",
       "type": "peer"
     },
     {
