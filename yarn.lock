@@ -1295,9 +1295,9 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001629:
-  version "1.0.30001638"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001638.tgz#598e1f0c2ac36f37ebc3f5b8887a32ca558e5d56"
-  integrity sha512-5SuJUJ7cZnhPpeLHaH0c/HPAnAHZvS6ElWyHK9GSIbVOQABLzowiI2pjmpvZ1WEbkyz46iFd4UXlOHR5SqgfMQ==
+  version "1.0.30001639"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001639.tgz#972b3a6adeacdd8f46af5fc7f771e9639f6c1521"
+  integrity sha512-eFHflNTBIlFwP2AIKaYuBQN/apnUoKNhBdza8ZnW/h2di4LCZ4xFqYlxUxo+LQ76KFI1PGcC1QDxMbxTZpSCAg==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -2871,9 +2871,9 @@ istanbul-lib-instrument@^5.0.4:
     semver "^6.3.0"
 
 istanbul-lib-instrument@^6.0.0:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-6.0.2.tgz#91655936cf7380e4e473383081e38478b69993b1"
-  integrity sha512-1WUsZ9R1lA0HtBSohTkm39WTPlNKSJ5iFk7UwqXkBLoHQT+hfqPsfsTDVuZdKGaBwn7din9bS7SsnoAr943hvw==
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/istanbul-lib-instrument/-/istanbul-lib-instrument-6.0.3.tgz#fa15401df6c15874bcb2105f773325d78c666765"
+  integrity sha512-Vtgk7L/R2JHyyGW07spoFlB8/lpjiOLTjMdms6AFMraYt3BaJauod/NGrfnVG/y4Ix1JEuMRPDPEj2ua+zz1/Q==
   dependencies:
     "@babel/core" "^7.23.9"
     "@babel/parser" "^7.23.9"
@@ -4888,9 +4888,9 @@ typescript@^5:
   integrity sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==
 
 typescript@next:
-  version "5.6.0-dev.20240629"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240629.tgz#74ad5a05341af44a8622df573a718721f73e9df9"
-  integrity sha512-DVoEWccO+qZrfMdy38YxomX9UGUkdMM+hbwIxI4rM3ZEGSQTpLn2kEULCsm6IKkfwkBcDjmCeYUO3mbvAVNnEA==
+  version "5.6.0-dev.20240630"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240630.tgz#bc60c43b32c471774ebcaa57b6de660a8c251c02"
+  integrity sha512-AZ+Ec8/v9wH+iGZ2P0tmrEQxVtAasvQb7ezcxVKFlg+MwY0iylQVjBt/gKp8ppCpxJMkEPX52rFbC3Zdc9tEBw==
 
 typescript@~3.9.10:
   version "3.9.10"
