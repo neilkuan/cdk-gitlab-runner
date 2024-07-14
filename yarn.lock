@@ -1300,9 +1300,9 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001640:
-  version "1.0.30001641"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001641.tgz#3572862cd18befae3f637f2a1101cc033c6782ac"
-  integrity sha512-Phv5thgl67bHYo1TtMY/MurjkHhV4EDaCosezRXgZ8jzA/Ub+wjxAvbGvjoFENStinwi5kCyOYV3mi5tOGykwA==
+  version "1.0.30001642"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001642.tgz#6aa6610eb24067c246d30c57f055a9d0a7f8d05f"
+  integrity sha512-3XQ0DoRgLijXJErLSl+bLnJ+Et4KqV1PY6JJBGAFlsNsz31zeAIncyeZfLCabHK/jtSh+671RM9YMldxjUPZtA==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -1446,10 +1446,10 @@ compare-func@^2.0.0:
     array-ify "^1.0.0"
     dot-prop "^5.1.0"
 
-compare-versions@^6.1.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/compare-versions/-/compare-versions-6.1.0.tgz#3f2131e3ae93577df111dba133e6db876ffe127a"
-  integrity sha512-LNZQXhqUvqUTotpZ00qLSaify3b4VFD588aRr8MKFw4CMUr98ytzCW5wDH5qx/DEY5kCDXcbcRuCqL0szEf2tg==
+compare-versions@^6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/compare-versions/-/compare-versions-6.1.1.tgz#7af3cc1099ba37d244b3145a9af5201b629148a9"
+  integrity sha512-4hm4VPpIecmlg59CHXnRDnqGplJFrbLG4aFEl5vl6cK1u76ws3LLvX7ikFnTDl5vo39sjWD6AaDPYodJp/NNHg==
 
 concat-map@0.0.1:
   version "0.0.1"
@@ -4923,9 +4923,9 @@ typescript@^5:
   integrity sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==
 
 typescript@next:
-  version "5.6.0-dev.20240712"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240712.tgz#85ccc65418bc2f0e31a4eec4ac6f1aa013e4e649"
-  integrity sha512-8Iu/vFdWrjtqSm31Dcp4rFgybCNdjMJVZFoWF6PlzEYE6M6eiA+TeKGgygspCbnErrBRjHgWrEMdP3LavHtQ+w==
+  version "5.6.0-dev.20240713"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240713.tgz#d1380cb032f3cea2bbd0caa58f77016bbc0bcad8"
+  integrity sha512-J+4LjdEKAKO95oQ2Ff870vHVxa57ZMVSbfpyL0L5daYrnu48lQiMsXNDiG9IPT2RWF221Qt+LGxjug74XbeseQ==
 
 typescript@~3.9.10:
   version "3.9.10"
