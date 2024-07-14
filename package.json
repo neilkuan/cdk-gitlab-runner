@@ -63,7 +63,7 @@
     "constructs": "^10.0.5"
   },
   "dependencies": {
-    "compare-versions": "^6.1.0"
+    "compare-versions": "^6.1.1"
   },
   "bundledDependencies": [
     "compare-versions"
