@@ -32,7 +32,8 @@
         "CHANGELOG": "dist/changelog.md",
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
-        "RELEASE_TAG_PREFIX": ""
+        "RELEASE_TAG_PREFIX": "",
+        "BUMP_PACKAGE": "commit-and-tag-version@^12"
       },
       "steps": [
         {
@@ -290,7 +291,8 @@
         "CHANGELOG": "dist/changelog.md",
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
-        "RELEASE_TAG_PREFIX": ""
+        "RELEASE_TAG_PREFIX": "",
+        "BUMP_PACKAGE": "commit-and-tag-version@^12"
       },
       "steps": [
         {
@@ -306,13 +308,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=eslint-import-resolver-typescript,eslint-plugin-import,jsii-diff,jsii-docgen,jsii-pacmak,projen,compare-versions"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=eslint-import-resolver-typescript,eslint-plugin-import,jsii-diff,jsii-pacmak,projen,compare-versions"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-typescript eslint-plugin-import eslint jest-junit jest jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen standard-version ts-jest typescript compare-versions aws-cdk-lib constructs"
+          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commit-and-tag-version eslint-import-resolver-typescript eslint-plugin-import eslint jest-junit jest jsii-diff jsii-docgen jsii-pacmak jsii-rosetta jsii projen ts-jest typescript compare-versions aws-cdk-lib constructs"
         },
         {
           "exec": "npx projen"
