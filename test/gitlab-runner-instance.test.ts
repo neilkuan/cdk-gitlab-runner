@@ -1,6 +1,6 @@
 import { App, Stack, Duration } from 'aws-cdk-lib';
 import * as assertions from 'aws-cdk-lib/assertions';
-import { Peer, Port, Vpc, SubnetType, IpAddresses } from 'aws-cdk-lib/aws-ec2';
+import { Peer, Port, Vpc, SubnetType, IpAddresses, BlockDeviceVolume } from 'aws-cdk-lib/aws-ec2';
 import { Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import {
   GitlabContainerRunner,
@@ -173,7 +173,7 @@ test('Can Use Coustom EBS Size', () => {
   const stack = new Stack(mockApp, 'testing-stack');
   new GitlabContainerRunner(stack, 'testing', {
     gitlabtoken: 'GITLAB_TOKEN',
-    ebsSize: 50,
+    onDemandEbsConfig: BlockDeviceVolume.ebs(50, { encrypted: true }),
     gitlabRunnerVersion: '15.9',
   });
   assertions.Template.fromStack(stack).hasResourceProperties('AWS::EC2::Instance', {
@@ -182,6 +182,7 @@ test('Can Use Coustom EBS Size', () => {
         DeviceName: '/dev/xvda',
         Ebs: {
           VolumeSize: 50,
+          Encrypted: true,
         },
       },
     ],
@@ -195,7 +196,10 @@ test('Can Use Spotfleet Runner', () => {
     gitlabtoken: 'GITLAB_TOKEN',
     spotFleet: true,
     instanceInterruptionBehavior: InstanceInterruptionBehavior.HIBERNATE,
-    ebsSize: 100,
+    spotEbsConfig: {
+      volumeSize: 100,
+      encrypted: true,
+    },
     vpcSubnet: {
       subnetType: SubnetType.PUBLIC,
     },

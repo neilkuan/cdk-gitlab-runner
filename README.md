@@ -227,15 +227,25 @@ runner.runnerRole.addManagedPolicy(
 
 ### Custom Gitlab Runner EBS szie
 
-> 2020/08/22 , you can change you want ebs size.
+> 2025/01/03 , you can change you want ebs size.
 
 ```typescript
 import { GitlabContainerRunner } from 'cdk-gitlab-runner';
-
+// on-demand instance 
 new GitlabContainerRunner(stack, 'testing', {
   gitlabtoken: 'glrt-GITLABTOKEN',
   gitlabRunnerVersion: '15.10',
-  ebsSize: 50,
+  onDemandEbsConfig: BlockDeviceVolume.ebs(60),
+});
+
+// spotfleet instance 
+new GitlabContainerRunner(stack, 'testing', {
+  gitlabtoken: 'glrt-GITLABTOKEN',
+  gitlabRunnerVersion: '15.10',
+  spotFleet: true,
+  spotEbsConfig: {
+    volumeSize: 50,
+  },
 });
 ```
 

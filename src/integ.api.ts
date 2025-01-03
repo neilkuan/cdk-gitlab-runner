@@ -1,5 +1,5 @@
 import { App, Stack, CfnOutput } from 'aws-cdk-lib';
-import { Port, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { BlockDeviceVolume, Port, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { ManagedPolicy, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { GitlabContainerRunner } from './index';
 const env = {
@@ -21,7 +21,7 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
   gitlabtoken: stack.node.tryGetContext('GITLAB_TOKEN') ?? 'glrt-GITLAB_TOKEN',
   ec2type: 't3.large',
   ec2iamrole: role,
-  ebsSize: 100,
+  onDemandEbsConfig: BlockDeviceVolume.ebs(100),
   selfvpc: vpc,
   // spotFleet: true,
   dockerVolumes: [

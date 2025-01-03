@@ -489,8 +489,10 @@ const gitlabContainerRunnerProps: GitlabContainerRunnerProps = { ... }
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.gitlaburl">gitlaburl</a></code> | <code>string</code> | Gitlab Runner register url . |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.instanceInterruptionBehavior">instanceInterruptionBehavior</a></code> | <code><a href="#cdk-gitlab-runner.InstanceInterruptionBehavior">InstanceInterruptionBehavior</a></code> | The behavior when a Spot Runner Instance is interrupted. |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.keyName">keyName</a></code> | <code>string</code> | SSH key name. |
+| <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.onDemandEbsConfig">onDemandEbsConfig</a></code> | <code>aws-cdk-lib.aws_ec2.BlockDeviceVolume</code> | Gitlab Runner instance EBS config. |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.runnerDescription">runnerDescription</a></code> | <code>string</code> | Gitlab Runner description. |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.selfvpc">selfvpc</a></code> | <code>aws-cdk-lib.aws_ec2.IVpc</code> | VPC for the Gitlab Runner . |
+| <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.spotEbsConfig">spotEbsConfig</a></code> | <code>aws-cdk-lib.aws_ec2.CfnLaunchTemplate.EbsProperty</code> | Gitlab Runner instance EBS config. |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.spotFleet">spotFleet</a></code> | <code>boolean</code> | Gitlab Runner instance Use Spot Fleet or not ?!. |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.tags">tags</a></code> | <code>string[]</code> | tags for the runner Unsupported Gitlab Runner 15.10 and later. |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunnerProps.property.validUntil">validUntil</a></code> | <code>string</code> | the time when the spot fleet allocation expires. |
@@ -577,25 +579,19 @@ dockerVolumes: [
 ```
 
 
-##### `ebsSize`<sup>Optional</sup> <a name="ebsSize" id="cdk-gitlab-runner.GitlabContainerRunnerProps.property.ebsSize"></a>
+##### ~~`ebsSize`~~<sup>Optional</sup> <a name="ebsSize" id="cdk-gitlab-runner.GitlabContainerRunnerProps.property.ebsSize"></a>
+
+- *Deprecated:* , use ebsConfig
 
 ```typescript
 public readonly ebsSize: number;
 ```
 
 - *Type:* number
-- *Default:* ebsSize=60
 
 Gitlab Runner instance EBS size .
 
 ---
-
-*Example*
-
-```typescript
-const runner = new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN',ebsSize: 100});
-```
-
 
 ##### `ec2iamrole`<sup>Optional</sup> <a name="ec2iamrole" id="cdk-gitlab-runner.GitlabContainerRunnerProps.property.ec2iamrole"></a>
 
@@ -724,6 +720,26 @@ SSH key name.
 
 ---
 
+##### `onDemandEbsConfig`<sup>Optional</sup> <a name="onDemandEbsConfig" id="cdk-gitlab-runner.GitlabContainerRunnerProps.property.onDemandEbsConfig"></a>
+
+```typescript
+public readonly onDemandEbsConfig: BlockDeviceVolume;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.BlockDeviceVolume
+- *Default:* onDemandEbsConfig=BlockDeviceVolume.ebs(60)
+
+Gitlab Runner instance EBS config.
+
+---
+
+*Example*
+
+```typescript
+const runner = new GitlabContainerRunner(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', onDemandEbsConfig: BlockDeviceVolume.ebs(60)});
+```
+
+
 ##### `runnerDescription`<sup>Optional</sup> <a name="runnerDescription" id="cdk-gitlab-runner.GitlabContainerRunnerProps.property.runnerDescription"></a>
 
 ```typescript
@@ -772,6 +788,26 @@ const newvpc = new Vpc(stack, 'NEWVPC', {
 });
 
 new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN', selfvpc: newvpc });
+```
+
+
+##### `spotEbsConfig`<sup>Optional</sup> <a name="spotEbsConfig" id="cdk-gitlab-runner.GitlabContainerRunnerProps.property.spotEbsConfig"></a>
+
+```typescript
+public readonly spotEbsConfig: EbsProperty;
+```
+
+- *Type:* aws-cdk-lib.aws_ec2.CfnLaunchTemplate.EbsProperty
+- *Default:* spotEbsConfig={ volumeSize: 60}
+
+Gitlab Runner instance EBS config.
+
+---
+
+*Example*
+
+```typescript
+const runner = new GitlabContainerRunner(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', ebsConfig: { volumeSize: 60}});
 ```
 
 
@@ -847,7 +883,6 @@ const runner = new GitlabContainerRunner(stack, 'testing', {
   gitlabtoken: 'GITLAB_TOKEN',
   ec2type: 't3.large',
   ec2iamrole: role,
-  ebsSize: 100,
   selfvpc: vpc,
   vpcSubnet: {
     subnetType: SubnetType.PUBLIC,
@@ -877,6 +912,7 @@ const gitlabRunnerAutoscalingProps: GitlabRunnerAutoscalingProps = { ... }
 | <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.alarms">alarms</a></code> | <code>object[]</code> | Parameters of put_metric_alarm function. |
 | <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.desiredCapacity">desiredCapacity</a></code> | <code>number</code> | Desired capacity limit for autoscaling group. |
 | <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.dockerVolumes">dockerVolumes</a></code> | <code><a href="#cdk-gitlab-runner.DockerVolumes">DockerVolumes</a>[]</code> | add another Gitlab Container Runner Docker Volumes Path at job runner runtime. |
+| <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.ebsConfig">ebsConfig</a></code> | <code>aws-cdk-lib.aws_ec2.CfnLaunchTemplate.EbsProperty</code> | Gitlab Runner instance EBS config. |
 | <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.ebsSize">ebsSize</a></code> | <code>number</code> | Gitlab Runner instance EBS size . |
 | <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.gitlabRunnerImage">gitlabRunnerImage</a></code> | <code>string</code> | Image URL of Gitlab Runner. |
 | <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.gitlabUrl">gitlabUrl</a></code> | <code>string</code> | Gitlab Runner register url . |
@@ -984,25 +1020,39 @@ dockerVolumes: [
 ```
 
 
-##### `ebsSize`<sup>Optional</sup> <a name="ebsSize" id="cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.ebsSize"></a>
+##### `ebsConfig`<sup>Optional</sup> <a name="ebsConfig" id="cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.ebsConfig"></a>
 
 ```typescript
-public readonly ebsSize: number;
+public readonly ebsConfig: EbsProperty;
 ```
 
-- *Type:* number
-- *Default:* ebsSize=60
+- *Type:* aws-cdk-lib.aws_ec2.CfnLaunchTemplate.EbsProperty
+- *Default:* ebsConfig={ volumeSize: 60}
 
-Gitlab Runner instance EBS size .
+Gitlab Runner instance EBS config.
 
 ---
 
 *Example*
 
 ```typescript
-const runner = new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', ebsSize: 100});
+const runner = new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', ebsConfig: { volumeSize: 60}});
 ```
 
+
+##### ~~`ebsSize`~~<sup>Optional</sup> <a name="ebsSize" id="cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.ebsSize"></a>
+
+- *Deprecated:* , use ebsConfig
+
+```typescript
+public readonly ebsSize: number;
+```
+
+- *Type:* number
+
+Gitlab Runner instance EBS size .
+
+---
 
 ##### `gitlabRunnerImage`<sup>Optional</sup> <a name="gitlabRunnerImage" id="cdk-gitlab-runner.GitlabRunnerAutoscalingProps.property.gitlabRunnerImage"></a>
 
@@ -1211,7 +1261,6 @@ const runner = new GitlabRunnerAutoscaling(stack, 'testing', {
   gitlabToken: 'GITLAB_TOKEN',
   instanceType: 't3.large',
   instanceRole: role,
-  ebsSize: 100,
   vpc: vpc,
   vpcSubnet: {
     subnetType: SubnetType.PUBLIC,

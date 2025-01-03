@@ -17,7 +17,9 @@ const vpc = ec2.Vpc.fromLookup(stack, 'DefaultVpc', {
 const defaultCapacity = parseInt(stack.node.tryGetContext('CAPACITY'));
 const runner = new GitlabRunnerAutoscaling(stack, 'TestRunnerAutoscaling', {
   gitlabToken: stack.node.tryGetContext('GITLAB_TOKEN'),
-  ebsSize: 10,
+  ebsConfig: {
+    volumeSize: 10,
+  },
   vpc: vpc,
   dockerVolumes: [{
     hostPath: '/tmp/cache',

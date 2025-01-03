@@ -148,13 +148,32 @@ export interface GitlabContainerRunnerProps {
   /**
    * Gitlab Runner instance EBS size .
    *
-   * @example
-   * const runner = new GitlabContainerRunner(stack, 'runner', { gitlabtoken: 'GITLAB_TOKEN',ebsSize: 100});
-   *
-   * @default - ebsSize=60
+   * @deprecated , use ebsConfig
    *
    */
   readonly ebsSize?: number;
+
+  /**
+   * Gitlab Runner instance EBS config.
+   *
+   * @example
+   * const runner = new GitlabContainerRunner(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', ebsConfig: { volumeSize: 60}});
+   *
+   * @default - spotEbsConfig={ volumeSize: 60}
+   *
+   */
+  readonly spotEbsConfig?: CfnLaunchTemplate.EbsProperty;
+
+  /**
+   * Gitlab Runner instance EBS config.
+   *
+   * @example
+   * const runner = new GitlabContainerRunner(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', onDemandEbsConfig: BlockDeviceVolume.ebs(60)});
+   *
+   * @default - onDemandEbsConfig=BlockDeviceVolume.ebs(60)
+   *
+   */
+  readonly onDemandEbsConfig?: BlockDeviceVolume;
 
   /**
    * Gitlab Runner instance Use Spot Fleet or not ?!.
@@ -220,7 +239,6 @@ export interface GitlabContainerRunnerProps {
    *   gitlabtoken: 'GITLAB_TOKEN',
    *   ec2type: 't3.large',
    *   ec2iamrole: role,
-   *   ebsSize: 100,
    *   selfvpc: vpc,
    *   vpcSubnet: {
    *     subnetType: SubnetType.PUBLIC,
@@ -394,8 +412,8 @@ export class GitlabContainerRunner extends Construct {
           blockDeviceMappings: [
             {
               deviceName: '/dev/xvda',
-              ebs: {
-                volumeSize: runnerProps.ebsSize ?? 60,
+              ebs: runnerProps.spotEbsConfig ?? {
+                volumeSize: 60,
               },
             },
           ],
@@ -528,7 +546,7 @@ export class GitlabContainerRunner extends Construct {
         blockDevices: [
           {
             deviceName: '/dev/xvda',
-            volume: BlockDeviceVolume.ebs(runnerProps.ebsSize ?? 60),
+            volume: runnerProps.onDemandEbsConfig ?? BlockDeviceVolume.ebs(60),
           },
         ],
       });
