@@ -154,13 +154,21 @@ export interface GitlabRunnerAutoscalingProps {
   /**
    * Gitlab Runner instance EBS size .
    *
-   * @example
-   * const runner = new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', ebsSize: 100});
-   *
-   * @default - ebsSize=60
+   * @deprecated , use ebsConfig
    *
    */
   readonly ebsSize?: number;
+
+  /**
+   * Gitlab Runner instance EBS config.
+   *
+   * @example
+   * const runner = new GitlabRunnerAutoscaling(stack, 'runner', { gitlabToken: 'GITLAB_TOKEN', ebsConfig: { volumeSize: 60}});
+   *
+   * @default - ebsConfig={ volumeSize: 60}
+   *
+   */
+  readonly ebsConfig?: ec2.CfnLaunchTemplate.EbsProperty;
 
   /**
    * VPC subnet
@@ -174,7 +182,6 @@ export interface GitlabRunnerAutoscalingProps {
    *   gitlabToken: 'GITLAB_TOKEN',
    *   instanceType: 't3.large',
    *   instanceRole: role,
-   *   ebsSize: 100,
    *   vpc: vpc,
    *   vpcSubnet: {
    *     subnetType: SubnetType.PUBLIC,
@@ -310,8 +317,8 @@ export class GitlabRunnerAutoscaling extends Construct {
         blockDeviceMappings: [
           {
             deviceName: '/dev/xvda',
-            ebs: {
-              volumeSize: runnerProps.ebsSize ?? 60,
+            ebs: runnerProps.ebsConfig ?? {
+              volumeSize: 60,
             },
           },
         ],

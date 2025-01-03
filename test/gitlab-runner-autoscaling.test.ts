@@ -220,7 +220,9 @@ test('Can set EBS size', () => {
   const stack = new Stack(app, 'testing-stack');
   new GitlabRunnerAutoscaling(stack, 'testing', {
     gitlabToken: 'GITLAB_TOKEN',
-    ebsSize: 100,
+    ebsConfig: {
+      volumeSize: 100,
+    },
     gitlabRunnerVersion: '15.9',
   });
 
@@ -272,7 +274,10 @@ test('Can overwrite props', () => {
   new GitlabRunnerAutoscaling(stack, 'testing', {
     gitlabToken: 'GITLAB_TOKEN',
     minCapacity: 2,
-    ebsSize: 100,
+    ebsConfig: {
+      volumeSize: 100,
+      encrypted: true,
+    },
     instanceType: 't3.large',
     spotInstance: true,
     gitlabRunnerVersion: '15.9',
@@ -290,6 +295,7 @@ test('Can overwrite props', () => {
           DeviceName: '/dev/xvda',
           Ebs: {
             VolumeSize: 100,
+            Encrypted: true,
           },
         },
       ],
