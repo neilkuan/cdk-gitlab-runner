@@ -40,7 +40,7 @@
     },
     {
       "name": "eslint",
-      "version": "^9",
+      "version": "^8",
       "type": "build"
     },
     {
@@ -73,7 +73,7 @@
     },
     {
       "name": "jsii",
-      "version": "5.3.x",
+      "version": "5.7.x",
       "type": "build"
     },
     {
@@ -96,7 +96,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.126.0",
+      "version": "^2.184.0",
       "type": "peer"
     },
     {
