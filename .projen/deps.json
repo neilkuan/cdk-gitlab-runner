@@ -96,7 +96,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.184.0",
+      "version": "^2.189.1",
       "type": "peer"
     },
     {
