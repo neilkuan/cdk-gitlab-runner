@@ -4465,10 +4465,10 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
-projen@^0.96.1:
-  version "0.96.1"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.96.1.tgz#ea0cda0ee3a37ffa35cc8ac29c0b2a1580527667"
-  integrity sha512-LvqEtsJjMV8BiUTbcE3Su1zWsyRC1GPh9C6sbicfBCooZvHa3LUzXGYRSKuYD6arkw4sbQMDEPcqxWzn6Q1Ovw==
+projen@^0.96.2:
+  version "0.96.2"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.96.2.tgz#c3dc39b900a726541152897ab5148dbee406e3bf"
+  integrity sha512-2CJvNoLbu7IePPUvqf1pigb7COAbJIqOREkLlCR8m2wTFN3fafWR+Dcpx7iNHpw2I1Tam0QgRZjIIN3ZJ/r8ow==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
@@ -5262,9 +5262,9 @@ ts-api-utils@^2.1.0:
   integrity sha512-CUgTZL1irw8u29bzrOD/nH85jqyc74D6SshFgujOIA7osm2Rz7dYH77agkx7H4FBNxDq7Cjf+IjaX/8zwFW+ZQ==
 
 ts-jest@^29:
-  version "29.4.3"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.4.3.tgz#23264489bebb5b3e2c7966dbf6788e960f244f7c"
-  integrity sha512-KTWbK2Wot8VXargsLoxhSoEQ9OyMdzQXQoUDeIulWu2Tf7gghuBHeg+agZqVLdTOHhQHVKAaeuctBDRkhWE7hg==
+  version "29.4.4"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.4.4.tgz#fc6fefe28652ed81b8e1381ef8391901d9f81417"
+  integrity sha512-ccVcRABct5ZELCT5U0+DZwkXMCcOCLi2doHRrKy1nK/s7J7bch6TzJMsrY09WxgUUIP/ITfmcDS8D2yl63rnXw==
   dependencies:
     bs-logger "^0.2.6"
     fast-json-stable-stringify "^2.1.0"
@@ -5384,9 +5384,9 @@ typescript@^5:
   integrity sha512-CWBzXQrc/qOkhidw1OzBTQuYRbfyxDXJMVJ1XNwUHGROVmuaeiEm3OslpZ1RV96d7SKKjZKrSJu3+t/xlw3R9A==
 
 typescript@next:
-  version "6.0.0-dev.20250918"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20250918.tgz#e3657984f039c24f4ea7499dcb45ba566903e8c2"
-  integrity sha512-wTqsVOIUmqlrMCSIG296k6JY3nfgHqljn+v+JYTC1r6x6NTEmFbM5LH264Fj2n5Z2UhdHVlGwu7u9WTZwfSi1Q==
+  version "6.0.0-dev.20250919"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20250919.tgz#abff394cb9e0529de844d1e5c333b0e15c8054fb"
+  integrity sha512-ezX/MNKubGLJBruWMzB6LukakR/UI3pZ/BMH64DYbgRaBjcYKXudrEvOb3AHo5rtDp/JwningkxexoD0EGcEyQ==
 
 typescript@~5.0.4:
   version "5.0.4"
