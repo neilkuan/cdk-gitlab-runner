@@ -2457,9 +2457,9 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     gopd "^1.2.0"
 
 electron-to-chromium@^1.5.249:
-  version "1.5.260"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.260.tgz#73f555d3e9b9fd16ff48fc406bbad84efa9b86c7"
-  integrity sha512-ov8rBoOBhVawpzdre+Cmz4FB+y66Eqrk6Gwqd8NGxuhv99GQ8XqMAr351KEkOt7gukXWDg6gJWEMKgL2RLMPtA==
+  version "1.5.262"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.262.tgz#c31eed591c6628908451c9ca0f0758ed514aa003"
+  integrity sha512-NlAsMteRHek05jRUxUR0a5jpjYq9ykk6+kO0yRaMi5moe7u0fVIOeQ3Y30A8dIiWFBNUoQGi1ljb1i5VtS9WQQ==
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -5053,10 +5053,10 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
-projen@^0.98.25:
-  version "0.98.25"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.98.25.tgz#ea9a84116f9127d11c68d4a71047d99df3ecf2d4"
-  integrity sha512-LWcraC/QZ1vgVQ5WrySOtevz9BNmTxKf7iey/UkGKYUBZlhQk4mojWQHHlIpaSmLZ12ZUwGnPdjXjd7jv1TYIw==
+projen@^0.98.26:
+  version "0.98.26"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.98.26.tgz#117c1fff019a4bb7e792382c81748a2f8208507a"
+  integrity sha512-M92WwmFwr134VpFDVwGDdpB/pcTDKs7lwbgD5fYQn/F/T4QOSaFcCbHmp/nhw0oendGb8a9p9m/zIbalVbim4w==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
@@ -6028,9 +6028,9 @@ typescript@^5:
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 typescript@next:
-  version "6.0.0-dev.20251125"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20251125.tgz#85fe7106dc365f437531ae890e97699cc4c5e27a"
-  integrity sha512-9Z3Gc/FwO/swCqfmqvha4UkUVlEkBf1lu0u0ELR4TynnXV1lWHc9iomNPfNLzclcKK6xJS9fOgiNi3p8L5imUw==
+  version "6.0.0-dev.20251126"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20251126.tgz#30196e9e34dfb89b5c967902fdb578c5bf9ba554"
+  integrity sha512-9B5gGo9qwa7Mj8aKFUQEqvd1zF5AbYZShA3qcePcJjVYTEc59Wfjydb67qHw/OWby3PnjQ0hd9miXybQhNToWg==
 
 typescript@~5.3:
   version "5.3.3"
