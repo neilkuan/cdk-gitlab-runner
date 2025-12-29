@@ -5722,9 +5722,9 @@ trim-newlines@^3.0.0:
   integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
 
 ts-api-utils@^2.1.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.2.0.tgz#5ebcda090c1656b628a53d08915c8e5c325d8452"
-  integrity sha512-L6f5oQRAoLU1RwXz0Ab9mxsE7LtxeVB6AIR1lpkZMsOyg/JXeaxBaXa/FVCBZyNr9S9I4wkHrlZTklX+im+WMw==
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.3.0.tgz#9f397ac9d88ac76e8dd6e8bc4af0dbf98af99f73"
+  integrity sha512-6eg3Y9SF7SsAvGzRHQvvc1skDAhwI4YQ32ui1scxD1Ccr0G5qIIbUBT3pFTKX8kmWIQClHobtUdNuaBgwdfdWg==
 
 ts-jest@^27:
   version "27.1.5"
@@ -5845,9 +5845,9 @@ typescript@^5:
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 typescript@next:
-  version "6.0.0-dev.20251227"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20251227.tgz#bde9e0df9638b63c9070414efc445d84ecc4b9f4"
-  integrity sha512-kksvfMIN1tX9bJAHFF1bF6nUwpC+Ok+Ka/kCfyS6TZdjzszHj4QKTR3prT1B7CTFbl6PSJRSuVinsfF4GvI7SQ==
+  version "6.0.0-dev.20251228"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20251228.tgz#c12e91d6991a056551b3864dc9503648fe22435a"
+  integrity sha512-U696V/yiCvfUMjTSq4N85qKDYKoEIexL/0rKM5BbeXi2vKfiEHBqWgYw8iAbrvky/WFIV/uJS7qjjWpPd58wSg==
 
 typescript@~5.3:
   version "5.3.3"
