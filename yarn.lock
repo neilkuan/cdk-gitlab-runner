@@ -494,9 +494,9 @@
     semver "^6.3.1"
 
 "@babel/generator@^7.29.0", "@babel/generator@^7.7.2":
-  version "7.29.0"
-  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.29.0.tgz#4cba5a76b3c71d8be31761b03329d5dc7768447f"
-  integrity sha512-vSH118/wwM/pLR38g/Sgk05sNtro6TlTJKuiMXDaZqPUfjTFcudpCOt00IhOfj+1BFAX+UFAlzCU+6WXr3GLFQ==
+  version "7.29.1"
+  resolved "https://registry.yarnpkg.com/@babel/generator/-/generator-7.29.1.tgz#d09876290111abbb00ef962a7b83a5307fba0d50"
+  integrity sha512-qsaF+9Qcm2Qv8SRIMMscAvG4O3lJ0F1GuMo5HR/Bp02LopNgnZBC/EkbevHFeGs4ls/oPz9v+Bsmzbkbe+0dUw==
   dependencies:
     "@babel/parser" "^7.29.0"
     "@babel/types" "^7.29.0"
@@ -5837,9 +5837,9 @@ typescript@^5:
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 typescript@next:
-  version "6.0.0-dev.20260203"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20260203.tgz#7229c9d326bf39ff67ce5ea0b3569224432057cf"
-  integrity sha512-uurwjqOjUaUI30dLNR/ujGLEVI5Q1sY1RSmvmWf4lQXZMzqMnrcOK7uoFsRC2G4skJYSxkctGlSa9ZY6+ur2cQ==
+  version "6.0.0-dev.20260204"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20260204.tgz#e4a8c445756899d0ced28af70cb09cf8dcb195ed"
+  integrity sha512-A8e1FQRu9GiXAZdv/+uYrp7cZgxTAK7VeNLqXU8KG1Yj2CosA5de38rBWnYrIaoinR5R/bAgFc1YCadCKZPjRQ==
 
 typescript@~5.3:
   version "5.3.3"
