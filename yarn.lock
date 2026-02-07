@@ -1329,9 +1329,9 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001759:
-  version "1.0.30001768"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001768.tgz#546bfaf4ec33305096e842906df911bcf3ac0d1f"
-  integrity sha512-qY3aDRZC5nWPgHUgIB84WL+nySuo19wk0VJpp/XI9T34lrvkyhRvNVOFJOp2kxClQhiFBu+TaUSudf6oa3vkSA==
+  version "1.0.30001769"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001769.tgz#1ad91594fad7dc233777c2781879ab5409f7d9c2"
+  integrity sha512-BCfFL1sHijQlBGWBMuJyhZUhzo7wer5sVj9hqekB/7xn0Ypy+pER/edCYQm4exbXj4WiySGp40P8UuTh6w1srg==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -5164,9 +5164,9 @@ typescript@^5:
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 typescript@next:
-  version "6.0.0-dev.20260205"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20260205.tgz#2854a117936f3cc10eeef35ebcb449313c235f6c"
-  integrity sha512-QNRloR+zKxe6ndfozMV9UvaloAmVIwFQ8m6Jkzf+CoLmzvuUXtNl1dfvAkVrjUIjGNudx+Jorg7f6seLUF5soQ==
+  version "6.0.0-dev.20260206"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20260206.tgz#90c9786fc586c8f765d4eef65d5889051ca82116"
+  integrity sha512-tzkfMvii4NAvkfV2X4rhPMpvV8EuafQuatRr5n9zkjNcclxMeCbCnQXeGfMihKRFnz3BHSd3Kfwaqcj5F23yMA==
 
 typescript@~5.0.4:
   version "5.0.4"
