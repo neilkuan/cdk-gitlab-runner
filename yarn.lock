@@ -1240,9 +1240,9 @@
   integrity sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==
 
 "@types/node@*":
-  version "25.2.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-25.2.1.tgz#378021f9e765bb65ba36de16f3c3a8622c1fa03d"
-  integrity sha512-CPrnr8voK8vC6eEtyRzvMpgp3VyVRhgclonE7qYi6P9sXwYb59ucfrnmFBTaP0yUi8Gk4yZg/LlTJULGxvTNsg==
+  version "25.2.2"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-25.2.2.tgz#0ddfe326c326afcb3422d32bfe5eb2938e1cb5db"
+  integrity sha512-BkmoP5/FhRYek5izySdkOneRyXYN35I860MFAGupTdebyE66uZaR+bXLHq8k4DirE5DwQi3NuhvRU1jqTVwUrQ==
   dependencies:
     undici-types "~7.16.0"
 
@@ -1252,9 +1252,9 @@
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
 "@types/node@^20":
-  version "20.19.32"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.19.32.tgz#d2958783ac4cde2d501d145ac7174400a39c3da0"
-  integrity sha512-Ez8QE4DMfhjjTsES9K2dwfV258qBui7qxUsoaixZDiTzbde4U12e1pXGNu/ECsUIOi5/zoCxAQxIhQnaUQ2VvA==
+  version "20.19.33"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.19.33.tgz#ac8364c623b72d43125f0e7dd722bbe968f0c65e"
+  integrity sha512-Rs1bVAIdBs5gbTIKza/tgpMuG1k3U/UMJLWecIMxNdJFDMzcM5LOiLVRYh3PilWEYDIeUDv7bpiHPLPsbydGcw==
   dependencies:
     undici-types "~6.21.0"
 
@@ -5837,9 +5837,9 @@ typescript@^5:
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 typescript@next:
-  version "6.0.0-dev.20260206"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20260206.tgz#90c9786fc586c8f765d4eef65d5889051ca82116"
-  integrity sha512-tzkfMvii4NAvkfV2X4rhPMpvV8EuafQuatRr5n9zkjNcclxMeCbCnQXeGfMihKRFnz3BHSd3Kfwaqcj5F23yMA==
+  version "6.0.0-dev.20260207"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20260207.tgz#ab97a21f509e20917d6c0f28cb3b0dd584291b52"
+  integrity sha512-fndmTzCn6cNP4cy8G4/gFn39Nd81SyA07DZADf2BaP/V4v+oWFV+4xn1YwZpKMCZBxjYMR3shEF6EkXbeLdabw==
 
 typescript@~5.3:
   version "5.3.3"
