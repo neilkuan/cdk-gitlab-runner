@@ -45,6 +45,7 @@ new GitlabContainerRunner(scope: Construct, id: string, props: GitlabContainerRu
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunner.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdk-gitlab-runner.GitlabContainerRunner.with">with</a></code> | Applies one or more mixins to this construct. |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunner.createUserData">createUserData</a></code> | *No description.* |
 | <code><a href="#cdk-gitlab-runner.GitlabContainerRunner.expireAfter">expireAfter</a></code> | Add expire time function for spotfleet runner !!! . |
 
@@ -57,6 +58,27 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="cdk-gitlab-runner.GitlabContainerRunner.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="cdk-gitlab-runner.GitlabContainerRunner.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
 
 ##### `createUserData` <a name="createUserData" id="cdk-gitlab-runner.GitlabContainerRunner.createUserData"></a>
 
@@ -276,6 +298,7 @@ new GitlabRunnerAutoscaling(scope: Construct, id: string, props: GitlabRunnerAut
 | **Name** | **Description** |
 | --- | --- |
 | <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscaling.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscaling.with">with</a></code> | Applies one or more mixins to this construct. |
 | <code><a href="#cdk-gitlab-runner.GitlabRunnerAutoscaling.createUserData">createUserData</a></code> | *No description.* |
 
 ---
@@ -287,6 +310,27 @@ public toString(): string
 ```
 
 Returns a string representation of this construct.
+
+##### `with` <a name="with" id="cdk-gitlab-runner.GitlabRunnerAutoscaling.with"></a>
+
+```typescript
+public with(mixins: ...IMixin[]): IConstruct
+```
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+###### `mixins`<sup>Required</sup> <a name="mixins" id="cdk-gitlab-runner.GitlabRunnerAutoscaling.with.parameter.mixins"></a>
+
+- *Type:* ...constructs.IMixin[]
+
+The mixins to apply.
+
+---
 
 ##### `createUserData` <a name="createUserData" id="cdk-gitlab-runner.GitlabRunnerAutoscaling.createUserData"></a>
 
