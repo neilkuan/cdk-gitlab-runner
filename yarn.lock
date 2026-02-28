@@ -1245,9 +1245,9 @@ brace-expansion@^1.1.7:
     concat-map "0.0.1"
 
 brace-expansion@^5.0.2:
-  version "5.0.3"
-  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-5.0.3.tgz#6a9c6c268f85b53959ec527aeafe0f7300258eef"
-  integrity sha512-fy6KJm2RawA5RcHkLa1z/ScpBeA762UF9KmZQxwIbDtRJrgLzM10depAiEQ+CXYcoiqW1/m96OAAoke2nE9EeA==
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-5.0.4.tgz#614daaecd0a688f660bbbc909a8748c3d80d4336"
+  integrity sha512-h+DEnpVvxmfVefa4jFbCf5HdH5YMDXRsmKflpf1pILZWRFlTbJpxeU55nJl4Smt5HQaGzg1o6RHFPJaOqnmBDg==
   dependencies:
     balanced-match "^4.0.2"
 
@@ -5180,9 +5180,9 @@ typescript@^5, typescript@~5.9:
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
 
 typescript@next:
-  version "6.0.0-dev.20260226"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20260226.tgz#c9ad1d4fd76c701a74e93c8e078fda34a51ec90b"
-  integrity sha512-vJ64NNlCqPdhlQsLQArDL3V1wcrPDYfkT0cTonqZ1FARTlQPGTyrEOJdiSlwyYVZl7pTisOn7n8G2rgu3WyiQA==
+  version "6.0.0-dev.20260227"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-6.0.0-dev.20260227.tgz#a3f0a1c56f3c86c2affc3aef50cf426f097a62f7"
+  integrity sha512-Jf8wNjDvqsP9NvyhMQZryLFIwZACn881ArP4dXh6k8SIISQmdty/l0pU6YV7soGFIsebAzd0ciYg4CIMKUqy4g==
 
 typescript@~5.0.4:
   version "5.0.4"
