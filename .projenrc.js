@@ -23,12 +23,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
    */
   majorVersion: 2,
   defaultReleaseBranch: 'master',
-  /**
-    * we also release the cdkv1 branch with major version 1.
-    */
-  releaseBranches: {
-    cdkv1: { npmDistTag: 'cdkv1', majorVersion: 1 },
-  },
   autoDetectBin: false,
   depsUpgradeOptions: {
     ignoreProjen: false,
@@ -44,9 +38,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
   },
-  workflowNodeVersion: '^16.16.0',
-  typescriptVersion: '^4.9',
-  jsiiVersion: '~5.0.7',
   deps: [
     'compare-versions',
   ],
@@ -62,5 +53,5 @@ project.gitignore.exclude(...common_exclude);
 
 project.npmignore.exclude(...common_exclude, 'image');
 
-project.package.addDevDeps(...['jest@^29', '@types/jest@^29', 'ts-jest@^29', 'jsii-rosetta@5.0.x', 'eslint@^8']);
+project.package.addDevDeps(...['jest@^29', '@types/jest@^29', 'ts-jest@^29','eslint@^8']);
 project.synth();
