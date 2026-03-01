@@ -53,5 +53,5 @@ project.gitignore.exclude(...common_exclude);
 
 project.npmignore.exclude(...common_exclude, 'image');
 
-project.package.addDevDeps(...['jest@^29', '@types/jest@^29', 'ts-jest@^29','eslint@^8']);
+project.package.addDevDeps(...['jest@^29', '@types/jest@^29', 'ts-jest@^29', 'eslint@^8']);
 project.synth();
