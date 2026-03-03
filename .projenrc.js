@@ -42,8 +42,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'compare-versions',
   ],
   bundledDeps: ['compare-versions'],
-  minNodeVersion: '^24',
-  workflowNodeVersion: '^24',
+  minNodeVersion: '24.0.0',
+  workflowNodeVersion: '24',
   typescriptVersion: '^5',
   jsiiVersion: '5.9.x',
 });

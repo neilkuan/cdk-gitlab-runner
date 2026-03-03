@@ -75,7 +75,7 @@
     "runner"
   ],
   "engines": {
-    "node": ">= ^24"
+    "node": ">= 24.0.0"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",
