@@ -36,6 +36,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
   npmProvenance: true,
   npmTokenSecret: '',
+  npmTrustedPublishing: true,
   publishToPypi: {
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
