@@ -97,6 +97,7 @@ jobs:
       - uses: actions/setup-node@v5
         with:
           node-version: "24"
+          registry-url: https://registry.npmjs.org
       - name: Download build artifacts
         uses: actions/download-artifact@v5
         with:
@@ -124,7 +125,6 @@ jobs:
           NPM_DIST_TAG: latest
           NPM_REGISTRY: registry.npmjs.org
           NPM_CONFIG_PROVENANCE: "true"
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx -p publib@latest publib-npm
   release_pypi:
     name: Publish to PyPI

@@ -34,6 +34,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     secret: 'GITHUB_TOKEN',
     allowedUsernames: ['neilkuan'],
   },
+  npmProvenance: true,
+  npmTokenSecret: '',
   publishToPypi: {
     distName: 'cdk-gitlab-runner',
     module: 'cdk_gitlab_runner',
@@ -54,4 +56,17 @@ project.gitignore.exclude(...common_exclude);
 project.npmignore.exclude(...common_exclude, 'image');
 
 project.package.addDevDeps(...['jest@^29', '@types/jest@^29', 'ts-jest@^29', 'eslint@^8']);
+
+// Add registry-url to setup-node in release_npm job for OIDC Trusted Publishing
+const releaseWorkflow = project.release.publisher.project.tryFindObjectFile('.github/workflows/release.yml');
+if (releaseWorkflow) {
+  releaseWorkflow.addOverride('jobs.release_npm.steps.0.with.registry-url', 'https://registry.npmjs.org');
+}
+
+// Add provenance to publishConfig in package.json
+project.package.addField('publishConfig', {
+  access: 'public',
+  provenance: true,
+});
+
 project.synth();

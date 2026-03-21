@@ -80,7 +80,8 @@
   "main": "lib/index.js",
   "license": "Apache-2.0",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "version": "0.0.0",
   "jest": {
