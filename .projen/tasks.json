@@ -89,6 +89,9 @@
       "steps": [
         {
           "exec": "jsii --silence-warnings=reserved-word"
+        },
+        {
+          "spawn": "compat"
         }
       ]
     },
