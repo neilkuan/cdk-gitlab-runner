@@ -1013,6 +1013,11 @@ anymatch@^3.0.3:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
 
+anynum@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/anynum/-/anynum-1.0.0.tgz#afe3f3a78c6621fbdf1e107154fac01eef711cc5"
+  integrity sha512-xjR9/zBVnUOP6ztMIIgShjsxui80nQUQH+5xJnvrYLs+90bF25/KJqaAi8mk+B4RDtX1Nspi6fmp4YTEts8SfA==
+
 argparse@^1.0.7:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/argparse/-/argparse-1.0.10.tgz#bcd6791ea5ae09725e17e5ad988134cd40b3d911"
@@ -1219,9 +1224,9 @@ balanced-match@^4.0.2:
   integrity sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==
 
 baseline-browser-mapping@^2.10.12:
-  version "2.10.34"
-  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.10.34.tgz#dedb606362446777cfe328d30d4ee15056d06303"
-  integrity sha512-IMDedajPifLnHNY0X9n8hKxRTQ6/eTHwr5bDo04WnuqxyKw6LYtQywCuuqPZwhl3aBXMvQpJov42GLCwRRdQzw==
+  version "2.10.35"
+  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.10.35.tgz#f0f2232e0de2d2f82cc491bcf830b05ed05937c6"
+  integrity sha512-honAfLBde0HAFLdNyBEfuuENkF6zR+ozxqxa/2zJKHBe1qzLqyTSeRKpdPEHAP03rlDGyQOPnCSxnVpVqQo9Mg==
 
 brace-expansion@^1.1.7:
   version "1.1.15"
@@ -1865,9 +1870,9 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     gopd "^1.2.0"
 
 electron-to-chromium@^1.5.328:
-  version "1.5.368"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.368.tgz#8e8d4600c5f5f01e891f8f843b4a941afb640412"
-  integrity sha512-7RckJJK4uESJF9PxvfMWd3TGqIiieUTG4HxnKaKuIpGbcr+r2ZEB3g2gAhCP3Fqm42vJSzLfgab9eva/C4/XVw==
+  version "1.5.371"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.371.tgz#fa5684f2a514c57368823f9e75553f9a7c5ef0be"
+  integrity sha512-e9htk9mAYL6AzmkEhSvVVw7IWGSBJ/Bqdn2eRyRLrj1g6sncN4WbFt5qnILYoCktktr45pyjIrOiRvBThQ808w==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -4581,9 +4586,9 @@ semver@^6.3.0, semver@^6.3.1:
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
 semver@^7.0.0, semver@^7.3.4, semver@^7.5.3, semver@^7.5.4, semver@^7.7.1, semver@^7.7.2, semver@^7.7.3, semver@^7.8.0, semver@^7.8.1, semver@^7.8.2, semver@^7.8.3:
-  version "7.8.3"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.3.tgz#c350de61c2a1ddbc96d7fae3e5b6fcf92d477fbe"
-  integrity sha512-wnilbGyMxzbY7dNOl7jpKbLSjcfeweJWU5j4+u5qW+6/wuGD9KzIGOyZnQVSBM9E7DtWaaH3CyHkppYrKYoxwg==
+  version "7.8.4"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.4.tgz#c73eceebae0616934be8dff28a7fd70757c8e696"
+  integrity sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==
 
 set-function-length@^1.2.2:
   version "1.2.2"
@@ -4934,9 +4939,11 @@ strip-json-comments@^3.1.1:
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
 strnum@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/strnum/-/strnum-2.3.0.tgz#81bfbfef53db8c3217ea62a98c026886ec4a2761"
-  integrity sha512-ums3KNd42PGyx5xaoVTO1mjU1bH3NpY4vsrVlnv9PNGqQj8wd7rJ6nEypLrJ7z5vxK5RP0yMLo6J/Gsm62DI5Q==
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/strnum/-/strnum-2.4.0.tgz#304881c3299b017855f1934a4ce85bfb60b1ca2a"
+  integrity sha512-sHrVyWWdq28RbhjuJdZsA1SnGRJV6NiXbk6AXBxDOsgAcA+lmpUZCYjOdLBxkXMwis6RRe7dlZt4VlIWFVzkmg==
+  dependencies:
+    anynum "^1.0.0"
 
 supports-color@^5.3.0:
   version "5.5.0"
