@@ -623,9 +623,9 @@
   integrity sha512-hYmL6tJeLUleWjMNJtMax5CARgE4FX10tAESfi4aEhJ4MT9DplCuYlcqHyfRY6+g+cepUknGASjxEJlatzN72g==
 
 "@nodable/entities@^2.1.0":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@nodable/entities/-/entities-2.1.1.tgz#ce41931e9b72606d7f0598d665e46e889285d78a"
-  integrity sha512-Pig3HxDIoMgjdEH8OCf/dkcTmLFjJRjWuq8jSnklu284/TKOPibSRERmOykiwmyXTtv61mP+44f3GMx0tLAyjg==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@nodable/entities/-/entities-2.2.0.tgz#a1d45a992b022591b1c2b03a77935c939375b642"
+  integrity sha512-9uGyhaQavEUMC8AIddIjau4NsnsXhou+j5sBAGojCM1oxmQpVKTWR/9JxABD6UAv12vpIms55fPZKFQEhG6uBg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1224,9 +1224,9 @@ balanced-match@^4.0.2:
   integrity sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==
 
 baseline-browser-mapping@^2.10.12:
-  version "2.10.36"
-  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.10.36.tgz#ff3c7c87095c70075b1ac787160fd4fc98750a74"
-  integrity sha512-lVq/Df7LXlO79MVaaUHztSwWiG9oXoWHlgvNS51v8Dpd4+G4/VIy6qYePTw31nAVls33nUtnfezYeLkYAak9dg==
+  version "2.10.37"
+  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.10.37.tgz#3e636475b6b293244e2b23e2c71a2ab9d9e6ba7d"
+  integrity sha512-girxaJ7WZssDOFhzCGZTDKoTa1gk6A1TbflaYTpykLJ4UU9Fz9kx1aREM8JCuoVHbL8X8T/mJg7w2oYSq72Oig==
 
 brace-expansion@^1.1.7:
   version "1.1.15"
@@ -1870,9 +1870,9 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     gopd "^1.2.0"
 
 electron-to-chromium@^1.5.328:
-  version "1.5.371"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.371.tgz#fa5684f2a514c57368823f9e75553f9a7c5ef0be"
-  integrity sha512-e9htk9mAYL6AzmkEhSvVVw7IWGSBJ/Bqdn2eRyRLrj1g6sncN4WbFt5qnILYoCktktr45pyjIrOiRvBThQ808w==
+  version "1.5.372"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.372.tgz#ae8ac69942a37b231773b8fb01759f73733599e3"
+  integrity sha512-M3yhbAlilnwqC8D21t28UCDGHyitShTmmLRU/H+b74P6Ski16Nb9HONYEaVpMj/pwC7BEo5B95FpjODLCWbtfA==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -3483,9 +3483,9 @@ jsii-diff@^1.135.0:
     yargs "^17.7.2"
 
 jsii-docgen@^10.5.0:
-  version "10.11.24"
-  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-10.11.24.tgz#509a3f2fca563db50ddea15c15b3c80b1214f806"
-  integrity sha512-Vqv0dCKVEjfEDUQxgbeE57GzHbfWBzAW8cts/CFMe0b661f/KSoDGGpjBvFxPamQQe9lY5JSgBd9r1O1DzkG9g==
+  version "10.12.0"
+  resolved "https://registry.yarnpkg.com/jsii-docgen/-/jsii-docgen-10.12.0.tgz#92185793c6bd12a96b6b72f968e7bbead32f9605"
+  integrity sha512-uC7MsOl+1Gg2mvc3FuRnBaYNr8dLCQRqGXCij7WOzN9tfLGf/qqzXJvQKSmsvYCLXrYeJsCkSeN24RTpYFZiew==
   dependencies:
     "@jsii/spec" "^1.134.0"
     case "^1.6.3"
@@ -4296,10 +4296,10 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
-projen@^0.99.73:
-  version "0.99.73"
-  resolved "https://registry.yarnpkg.com/projen/-/projen-0.99.73.tgz#13273bfb277d9541f8c407870ceb971665f60521"
-  integrity sha512-n0uV14TAwQvZTQb1EInZAWVBfy2Tip5Nu9Q7suta1PK/7NjAQAGvl5DpGjRl/sUQshke+adDQezHY416MIY6tg==
+projen@^0.99.74:
+  version "0.99.74"
+  resolved "https://registry.yarnpkg.com/projen/-/projen-0.99.74.tgz#d9a86aa97df57cd62bf6f96b55b4e7c65c571bfc"
+  integrity sha512-K2QfAqJukE7Cxu1FqxQqFkU6ihA7NL48/BD+6M9pVurUqaTFE50KiuL4JDTobcp6ZfaHuOggdmrcuUDPaT1f5w==
   dependencies:
     "@iarna/toml" "^2.2.5"
     case "^1.6.3"
@@ -4311,7 +4311,7 @@ projen@^0.99.73:
     fast-json-patch "^3.1.1"
     ini "^2.0.0"
     parse-conflict-json "^4.0.0"
-    semver "^7.8.3"
+    semver "^7.8.4"
     shx "^0.4.0"
     xmlbuilder2 "^4.0.3"
     yaml "^2.2.2"
@@ -4595,7 +4595,7 @@ semver@^6.3.0, semver@^6.3.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.1.tgz#556d2ef8689146e46dcea4bfdd095f3434dffcb4"
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
-semver@^7.0.0, semver@^7.3.4, semver@^7.5.3, semver@^7.5.4, semver@^7.7.1, semver@^7.7.2, semver@^7.7.3, semver@^7.8.0, semver@^7.8.1, semver@^7.8.2, semver@^7.8.3:
+semver@^7.0.0, semver@^7.3.4, semver@^7.5.3, semver@^7.5.4, semver@^7.7.1, semver@^7.7.2, semver@^7.7.3, semver@^7.8.0, semver@^7.8.1, semver@^7.8.2, semver@^7.8.3, semver@^7.8.4:
   version "7.8.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.4.tgz#c73eceebae0616934be8dff28a7fd70757c8e696"
   integrity sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==
